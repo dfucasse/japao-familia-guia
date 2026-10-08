@@ -540,7 +540,10 @@ function persistSharedLocal(){
  try{localStorage.setItem("jp-todo2",JSON.stringify(done));}catch(e){}
 }
 function sharedSnapshot(extra={}){
- return Object.assign({status,choice,sched,backlog,todo:done,updatedBy:who||"anônimo"}, extra);
+ const base={status,choice,schedJson:JSON.stringify(sched),backlog,todo:done,updatedBy:who||"anônimo"};
+ const out=Object.assign(base, extra);
+ if(out.sched){out.schedJson=JSON.stringify(out.sched); delete out.sched;}
+ return out;
 }
 function applyRemote(data){
  if(!data) return;
@@ -548,6 +551,7 @@ function applyRemote(data){
  if(data.status && typeof data.status==="object") status=data.status;
  if(data.choice && typeof data.choice==="object") choice=data.choice;
  if(data.todo && typeof data.todo==="object") done=data.todo;
+ if(typeof data.schedJson==="string"){try{const rs=JSON.parse(data.schedJson); if(Array.isArray(rs) && rs.length===sched.length) sched=rs;}catch(e){}}
  if(Array.isArray(data.sched) && data.sched.length===sched.length) sched=data.sched;
  if(Array.isArray(data.backlog)) backlog=data.backlog;
  persistSharedLocal();
