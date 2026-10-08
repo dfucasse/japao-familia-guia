@@ -231,7 +231,7 @@ tonkatsu:`<svg viewBox="0 0 64 64" aria-hidden="true"><ellipse cx="32" cy="44" r
 yakiniku:`<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="36" r="24" fill="#3B3B3B"/>${[0,1,2,3,4].map(i=>`<path d="M${14+i*8} 20 v32" stroke="#777" stroke-width="2"/>`).join("")}<rect x="18" y="28" width="14" height="8" rx="2" fill="#C2413A"/><rect x="34" y="36" width="14" height="8" rx="2" fill="#C2413A"/></svg>`
 };
 // Cole aqui a URL do Apps Script (termina em /exec). Vazio = checklist só local.
-const SYNC_URL = "";
+const SYNC_URL = "firebase";
 const R = 0.034;
 // Plano de cada dia. id = bloco de programação, pode ser trocado de data
 const PLANS = {
@@ -466,7 +466,7 @@ const todayStr = new Date(Date.now()+9*3600e3).toISOString().slice(0,10);
 
 let sched = SCHEDULE.map(s=>s.slice()), backlog = BACKLOG0.slice();
 try{const o=JSON.parse(localStorage.getItem("jp-sched4")||"null"); if(o && o.s && o.s.length===sched.length){sched=o.s;backlog=o.b||[];}}catch(e){}
-const save = ()=>{try{localStorage.setItem("jp-sched4",JSON.stringify({s:sched,b:backlog}));}catch(e){}};
+const save = ()=>{try{localStorage.setItem("jp-sched4",JSON.stringify({s:sched,b:backlog}));}catch(e){} sharedSave({sched,backlog});};
 
 
 const WICON={
@@ -519,17 +519,70 @@ const todayIdx=()=>{const i=sched.findIndex(s=>s[0]===todayStr);return i;};
 let tab=(()=>{try{const t=localStorage.getItem("jp-tab");if(t)return t;}catch(e){} const i=todayIdx(); return i>=0?tabOf(PLANS[sched[i][2]].city):"check";})();
 
 
-// ---- sincronização do checklist (Google Planilha via Apps Script) ----
-let syncState={ok:false,at:null,err:false};
+// ---- sincronização familiar via Firebase/Firestore ----
+const FIREBASE_CONFIG = {
+  "apiKey": "AIzaSyBF332S3Hh-ARYt0y5BTW3P1oM67GDBaew",
+  "authDomain": "dfucasse-japao-guia-2026.firebaseapp.com",
+  "projectId": "dfucasse-japao-guia-2026",
+  "storageBucket": "dfucasse-japao-guia-2026.firebasestorage.app",
+  "messagingSenderId": "107800527625",
+  "appId": "1:107800527625:web:93c8a92462810c557b09d8"
+};
+const SHARED_DOC_PATH = "trips/japan2026";
+let syncState={ok:false,at:null,err:false,loading:true};
 let who=""; try{who=localStorage.getItem("jp-who")||"";}catch(e){}
-function applyRemote(j){if(j&&j.status){Object.entries(j.status).forEach(([k,v])=>{if(v)status[k]=v;});
- try{localStorage.setItem("jp-status",JSON.stringify(status));}catch(e){} syncState={ok:true,at:new Date(),err:false};}}
-async function pull(){ if(!SYNC_URL) return; try{const r=await fetch(SYNC_URL,{cache:"no-store"});applyRemote(await r.json());}catch(e){syncState.err=true;} const y=window.scrollY;render();window.scrollTo(0,y);}
-async function push(k,s){ if(!SYNC_URL) return; try{const r=await fetch(SYNC_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({k,s,who})});applyRemote(await r.json());}catch(e){syncState.err=true;} const y=window.scrollY;render();window.scrollTo(0,y);}
-function syncBadge(){ if(!SYNC_URL) return `<p class="sync off">Checklist só neste aparelho. A versão oficial é a que o Fucasse publica.</p>`;
- if(syncState.err&&!syncState.ok) return `<p class="sync err">Sem conexão. Mostrando a última versão salva; sincroniza quando a internet voltar.</p>`;
- return `<p class="sync on">🔄 Compartilhado com a família${syncState.at?` · atualizado às ${syncState.at.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"})}`:" · carregando…"}</p>
- <label class="whoin">Seu nome <input id="whoInput" value="${who.replace(/"/g,"")}" placeholder="ex.: Vó" maxlength="20"></label>`;}
+let done={}; try{done=JSON.parse(localStorage.getItem("jp-todo2")||"{}");}catch(e){}
+let remoteRef=null, fbSetDoc=null, fbServerTimestamp=null, applyingRemote=false;
+function persistSharedLocal(){
+ try{localStorage.setItem("jp-status",JSON.stringify(status));}catch(e){}
+ try{localStorage.setItem("jp-choice",JSON.stringify(choice));}catch(e){}
+ try{localStorage.setItem("jp-sched4",JSON.stringify({s:sched,b:backlog}));}catch(e){}
+ try{localStorage.setItem("jp-todo2",JSON.stringify(done));}catch(e){}
+}
+function sharedSnapshot(extra={}){
+ return Object.assign({status,choice,sched,backlog,todo:done,updatedBy:who||"anônimo"}, extra);
+}
+function applyRemote(data){
+ if(!data) return;
+ applyingRemote=true;
+ if(data.status && typeof data.status==="object") status=data.status;
+ if(data.choice && typeof data.choice==="object") choice=data.choice;
+ if(data.todo && typeof data.todo==="object") done=data.todo;
+ if(Array.isArray(data.sched) && data.sched.length===sched.length) sched=data.sched;
+ if(Array.isArray(data.backlog)) backlog=data.backlog;
+ persistSharedLocal();
+ syncState={ok:true,at:new Date(),err:false,loading:false};
+ applyingRemote=false;
+}
+async function sharedSave(patch={}){
+ if(!remoteRef || !fbSetDoc || applyingRemote) return;
+ try{
+  await fbSetDoc(remoteRef, Object.assign(sharedSnapshot(patch), {updatedAt:fbServerTimestamp ? fbServerTimestamp() : Date.now()}), {merge:true});
+  syncState.err=false;
+ }catch(e){syncState.err=true; const y=window.scrollY; render(); renderTodoChecklist(); window.scrollTo(0,y);}
+}
+function push(k,s){ sharedSave({status}); }
+async function initSync(){
+ try{
+  const appMod=await import("https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js");
+  const fsMod=await import("https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js");
+  const app=appMod.initializeApp(FIREBASE_CONFIG);
+  const db=fsMod.getFirestore(app);
+  remoteRef=fsMod.doc(db, SHARED_DOC_PATH);
+  fbSetDoc=fsMod.setDoc; fbServerTimestamp=fsMod.serverTimestamp;
+  fsMod.onSnapshot(remoteRef, async snap=>{
+   const y=window.scrollY;
+   if(!snap.exists()){ await fsMod.setDoc(remoteRef, Object.assign(sharedSnapshot(), {createdAt:fsMod.serverTimestamp(), updatedAt:fsMod.serverTimestamp()}), {merge:true}); return; }
+   applyRemote(snap.data()); render(); renderTodoChecklist(); window.scrollTo(0,y);
+  }, err=>{syncState.err=true; syncState.loading=false; render(); renderTodoChecklist();});
+ }catch(e){syncState.err=true; syncState.loading=false; render(); renderTodoChecklist();}
+}
+function syncBadge(){
+ if(syncState.err&&!syncState.ok) return `<p class="sync err">Sem conexão com o Firebase. Mostrando a última versão salva; sincroniza quando a internet voltar.</p>`;
+ if(syncState.loading) return `<p class="sync off">🔄 Conectando ao Firebase…</p>`;
+ return `<p class="sync on">🔄 Compartilhado com a família${syncState.at?` · atualizado às ${syncState.at.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"})}`:""}</p>
+ <label class="whoin">Seu nome <input id="whoInput" value="${who.replace(/"/g,"")}" placeholder="ex.: Vó" maxlength="20"></label>`;
+}
 function itemRow(k,label,extra){const s=st(k);
  return `<div class="it ${s}"><div class="itl">${label}${extra?`<small>${extra}</small>`:""}</div><div class="its">
  <button type="button" class="ib ${s==="feito"?"on":""}" data-k="${k}" data-s="feito" aria-label="Feito">✅</button>
@@ -583,24 +636,27 @@ function bind(){
  main.querySelectorAll(".sbtn").forEach(b=>b.onclick=()=>{const pid=b.dataset.pid,p=PLANS[pid];
   const sc=choice[pid]||{w:"sol",o:(p.opts.find(o=>o.w==="sol"&&o.pick)||{id:"A"}).id};
   sc[b.dataset.k]=b.dataset.v; if(b.dataset.k==="w"){const pk=p.opts.find(o=>o.w===sc.w&&o.pick); if(pk) sc.o=pk.id;}
-  choice[pid]=sc; try{localStorage.setItem("jp-choice",JSON.stringify(choice));}catch(e){}const y=window.scrollY;render();window.scrollTo(0,y);});
+  choice[pid]=sc; try{localStorage.setItem("jp-choice",JSON.stringify(choice));}catch(e){}sharedSave({choice});const y=window.scrollY;render();window.scrollTo(0,y);});
  main.querySelectorAll("select[data-i]").forEach(sel=>sel.onchange=e=>{
   const i=+e.target.dataset.i,nv=e.target.value,cur=sched[i][2],j=sched.findIndex(s=>s[2]===nv);
   if(j>=0){sched[j][2]=cur;} else {backlog=backlog.filter(b=>b!==nv);backlog.push(cur);}
   sched[i][2]=nv; save(); tab=tabOf(PLANS[nv].city); render();});
 }
 render();
-pull(); setInterval(()=>{if(document.visibilityState==="visible") pull();},60000);
-document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible") pull();});
+initSync();
 document.getElementById("todayBtn").addEventListener("click",()=>{const i=todayIdx();tab=i>=0?tabOf(PLANS[sched[i][2]].city):"check";render();const el=document.querySelector(".badge.today");if(el)el.scrollIntoView();});
-document.getElementById("resetBtn").addEventListener("click",()=>{sched=SCHEDULE.map(s=>s.slice());backlog=BACKLOG0.slice();try{localStorage.removeItem("jp-sched4");}catch(e){}render();});
+document.getElementById("resetBtn").addEventListener("click",()=>{sched=SCHEDULE.map(s=>s.slice());backlog=BACKLOG0.slice();try{localStorage.removeItem("jp-sched4");}catch(e){}sharedSave({sched,backlog});render();});
 document.getElementById("save").innerHTML=SAVE.map(s=>`<p>${s}</p>`).join("");
 const names={nagoya:"Nagoya",kyoto:"Kyoto",kanazawa:"Kanazawa",tokyo:"Tóquio"};
 document.getElementById("ctips").innerHTML=Object.entries(CITY_TIPS).map(([c,arr])=>`<h3 style="color:${C[c]}">${names[c]}</h3>`+arr.map(s=>`<p>${s}</p>`).join("")).join("");
-const box=document.getElementById("checklist"); let done={}; try{done=JSON.parse(localStorage.getItem("jp-todo2")||"{}");}catch(e){}
-TODO.forEach(([k,txt,due])=>{const row=document.createElement("div");row.className="check"+(done[k]?" done":"");
- row.innerHTML=`<input type="checkbox" id="c-${k}" ${done[k]?"checked":""}><label for="c-${k}">${txt}<br><span class="due">${due}</span></label>`;
- row.querySelector("input").addEventListener("change",e=>{done[k]=e.target.checked;row.classList.toggle("done",e.target.checked);try{localStorage.setItem("jp-todo2",JSON.stringify(done));}catch(err){}});box.appendChild(row);});
+const box=document.getElementById("checklist");
+function renderTodoChecklist(){
+ if(!box) return; box.innerHTML="";
+ TODO.forEach(([k,txt,due])=>{const row=document.createElement("div");row.className="check"+(done[k]?" done":"");
+  row.innerHTML=`<input type="checkbox" id="c-${k}" ${done[k]?"checked":""}><label for="c-${k}">${txt}<br><span class="due">${due}</span></label>`;
+  row.querySelector("input").addEventListener("change",e=>{done[k]=e.target.checked;row.classList.toggle("done",e.target.checked);try{localStorage.setItem("jp-todo2",JSON.stringify(done));}catch(err){}sharedSave({todo:done});});box.appendChild(row);});
+}
+renderTodoChecklist();
 const tb=document.getElementById("themebtn");
 try{const th=localStorage.getItem("jp-theme");if(th)document.documentElement.dataset.theme=th;}catch(e){}
 tb.addEventListener("click",()=>{const cur=document.documentElement.dataset.theme||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");const nx=cur==="dark"?"light":"dark";document.documentElement.dataset.theme=nx;try{localStorage.setItem("jp-theme",nx);}catch(e){}});
