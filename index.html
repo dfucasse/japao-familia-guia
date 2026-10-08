@@ -167,6 +167,12 @@ nav.tabs::-webkit-scrollbar{display:none}
 .wxh div{background:var(--card);border-radius:10px;padding:4px;text-align:center}
 .wxh b{display:block;font-size:1rem}
 .wxsrc{grid-column:1/-1}
+.sync{font-size:.85rem;border-radius:10px;padding:8px 12px;margin:8px 0}
+.sync.on{background:color-mix(in srgb,var(--ok) 12%,transparent)}
+.sync.off{background:var(--chip);color:var(--muted)}
+.sync.err{background:color-mix(in srgb,var(--warn) 12%,transparent)}
+.whoin{display:flex;gap:8px;align-items:center;font-size:.85rem;color:var(--muted)}
+.whoin input{font:inherit;font-size:.9rem;padding:4px 8px;border-radius:8px;border:1px solid var(--rule);background:var(--card);color:var(--ink);width:10em}
 footer{margin-top:40px;color:var(--muted);font-size:.82rem}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 </style>
@@ -178,7 +184,7 @@ footer{margin-top:40px;color:var(--muted);font-size:.82rem}
   <h1 class="disp">Japão em família</h1>
   <p>O que fazer, onde comer, quanto custa e o plano B se chover. Um dia de cada vez.</p>
   <div class="meta">
-    <span class="pill">v6 · 07/out/2026</span>
+    <span class="pill">v8 · 08/out/2026</span>
     <span class="pill">¥1.000 = R$ 34</span>
     <span class="pill">3 adultos + Noah (3) + Mia (1)</span>
     <button class="btn" id="todayBtn" type="button">Ir para hoje</button>
@@ -224,6 +230,8 @@ bowl:`<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M8 30 h48 q-4 22 -24 
 tonkatsu:`<svg viewBox="0 0 64 64" aria-hidden="true"><ellipse cx="32" cy="44" rx="26" ry="10" fill="#EDE5D8"/>${[0,1,2,3].map(i=>`<rect x="${12+i*10}" y="28" width="9" height="12" rx="2" fill="#D9A441"/><rect x="${13+i*10}" y="31" width="7" height="6" fill="#F2B8A0"/>`).join("")}</svg>`,
 yakiniku:`<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="36" r="24" fill="#3B3B3B"/>${[0,1,2,3,4].map(i=>`<path d="M${14+i*8} 20 v32" stroke="#777" stroke-width="2"/>`).join("")}<rect x="18" y="28" width="14" height="8" rx="2" fill="#C2413A"/><rect x="34" y="36" width="14" height="8" rx="2" fill="#C2413A"/></svg>`
 };
+// Cole aqui a URL do Apps Script (termina em /exec). Vazio = checklist só local.
+const SYNC_URL = "";
 const R = 0.034;
 // Plano de cada dia. id = bloco de programação, pode ser trocado de data
 const PLANS = {
@@ -274,7 +282,7 @@ atsuta:{items:[["jingu", "Atsuta Jingu"], ["horaiken", "Hitsumabushi no Atsuta H
  ],
  save:"A refeição especial no almoço sai mais barata que no jantar em muitos restaurantes. E o metrô de Nagoya cobra por trecho: com 3 adultos, dá menos trocas e mais caminhada curta."},
 nagoyaextra:{items:[["shinkKyoto","Viagem para Kyoto (à noite)"]],city:"nagoya",k:"名古屋",r:"Dia extra em Nagoya",theme:"Nagoya o dia todo e Shinkansen para Kyoto à noite.",fixed:1},
-kyotomove:{items:[["nishiki","Mercado Nishiki"],["teramachi","Arcada Teramachi"],["gion","Gion e Hanamikoji"],["yasaka","Santuário Yasaka"],["inari","Fushimi Inari"],["katsukura","Tonkatsu no Katsukura"]],city:"kyoto",k:"京都",r:"Primeiro dia em Kyoto",theme:"Céu limpo: mercado, gueixas e lanternas acesas ao anoitecer",
+kyotomove:{items:[["nishiki","Mercado Nishiki"],["teramachi","Arcada Teramachi"],["gion","Gion e Hanamikoji"],["yasaka","Santuário Yasaka"],["katsukura","Tonkatsu no Katsukura"]],city:"kyoto",k:"京都",r:"Primeiro dia em Kyoto",theme:"Céu limpo: mercado, gueixas e lanternas acesas ao anoitecer",
  note:"As rotas partem da estação de Kyoto até você me dizer o hotel (MINN Karasuma Gojo ou Randor Nijo). Do hotel, ajuste a origem no próprio Google Maps.",
  opts:[
  {w:"sol",id:"A",pick:1,name:"Nishiki + soneca + Gion ao entardecer",why:"O dia está perfeito e quente à tarde (24°). Comam pelo mercado, descansem no pico do calor e saiam de novo para Gion quando as lanternas acendem (pôr do sol às 17h33).",
@@ -309,10 +317,47 @@ kyotomove:{items:[["nishiki","Mercado Nishiki"],["teramachi","Arcada Teramachi"]
  ],
  extras:[["Kyoto Station Skyway","京都駅ビル 大空広場","Terraço grátis no topo do prédio da estação, com vista da cidade e escadas rolantes gigantes."],["Nishiki Tenmangu","錦天満宮","Pequeno santuário no fim do Nishiki. Esfregar a cabeça da vaca de bronze dá sorte."],["Kamogawa ao pôr do sol","鴨川 四条大橋","A margem do rio Kamo, ao lado de Gion, é onde os moradores sentam no fim do dia. Plana e boa para o carrinho."]],
  save:"Em Kyoto, ônibus e metrô custam ~¥230 por trecho por adulto. Com 5 pessoas, um táxi grande para trechos curtos sai quase igual e poupa a soneca. Crianças até 6 anos não pagam ônibus nem metrô."},
-kiyomizu:{items:[["kiyomizu", "Kiyomizu-dera"], ["sannenzaka", "Sannenzaka e Ninenzaka"], ["koshindo", "Yasaka Koshindo"], ["hashi", "Oficina de hashi em Gion"], ["biovortex", "teamLab Biovortex"]],extras:[["Yasaka Koshindo", "八坂庚申堂", "Templo pequeno coberto de bolinhas de pano coloridas. É a foto mais bonita da manhã e fica no caminho da descida."], ["Vista do pagode Yasaka", "八坂の塔", "Do alto da rua Yasaka-dori, o pagode aparece entre as casas de madeira. Vá antes das 9h."]],maps:[["Kiyomizu-dera","清水寺"],["Sannenzaka","三年坂 京都"],["Ninenzaka","二年坂 京都"]],city:"kyoto",k:"清水寺",r:"Kiyomizu + Sannenzaka",theme:"Kyoto tradicional, sempre ladeira abaixo",
- tl:[["7h30","Táxi até o topo do Kiyomizu-dera, antes das excursões."],["Manhã","Desçam a pé por Sannenzaka e Ninenzaka: o trajeto todo é descida, o que poupa sua mãe."],["Soneca","Carrinho ou hotel.",1],["Tarde","Oficina de hashi em Gion (Klook) ou teamLab Biovortex."]],
- cost:[["Kiyomizu-dera: 3 adultos ¥500",1500,"Crianças pequenas grátis"],["Táxi até o topo (estimativa)",1800,"Um carro grande leva os 5"]],
- links:[["Hashi em Gion (Klook)","https://www.klook.com/en-US/activity/181896-crafting-your-own-chopsticks-experience-in-gion-kyoto/"]]},
+kiyomizu:{items:[["kiyomizu","Kiyomizu-dera"],["otowa","Cascata Otowa"],["sannenzaka","Sannenzaka e Ninenzaka"],["koshindo","Yasaka Koshindo"],["inari","Fushimi Inari"],["kasagiya","Doce no Kasagiya"],["hashi","Oficina de hashi em Gion"]],
+ city:"kyoto",k:"清水寺",r:"Kiyomizu + Higashiyama",theme:"O templo do palco de madeira, ladeiras de Kyoto antiga e, se der gás, os portões vermelhos",
+ seg:{A:"A · Intenso",B:"B · Leve"},
+ note:"Dia de céu limpo e 0% de chuva: só há versões com sol. Escolha pelo pique das crianças. As rotas partem da estação de Kyoto até você me dizer o hotel.",
+ opts:[
+ {w:"sol",id:"A",pick:1,name:"Higashiyama completo + Fushimi Inari ao entardecer",why:"Aproveita o dia perfeito para fazer os dois cartões-postais de Kyoto. São ~9 mil passos, quase todos em descida pela manhã. Os portões do Inari ficam mais bonitos e frescos no fim da tarde.",
+  tl:[["7h45","Táxi até o Chawan-zaka (茶わん坂). É a subida alternativa ao Kiyomizu: mais curta e bem mais vazia que a Kiyomizu-zaka. Manhã fria (13°): casaco leve."],
+   ["8h","<b>Kiyomizu-dera</b> (abre às 6h): palco de madeira suspenso sobre a encosta. Pague em dinheiro: o templo não aceita cartão. A entrada tem escadas: canguru para a Mia e carrinho dobrado."],
+   ["8h45","<b>Cascata Otowa</b>, na base do palco: três fios de água, cada um traz uma sorte (longevidade, estudos, amor). Escolha só um: beber dos três é sinal de gula."],
+   ["9h15","Desçam por Sannenzaka e Ninenzaka. Diz a lenda que quem cai em Sannenzaka tem azar por anos: segure a mão do Noah nas escadas."],
+   ["10h","Yasaka Koshindo (bolinhas de pano coloridas) e a foto do pagode Yasaka entre as casas."],
+   ["11h30","Almoço: oyakodon no Wabiya Korekido, em Hanamikoji."],
+   ["13h","Táxi até o hotel e soneca.",1],
+   ["15h30","JR até Inari (5 min). Fushimi Inari, só os portões baixos (Senbon Torii), 45 min. Lanche de inari-zushi na rua da entrada."],
+   ["18h","Jantar perto da estação de Kyoto."]],
+  food:[
+   {d:"bowl",n:"Wabiya Korekido (Hanamikoji)",jp:"侘家古暦堂 祇園花見小路本店",s:3.59,why:"Casa de frango em machiya reformada. O oyakodon (frango com ovo sobre arroz) é o prato perfeito para dividir com o Noah.",price:"Almoço ~¥1.500–2.000 por pessoa",tags:["casa de frango","Gion"],url:"https://tabelog.com/kyoto/rstLst/?sw=%E4%BE%98%E5%AE%B6%E5%8F%A4%E6%9A%A6%E5%A0%82"}],
+  maps:[["Chawan-zaka","茶わん坂 京都"],["Kiyomizu-dera","清水寺"],["Cascata Otowa","音羽の滝 清水寺"],["Sannenzaka","三年坂 京都"],["Yasaka Koshindo","八坂庚申堂"],["Wabiya Korekido","侘家古暦堂 祇園花見小路本店"],["Fushimi Inari Taisha","伏見稲荷大社"]],
+  tr:[["Estação → Chawan-zaka (táxi)","京都駅","茶わん坂 京都",3500,"Táxi grande (ジャンボ) ou 2 carros. ~15 min. Mais barato que 3 ônibus lotados com carrinho"],
+      ["Gion → hotel (táxi)","花見小路 京都","京都駅",1500,"~15 min, 1 carro"],
+      ["Estação ⇄ Inari (JR Nara Line)","京都駅","伏見稲荷大社",900,"¥150 por adulto por trecho, 5 min"]],
+  cost:[["Kiyomizu-dera: 3 adultos × ¥500 (só dinheiro)",1500,"Noah e Mia grátis (pré-escolares)"],["Almoço Korekido (estim.)",6000,"Um oyakodon divide bem entre adulto e criança"],["Fushimi Inari",0,"Grátis"],["Inari-zushi na entrada",1500,""],["Jantar perto da estação (estim.)",7000,""]]},
+ {w:"sol",id:"B",name:"Kiyomizu sem pressa + doce + rio Kamo",why:"Um só passeio grande, com pausas, almoço tranquilo e tarde livre. São ~5 mil passos, para recarregar depois de dois dias intensos.",
+  tl:[["9h","Táxi até o Chawan-zaka (茶わん坂)."],
+   ["9h15","Kiyomizu-dera e Cascata Otowa, sem pressa."],
+   ["10h30","Descida por Sannenzaka. Pausa no Kasagiya: casa de chá centenária no meio da escadaria, com zenzai (sopa doce de feijão) e mochi."],
+   ["12h","Almoço no Mishina, em Ninenzaka: yoshoku (comida ocidental à japonesa) do Top 100, com camarão empanado e croquete de caranguejo, que as crianças comem bem. Abre às 12h; chegue 11h45."],
+   ["13h30","Táxi até o hotel e soneca longa.",1],
+   ["16h30","Margem do rio Kamo (Shijo), plana: o Noah corre, os adultos sentam como os moradores no fim do dia."],
+   ["18h","Jantar leve: depachika do Takashimaya (Shijo-Kawaramachi)."]],
+  food:[
+   {d:"dango",n:"Kasagiya",jp:"かさぎ屋",s:3.62,why:"Casa de chá centenária em Sannenzaka. Está na lista do Tabelog de lugares para ir com crianças perto do Kiyomizu.",price:"Até ¥999 por pessoa",tags:["doce","pausa"],url:"https://tabelog.com/kyoto/rstLst/?sw=%E3%81%8B%E3%81%95%E3%81%8E%E5%B1%8B"},
+   {d:"tonkatsu",n:"Yoshoku Mishina",jp:"洋食の店 みしな",why:"Selecionado no Top 100 de yoshoku do Tabelog. Fecha às quartas e na 1ª e 3ª quinta: hoje (2ª quinta) está aberto. Almoço das 12h às 14h30.",price:"~¥2.500 por pessoa",tags:["Top 100","espaço pequeno"]}],
+  maps:[["Chawan-zaka","茶わん坂 京都"],["Kiyomizu-dera","清水寺"],["Kasagiya","かさぎ屋 京都"],["Yoshoku Mishina","洋食の店 みしな 京都"],["Rio Kamo (Shijo)","鴨川 四条大橋"],["Takashimaya Kyoto","京都高島屋"]],
+  tr:[["Estação → Chawan-zaka (táxi)","京都駅","茶わん坂 京都",3500,"Táxi grande ou 2 carros"],
+      ["Ninenzaka → hotel (táxi)","二年坂 京都","京都駅",1800,"~15 min, 1 carro"],
+      ["Hotel ⇄ Shijo (ônibus ou metrô)","京都駅","鴨川 四条大橋",1380,"~¥230 por adulto por trecho"]],
+  cost:[["Kiyomizu-dera: 3 adultos × ¥500 (só dinheiro)",1500,"Noah e Mia grátis"],["Kasagiya (zenzai e chá)",2500,"Um doce dá para dividir com as crianças"],["Almoço Mishina (estim.)",8000,"Peça um prato a mais para dividir"],["Jantar depachika",4000,"Desconto de 20–50% a partir de ~19h"]]}
+ ],
+ extras:[["Subida pelo Chawan-zaka","茶わん坂 京都","A rua das lojas de cerâmica é o atalho local até o Kiyomizu: menos gente e menos escadas que a subida principal."],["Fotos do pagode Yasaka","八坂の塔","A melhor vista do pagode é da rua Yasaka-dori, com as casas de madeira na frente. Antes das 10h ainda está tranquila."],["Kamogawa ao pôr do sol","鴨川 四条大橋","O pôr do sol hoje é às 17h32. A margem do rio é o “sofá” dos moradores de Kyoto."]],
+ save:"Leve dinheiro em espécie: o Kiyomizu e muitas barracas de Higashiyama só aceitam dinheiro. Trocar 3 ônibus lotados por um táxi grande custa pouco mais e economiza energia de todo mundo."},
 nara:{items:[["todaiji", "Todai-ji (grande Buda)"], ["cervos", "Cervos do parque de Nara"], ["mochi", "Mochi do Nakatanidou"], ["naramachi", "Naramachi"]],extras:[["Nakatanidou", "中谷堂 奈良", "O mochi batido mais rápido do Japão, com show ao vivo na porta. O Noah vai adorar e cada um custa pouco."], ["Naramachi", "ならまち", "Bairro de casas de mercadores, plano e calmo, para a tarde."], ["Biscoito dos cervos", "奈良公園", "O shika senbei custa ¥200 o maço nas barracas do parque. Um maço basta."]],maps:[["Todai-ji","東大寺 奈良"],["Parque de Nara","奈良公園"]],city:"kyoto",k:"奈良",r:"Nara",theme:"Cervos e o grande Buda",
  tl:[["Manhã","Trem Kyoto → Nara (35–45 min). O Todai-ji e o parque são planos."],["Soneca","Carrinho no parque.",1],["Tarde","Voltem cedo para Kyoto."]],
  note:"Os cervos empurram quem segura biscoito. Deixe um adulto dar o biscoito enquanto o Noah olha do colo. Possível chegada da Fernanda: atualizo os custos quando confirmar."},
@@ -352,8 +397,8 @@ haneda:{items:[["deck", "Deck de observação de Haneda"]],extras:[["Deck de obs
 };
 const SCHEDULE = [
 ["2026-10-02","Sex","gotemba"],["2026-10-03","Sáb","safari"],["2026-10-04","Dom","lego"],["2026-10-05","Seg","atsuta"],
-["2026-10-06","Ter","nagoyaextra"],["2026-10-07","Qua","kyotomove"],["2026-10-08","Qui","kiyomizu"],["2026-10-09","Sex","nara"],
-["2026-10-10","Sáb","arashiyama"],["2026-10-11","Dom","aquario"],["2026-10-12","Seg","kanazawa"],["2026-10-13","Ter","dino"],
+["2026-10-06","Ter","nagoyaextra"],["2026-10-07","Qua","kyotomove"],["2026-10-08","Qui","kiyomizu"],["2026-10-09","Sex","arashiyama"],
+["2026-10-10","Sáb","nara"],["2026-10-11","Dom","aquario"],["2026-10-12","Seg","kanazawa"],["2026-10-13","Ter","dino"],
 ["2026-10-14","Qua","tokyoback"],["2026-10-15","Qui","toyosu"],["2026-10-16","Sex","disney"],["2026-10-17","Sáb","kawagoe"],
 ["2026-10-18","Dom","descanso"],["2026-10-19","Seg","kamakura"],["2026-10-20","Ter","anpanman"],["2026-10-21","Qua","kichijoji"],
 ["2026-10-22","Qui","compras"],["2026-10-23","Sex","haneda"]];
@@ -387,8 +432,8 @@ const SAVE = [
  "<b>Daiso e 3COINS.</b> Brinquedos, lanches e itens de bebê esquecidos por ¥110–330."
 ];
 
-const LOG = {"2026-10-02":"Gotemba e jantar de aniversário","2026-10-03":"Fuji Safari e viagem para Nagoya","2026-10-04":"Legoland (antecipada do dia 05)","2026-10-06":"Nagoya o dia todo; Kyoto à noite"};
-const STATUS0 = {shinkKyoto:"feito",outlet:"feito",aniver:"feito",jungle:"feito",paraNagoya:"feito",lego:"feito"};
+const LOG = {"2026-10-02":"Gotemba e jantar de aniversário","2026-10-03":"Fuji Safari e viagem para Nagoya","2026-10-04":"Legoland (antecipada do dia 05)","2026-10-06":"Nagoya o dia todo; Kyoto à noite","2026-10-07":"Mercado Nishiki e Gion"};
+const STATUS0 = {nishiki:"feito",gion:"feito",shinkKyoto:"feito",outlet:"feito",aniver:"feito",jungle:"feito",paraNagoya:"feito",lego:"feito"};
 
 const WX = {"2026-10-07": {"i": "sun", "t": "Ensolarado", "hi": 24, "lo": 15, "p": 10, "h": [[9, 21, 10], [12, 24, 0], [15, 22, 0], [18, 19, 0]], "uv": "UV forte: protetor e chapéu"}, "2026-10-08": {"i": "sun", "t": "Ensolarado", "hi": 26, "lo": 13, "p": 0, "h": [[9, 20, 0], [12, 24, 0], [15, 26, 0], [18, 21, 0]], "uv": "Manhã fresca (13°): casaco leve cedo"}, "2026-10-09": {"i": "sun", "t": "Ensolarado", "hi": 28, "lo": 16, "p": 0, "h": [[9, 22, 0], [12, 26, 0], [15, 28, 0], [18, 23, 0]], "uv": "Tarde quente: água e sombra"}, "2026-10-10": {"i": "sun", "t": "Ensolarado", "hi": 28, "lo": 15, "p": 10}, "2026-10-11": {"i": "sun", "t": "Ensolarado", "hi": 29, "lo": 15, "p": 10}, "2026-10-12": {"i": "suncloud", "t": "Sol com nuvens (Kanazawa)", "hi": 27, "lo": 16, "p": null}, "2026-10-13": {"i": "sun", "t": "Ensolarado (Kanazawa)", "hi": 27, "lo": 16, "p": null}, "2026-10-14": {"i": "sunrain", "t": "Sol, depois chuva (Kanazawa)", "hi": 26, "lo": 18, "p": null}};
 const WX_SRC = "tenki.jp, boletim de 07/out 08h (Kyoto) e 06/out 07h (Kanazawa)";
@@ -411,7 +456,8 @@ function optsHTML(p,i){
  const cur=p.opts.find(o=>o.w===st.w&&o.id===st.o)||p.opts[0];
  const seg=(k,vals)=>`<div class="seg" role="group">${vals.map(v=>`<button type="button" class="sbtn ${st[k]===v[0]?"on":""}" aria-pressed="${st[k]===v[0]}" data-pid="${pid}" data-k="${k}" data-v="${v[0]}">${v[1]}</button>`).join("")}</div>`;
  const pickFor=w=>(p.opts.find(o=>o.w===w&&o.pick)||{}).id;
- return `<div class="optbar">${seg("w",[["sol","☀️ Sem chuva"],["chuva","☔ Com chuva"]])}${seg("o",[["A","Roteiro A"+(pickFor(st.w)==="A"?" ⭐":"")],["B","Roteiro B"+(pickFor(st.w)==="B"?" ⭐":"")]])}</div>
+ const hasRain=p.opts.some(o=>o.w==="chuva"); const lab=(p.seg||{A:"Roteiro A",B:"Roteiro B"});
+ return `<div class="optbar">${hasRain?seg("w",[["sol","☀️ Sem chuva"],["chuva","☔ Com chuva"]]):""}${seg("o",[["A",lab.A+(pickFor(st.w)==="A"?" ⭐":"")],["B",lab.B+(pickFor(st.w)==="B"?" ⭐":"")]])}</div>
  <div class="opt"><div class="ohead"><span class="oid">${cur.id}</span><span class="oname">${cur.name}</span>${cur.pick?`<span class="pick">minha escolha</span>`:""}</div>
  <p class="owhy">${cur.why}</p><h3>Ritmo</h3>${tlHTML(cur.tl)}<h3>Lugares no mapa</h3>${mapsHTML(cur.maps)}${trHTML(cur.tr)}<h3>Quanto custa</h3>${costHTML(cur.cost,cur.tr)}</div>`;
 }
@@ -472,6 +518,18 @@ const st=k=>status[k]||STATUS0[k]||"";
 const todayIdx=()=>{const i=sched.findIndex(s=>s[0]===todayStr);return i;};
 let tab=(()=>{try{const t=localStorage.getItem("jp-tab");if(t)return t;}catch(e){} const i=todayIdx(); return i>=0?tabOf(PLANS[sched[i][2]].city):"check";})();
 
+
+// ---- sincronização do checklist (Google Planilha via Apps Script) ----
+let syncState={ok:false,at:null,err:false};
+let who=""; try{who=localStorage.getItem("jp-who")||"";}catch(e){}
+function applyRemote(j){if(j&&j.status){Object.entries(j.status).forEach(([k,v])=>{if(v)status[k]=v;});
+ try{localStorage.setItem("jp-status",JSON.stringify(status));}catch(e){} syncState={ok:true,at:new Date(),err:false};}}
+async function pull(){ if(!SYNC_URL) return; try{const r=await fetch(SYNC_URL,{cache:"no-store"});applyRemote(await r.json());}catch(e){syncState.err=true;} const y=window.scrollY;render();window.scrollTo(0,y);}
+async function push(k,s){ if(!SYNC_URL) return; try{const r=await fetch(SYNC_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({k,s,who})});applyRemote(await r.json());}catch(e){syncState.err=true;} const y=window.scrollY;render();window.scrollTo(0,y);}
+function syncBadge(){ if(!SYNC_URL) return `<p class="sync off">Checklist só neste aparelho. A versão oficial é a que o Fucasse publica.</p>`;
+ if(syncState.err&&!syncState.ok) return `<p class="sync err">Sem conexão. Mostrando a última versão salva; sincroniza quando a internet voltar.</p>`;
+ return `<p class="sync on">🔄 Compartilhado com a família${syncState.at?` · atualizado às ${syncState.at.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"})}`:" · carregando…"}</p>
+ <label class="whoin">Seu nome <input id="whoInput" value="${who.replace(/"/g,"")}" placeholder="ex.: Vó" maxlength="20"></label>`;}
 function itemRow(k,label,extra){const s=st(k);
  return `<div class="it ${s}"><div class="itl">${label}${extra?`<small>${extra}</small>`:""}</div><div class="its">
  <button type="button" class="ib ${s==="feito"?"on":""}" data-k="${k}" data-s="feito" aria-label="Feito">✅</button>
@@ -482,7 +540,7 @@ function checklistHTML(){
  sched.forEach(([d,,pid])=>{(PLANS[pid].items||[]).forEach(([k,l])=>{all.push(k);const s=st(k);if(s==="feito")done++;else if(s==="pulado")skip++;else if(d<todayStr)late.push([k,l,d]);});});
  backlog.forEach(pid=>(PLANS[pid].items||[]).forEach(([k,l])=>{all.push(k);const s=st(k);if(s==="feito")done++;else if(s==="pulado")skip++;}));
  const pct=Math.round(done/all.length*100);
- let h=`<section class="block"><h2 class="disp">O que já fizemos</h2>
+ let h=`<section class="block"><h2 class="disp">O que já fizemos</h2>${syncBadge()}
  <div class="prog"><div class="bar"><span style="width:${pct}%"></span></div><p><b>${done}</b> feitos · <b>${skip}</b> pulados · <b>${all.length-done-skip}</b> pela frente</p></div>
  <p style="color:var(--muted);font-size:.9rem">Toque ✅ para feito e ⏭️ para pulado. Tocar de novo desmarca. Me conte no fim do dia e eu deixo marcado para todos que abrirem o guia.</p>`;
  if(late.length) h+=`<div class="callout warn"><b>⏳ Ficou para trás (a confirmar):</b> ${late.length} itens de dias que já passaram. Marque o que fizeram ou deixe como pulado.</div>`;
@@ -520,7 +578,8 @@ function bind(){
  const main=document.getElementById("days");
  document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{tab=b.dataset.tab;try{localStorage.setItem("jp-tab",tab);}catch(e){}render();window.scrollTo(0,0);});
  main.querySelectorAll(".ib").forEach(b=>b.onclick=()=>{const k=b.dataset.k,s=b.dataset.s;status[k]=(st(k)===s)?"none":s;if(status[k]==="none"&&!STATUS0[k])delete status[k];
-  try{localStorage.setItem("jp-status",JSON.stringify(status));}catch(e){}const y=window.scrollY;render();window.scrollTo(0,y);});
+  try{localStorage.setItem("jp-status",JSON.stringify(status));}catch(e){}const y=window.scrollY;render();window.scrollTo(0,y);push(k,status[k]||"none");});
+ const wi=document.getElementById("whoInput"); if(wi) wi.onchange=e=>{who=e.target.value.trim();try{localStorage.setItem("jp-who",who);}catch(err){}};
  main.querySelectorAll(".sbtn").forEach(b=>b.onclick=()=>{const pid=b.dataset.pid,p=PLANS[pid];
   const sc=choice[pid]||{w:"sol",o:(p.opts.find(o=>o.w==="sol"&&o.pick)||{id:"A"}).id};
   sc[b.dataset.k]=b.dataset.v; if(b.dataset.k==="w"){const pk=p.opts.find(o=>o.w===sc.w&&o.pick); if(pk) sc.o=pk.id;}
@@ -531,6 +590,8 @@ function bind(){
   sched[i][2]=nv; save(); tab=tabOf(PLANS[nv].city); render();});
 }
 render();
+pull(); setInterval(()=>{if(document.visibilityState==="visible") pull();},60000);
+document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible") pull();});
 document.getElementById("todayBtn").addEventListener("click",()=>{const i=todayIdx();tab=i>=0?tabOf(PLANS[sched[i][2]].city):"check";render();const el=document.querySelector(".badge.today");if(el)el.scrollIntoView();});
 document.getElementById("resetBtn").addEventListener("click",()=>{sched=SCHEDULE.map(s=>s.slice());backlog=BACKLOG0.slice();try{localStorage.removeItem("jp-sched4");}catch(e){}render();});
 document.getElementById("save").innerHTML=SAVE.map(s=>`<p>${s}</p>`).join("");
