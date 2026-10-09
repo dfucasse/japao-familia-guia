@@ -206,7 +206,7 @@ footer{margin-top:40px;color:var(--muted);font-size:.82rem}
   <h1 class="disp">Japão em família</h1>
   <p>O que fazer, onde comer, quanto custa e o plano B se chover. Um dia de cada vez.</p>
   <div class="meta">
-    <span class="pill">v12 · 09/out/2026</span>
+    <span class="pill">v13 · 09/out/2026</span>
     <span class="pill">¥1.000 = R$ 34</span>
     <span class="pill">3 adultos + Noah (3) + Mia (1)</span>
     <button class="btn" id="todayBtn" type="button">Ir para hoje</button>
@@ -646,11 +646,11 @@ const SAVE = [
  "<b>Daiso e 3COINS.</b> Brinquedos, lanches e itens de bebê esquecidos por ¥110–330."
 ];
 
-const LOG = {"2026-10-02":"Gotemba e jantar de aniversário","2026-10-03":"Fuji Safari e viagem para Nagoya","2026-10-04":"Legoland (antecipada do dia 05)","2026-10-06":"Nagoya o dia todo; Kyoto à noite","2026-10-07":"Mercado Nishiki e Gion","2026-10-08":"Kiyomizu-dera de manhã e as ruazinhas (Sannenzaka/Ninenzaka)"};
-const STATUS0 = {kiyomizu:"feito",sannenzaka:"feito",inari:"pulado",nishiki:"feito",gion:"feito",shinkKyoto:"feito",outlet:"feito",aniver:"feito",jungle:"feito",paraNagoya:"feito",lego:"feito"};
+const LOG = {"2026-10-02":"Gotemba e jantar de aniversário","2026-10-03":"Fuji Safari e viagem para Nagoya","2026-10-04":"Legoland (antecipada do dia 05)","2026-10-06":"Nagoya o dia todo; Kyoto à noite","2026-10-07":"Mercado Nishiki e Gion","2026-10-08":"Kiyomizu-dera de manhã e as ruazinhas (Sannenzaka/Ninenzaka)","2026-10-09":"Nara"};
+const STATUS0 = {todaiji:"feito",cervos:"feito",kiyomizu:"feito",sannenzaka:"feito",inari:"pulado",nishiki:"feito",gion:"feito",shinkKyoto:"feito",outlet:"feito",aniver:"feito",jungle:"feito",paraNagoya:"feito",lego:"feito"};
 
-const WX = {"2026-10-09": {"i": "sun", "t": "Ensolarado", "hi": 29, "lo": 16, "p": 0}, "2026-10-10": {"i": "sun", "t": "Ensolarado", "hi": 29, "lo": 16, "p": 10, "h": [[9, 22, 0], [12, 26, 0], [15, 28, 0], [18, 23, 0]], "uv": "Calor à tarde: água e chapéu"}, "2026-10-11": {"i": "suncloud", "t": "Sol com nuvens", "hi": 30, "lo": 16, "p": 20}, "2026-10-12": {"i": "sun", "t": "Ensolarado (Kyoto)", "hi": 29, "lo": 17, "p": 10}, "2026-10-13": {"i": "suncloud", "t": "Sol com nuvens (tendência)", "hi": 29, "lo": 17, "p": 20}, "2026-10-14": {"i": "suncloud", "t": "Sol, depois nuvens (Tóquio)", "hi": 27, "lo": 18, "p": 40}, "2026-10-15": {"i": "cloud", "t": "Nublado", "hi": 23, "lo": 19, "p": 30}, "2026-10-16": {"i": "suncloud", "t": "Nublado, depois sol", "hi": 26, "lo": 17, "p": 30}, "2026-10-17": {"i": "suncloud", "t": "Nuvens com sol", "hi": 26, "lo": 17, "p": 40}, "2026-10-18": {"i": "rain", "t": "Nublado, chuva à tarde", "hi": 24, "lo": 18, "p": 70}, "2026-10-19": {"i": "rain", "t": "Nublado com chuva", "hi": 22, "lo": 17, "p": 70}, "2026-10-20": {"i": "rain", "t": "Nublado, depois chuva", "hi": 22, "lo": 17, "p": 80}, "2026-10-21": {"i": "rain", "t": "Chuva, depois nuvens", "hi": 22, "lo": 16, "p": null}};
-const WX_SRC = "tenki.jp, boletins de 08/out (Kyoto 18h, Tóquio/Taito 20h). Previsões depois de 7 dias são pouco confiáveis: atualizo todo dia.";
+const WX = {"2026-10-09": {"i": "sun", "t": "Ensolarado", "hi": 29, "lo": 16, "p": 0}, "2026-10-10": {"i":"sun","t":"Ensolarado em Osaka","hi":28,"lo":17,"p":10,"h":[[9,22,0],[12,26,0],[15,28,0],[18,24,0]],"uv":"UV forte: protetor, chapéu e água"}, "2026-10-11": {"i": "suncloud", "t": "Sol com nuvens", "hi": 30, "lo": 16, "p": 20}, "2026-10-12": {"i": "sun", "t": "Ensolarado (Kyoto)", "hi": 29, "lo": 17, "p": 10}, "2026-10-13": {"i": "suncloud", "t": "Sol com nuvens (tendência)", "hi": 29, "lo": 17, "p": 20}, "2026-10-14": {"i": "suncloud", "t": "Sol, depois nuvens (Tóquio)", "hi": 27, "lo": 18, "p": 40}, "2026-10-15": {"i": "cloud", "t": "Nublado", "hi": 23, "lo": 19, "p": 30}, "2026-10-16": {"i": "suncloud", "t": "Nublado, depois sol", "hi": 26, "lo": 17, "p": 30}, "2026-10-17": {"i": "suncloud", "t": "Nuvens com sol", "hi": 26, "lo": 17, "p": 40}, "2026-10-18": {"i": "rain", "t": "Nublado, chuva à tarde", "hi": 24, "lo": 18, "p": 70}, "2026-10-19": {"i": "rain", "t": "Nublado com chuva", "hi": 22, "lo": 17, "p": 70}, "2026-10-20": {"i": "rain", "t": "Nublado, depois chuva", "hi": 22, "lo": 17, "p": 80}, "2026-10-21": {"i": "rain", "t": "Chuva, depois nuvens", "hi": 22, "lo": 16, "p": null}};
+const WX_SRC = "Osaka: tenki.jp, 09/out 11h. tenki.jp, boletins de 08/out (Kyoto 18h, Tóquio/Taito 20h). Previsões depois de 7 dias são pouco confiáveis: atualizo todo dia.";
 
 const STEPS = {"osaka":[13000,7000],"oshiage":[8000,5000],"arashiyama":[12000,6000],"nara":[12000,7000],"aquario":[8000,5000],"gyoen":[6000,4000],"kanazawa":[9000,5000],"dino":[7000,5000],"tokyoback":[5000,3000],"toyosu":[8000,5000],"disney":[15000,10000],"kawagoe":[9000,6000],"descanso":[4000,2000],"kamakura":[11000,6000],"anpanman":[7000,5000],"kichijoji":[8000,5000],"compras":[9000,5000],"haneda":[4000,3000],"kiyomizu":[9000,5000],"kyotomove":[9000,6000]};
 const ADDS = {
