@@ -224,6 +224,56 @@ nav.tabs::-webkit-scrollbar{display:none}
 .cwdots{display:flex;justify-content:center;gap:6px;margin-top:8px}
 .cwdots button{width:8px;height:8px;border-radius:50%;border:0;padding:0;background:rgba(255,255,255,.35);cursor:pointer}
 .cwdots button.on{background:#fff;width:20px;border-radius:999px}
+.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:8px 0}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--rule);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 12px;font:inherit;font-size:.85rem;font-weight:700;cursor:pointer}
+.chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.shopsum{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
+.shopsum>div{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:8px 10px}
+.shopsum small{display:block;color:var(--muted);font-size:.72rem}
+.shopsum b{font-size:1.05rem}
+.shopsum b.ok{color:var(--ok)}
+.shop{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:10px 12px;margin-bottom:10px}
+.shop.done{opacity:.55}
+.sh1{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.shk{display:flex;gap:8px;align-items:flex-start}
+.shk input{width:20px;height:20px;margin-top:2px;accent-color:var(--ok)}
+.pct{background:var(--ok);color:#fff;border-radius:999px;padding:1px 9px;font-weight:900;font-size:.8rem;white-space:nowrap}
+.shd{margin:4px 0;font-size:.88rem;color:var(--muted)}
+.shp{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:6px 0}
+.shp>div{background:var(--bg);border-radius:10px;padding:6px 10px}
+.shp small{display:block;color:var(--muted);font-size:.72rem}
+.shp b{display:block}
+.shp span,.shp a{display:block;font-size:.82rem}
+.shw{margin:4px 0;font-size:.85rem}
+.shc{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:.85rem;color:var(--muted)}
+.shc select,.shc input,.addf input,.addf select{font:inherit;font-size:.9rem;padding:4px 8px;border-radius:8px;border:1px solid var(--rule);background:var(--card);color:var(--ink)}
+.shc input{width:4.5em}
+.addf{display:grid;gap:8px}
+.cdx{margin-top:16px;position:relative}
+.cdt{font-size:.78rem;opacity:.8}
+.cdn{display:flex;gap:10px;margin:4px 0}
+.cdn span{background:rgba(255,255,255,.1);border-radius:12px;padding:6px 12px;text-align:center;min-width:64px}
+.cdn b{display:block;font-size:1.6rem;line-height:1.1;font-weight:900}
+.cdn small{font-size:.7rem;opacity:.8}
+.cdbar{height:6px;border-radius:999px;background:rgba(255,255,255,.15);overflow:hidden;max-width:260px}
+.cdbar i{display:block;height:100%;background:#D7372A}
+.cdp{font-size:.72rem;opacity:.8}
+.tlbox{margin:10px 0 0;background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:8px 12px}
+.tlbox summary{cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:.85rem;font-weight:700;color:var(--muted);list-style:none}
+.tlbox summary::-webkit-details-marker{display:none}
+.tldots{display:flex;gap:3px}
+.tldots i{width:8px;height:8px;border-radius:50%;display:block}
+.tlrow{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:8px 0 4px}
+.tlrow::-webkit-scrollbar{display:none}
+.tlc{flex:none;max-width:150px;text-align:left;border:1px solid var(--rule);border-top:3px solid var(--c);background:var(--bg);color:var(--ink);border-radius:10px;padding:6px 8px;font:inherit;cursor:pointer}
+.tlc.on{background:var(--chip)}
+.tlc small{display:block;color:var(--muted);font-size:.7rem}
+.tlc b{display:block;font-size:.8rem;line-height:1.25;white-space:normal}
+.tlc i{font-style:normal;font-size:.7rem;color:var(--ok);font-weight:700}
+.tldet{font-size:.88rem}
+.tldet ul{margin:6px 0;padding-left:16px;list-style:none}
+.tldet p{margin:4px 0;color:var(--muted)}
 footer{margin-top:40px;color:var(--muted);font-size:.82rem}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 </style>
@@ -234,15 +284,17 @@ footer{margin-top:40px;color:var(--muted);font-size:.82rem}
   <div class="sun"></div>
   <h1 class="disp">Japão em família</h1>
   <p>O que fazer, onde comer, quanto custa e o plano B se chover. Um dia de cada vez.</p>
+  <div id="countdown" class="cdx"></div>
   <div id="coverwx" class="cwx"></div>
   <div class="meta">
-    <span class="pill">v17 · 11/out/2026</span>
+    <span class="pill">v22 · 12/out/2026</span>
     <span class="pill">¥1.000 = R$ 34</span>
-    <span class="pill">3 adultos + Noah (3) + Mia (1)</span>
+    <span class="pill">Douglas, Camila, Aurora, Noah e Mia</span>
     <button class="btn" id="todayBtn" type="button">Ir para hoje</button>
     <button class="btn" id="themebtn" type="button">Tema</button>
   </div>
 </header>
+<div id="timeline"></div>
 <nav class="tabs" id="tabs" role="tablist" aria-label="Cidades"></nav>
 <main id="days"></main>
 
@@ -428,7 +480,7 @@ nara:{items:[["todaiji","Todai-ji (grande Buda)"],["cervos","Cervos do parque de
   cost:[["Todai-ji: 3 adultos",null,"Só dinheiro"],["Biscoito dos cervos",200,""],["Almoço (estim.)",5000,""]]}
  ],
  extras:[["Pilastra da narina do Buda","東大寺 大仏殿 柱くぐり","Dentro do salão do Buda, atrás da estátua, há uma pilastra com um buraco. Diz a tradição que quem passa por ele tem um ano de sorte."],["Cervos que fazem reverência","奈良公園 鹿","Abaixe a cabeça devagar na frente de um cervo: muitos respondem com uma reverência. O Noah vai querer repetir."]]},
-arashiyama:{buy:[["Trem Sagano (site oficial)","https://www.sagano-kanko.co.jp/","Vende online até 1 mês antes, com assento marcado. No domingo de feriado, confira se ainda há lugar no site antes de ir para a fila.",[["Adulto, por trecho",880],["Criança 6–11, por trecho",440]]],["Monkey Park: só na porta", "https://www.google.com/maps/search/?api=1&query=%E5%B5%90%E5%B1%B1%E3%83%A2%E3%83%B3%E3%82%AD%E3%83%BC%E3%83%91%E3%83%BC%E3%82%AF", "Não vende online. Leve dinheiro: ¥800 por adulto, até 3 anos grátis.",[["Na porta, por adulto",800]]]],deal:["O Monkey Park só aceita dinheiro e não vende online. Até 3 anos não paga.", "Quem tem o passe de 1 dia do bondinho Randen ganha ¥100 de desconto por adulto no Monkey Park. Só compensa se fizer 3 ou mais trechos de Randen."],items:[["bambu","Bambuzal de Arashiyama"],["togetsukyo","Ponte Togetsukyo e rio"],["macacos","Monkey Park Iwatayama"],["kimono","Floresta de Kimono"],["ashiyu","Escalda-pés da estação Randen"],["yoshimura","Soba no Arashiyama Yoshimura"]],
+arashiyama:{buy:[["Trem Sagano (site oficial)","https://www.sagano-kanko.co.jp/","Vende online até 1 mês antes, com assento marcado. No domingo de feriado, confira se ainda há lugar no site antes de ir para a fila.",[["Adulto, por trecho",880],["Criança 6–11, por trecho",440]]],["Monkey Park: só na porta", "https://www.google.com/maps/search/?api=1&query=%E5%B5%90%E5%B1%B1%E3%83%A2%E3%83%B3%E3%82%AD%E3%83%BC%E3%83%91%E3%83%BC%E3%82%AF", "Não vende online. Leve dinheiro: ¥800 por adulto, até 3 anos grátis.",[["Na porta, por adulto",800]]]],deal:["O Monkey Park só aceita dinheiro e não vende online. Até 3 anos não paga.", "Quem tem o passe de 1 dia do bondinho Randen ganha ¥100 de desconto por adulto no Monkey Park. Só compensa se fizer 3 ou mais trechos de Randen."],items:[["bambu","Bambuzal de Arashiyama"],["togetsukyo","Ponte Togetsukyo e rio"],["macacos","Monkey Park Iwatayama"],["sagano","Trem Sagano"],["fogos","Queima de fogos"],["kimono","Floresta de Kimono"],["ashiyu","Escalda-pés da estação Randen"],["yoshimura","Soba no Arashiyama Yoshimura"]],
  city:"kyoto",k:"嵐山",r:"Arashiyama",theme:"Bambuzal vazio, macacos soltos no alto do morro e escalda-pés para a vovó",
  seg:{A:"A · Com trem Sagano",B:"B · Só a pé"},
  note:"Energia média: o roteiro A agora troca a trilha do Monkey Park pelo Trem Sagano, um passeio sentado de 25 min que o Noah vai adorar. Se ainda sobrar fôlego, o Monkey Park está nos adicionais. Domingo de feriado: bambuzal antes das 8h e sair de Arashiyama até as 11h.",
@@ -486,10 +538,33 @@ aquario:{items:[["kaquario","Kyoto Aquarium"],["ferro","Kyoto Railway Museum"],[
  ],
  extras:[["Salamandras-gigantes","京都水族館 オオサンショウウオ","A primeira área do aquário tem salamandras-gigantes de mais de 1 m, nativas dos rios de Kyoto."],["Parque Umekoji","梅小路公園","Gramado grande e parquinho entre o aquário e o museu. Bom para a soneca no carrinho."]]},
 gyoen:{items:[["gyoen", "Kyoto Gyoen"], ["tartaruga", "Pedras-tartaruga do rio Kamo"], ["futaba", "Mame-daifuku do Demachi Futaba"]],extras:[["Pedras-tartaruga do rio Kamo", "鴨川デルタ 飛び石", "Pedras em forma de tartaruga para atravessar o rio pulando. Diversão garantida para o Noah, com um adulto do lado."], ["Demachi Futaba", "出町ふたば", "O mame-daifuku (mochi com feijão) mais famoso de Kyoto. Tem fila, mas anda rápido."]],maps:[["Kyoto Gyoen","京都御苑"]],city:"kyoto",k:"御苑",r:"Kyoto Gyoen",theme:"Dia de respiro e lavanderia"},
-kanazawa:{deal:["O Kenrokuen abre de graça cedo, antes do horário pago, por alguns portões. Confira o horário no site: é economia e jardim vazio.", "A ruela Higashi Chaya é grátis; só as casas de chá abertas à visitação cobram."],items:[["kenrokuen", "Kenrokuen"], ["chaya", "Higashi Chaya"], ["ouro", "Sorvete de folha de ouro"], ["museu21", "Museu do Século 21"]],extras:[["Sorvete de folha de ouro", "金箔ソフトクリーム ひがし茶屋街", "Kanazawa produz quase todo o ouro em folha do Japão. Um para dividir rende a foto."], ["Museu do Século 21", "金沢21世紀美術館", "A 5 min do Kenrokuen, com áreas abertas grátis e arte que as crianças tocam."]],maps:[["Kenrokuen","兼六園"],["Higashi Chaya","ひがし茶屋街"]],city:"kanazawa",k:"金沢",r:"Kanazawa",theme:"Kenrokuen e Higashi Chaya ao entardecer",
- tl:[["Manhã","Kyoto → Kanazawa (Thunderbird + Hokuriku Shinkansen, ~2h)."],["Soneca","No trem.",1],["Tarde","Kenrokuen e, no fim do dia, Higashi Chaya."]],
- cost:[["Kenrokuen: 3 adultos ¥320",960,"Crianças grátis"]],
- note:"Dia 12 é feriado (Dia do Esporte): mais gente. Experimente o sorvete com folha de ouro de Higashi Chaya: é caro, então divida um entre a família."},
+kanazawa:{items:[["thunderbird","Viagem Kyoto → Kanazawa"],["morimori","Sushi no Morimori (Omicho)"],["kenrokuen","Kenrokuen"],["castelokz","Parque do Castelo de Kanazawa"],["chaya","Higashi Chaya"],["ouro","Sorvete de folha de ouro"],["museu21","Museu do Século 21"]],
+ city:"kanazawa",k:"",r:"Kyoto → Kanazawa",theme:"Dia de viagem: sushi de mercado na porta do hotel, jardim famoso e a rua das casas de chá ao entardecer",
+ seg:{A:"A · Viagem + 2 passeios",B:"B · Viagem + 1 passeio"},
+ note:"Trem confirmado: Thunderbird 17 às 11h10, baldeação de 14 min em Tsuruga e Tsurugi 18 com chegada às 13h01 (detalhes no cartão de troca de cidade). Feriado: tudo mais cheio. O LINNAS fica dentro do Omicho: deixem as malas lá antes do check-in.",
+ deal:["O Kenrokuen custa ¥320 por adulto. Crianças pequenas não pagam.","A rua Higashi Chaya é grátis. O sorvete com folha de ouro sai por ~¥1.000: um para dividir já rende a foto.","O Morimori não aceita reserva e trabalha com senha. Retire a senha na chegada e esperem no hotel, que fica a 2 min."],
+ opts:[
+ {w:"sol",id:"A",pick:1,name:"Omicho + Kenrokuen + Higashi Chaya ao pôr do sol",why:"Chegada, sushi de mercado e os dois cartões-postais de Kanazawa no fim da tarde, quando o sol baixa e o jardim fica mais fresco.",
+  tl:[["10h30","Táxi do MINN até a estação de Kyoto. <b>11h10 Thunderbird 17</b> (vagão 2), baldeação em Tsuruga e <b>Tsurugi 18</b> até Kanazawa (13h01). Soneca no trem.",1],
+   ["13h15","Táxi da estação até o LINNAS (~5–7 min). Deixem as malas na recepção."],
+   ["13h30","Retirem a senha no <b>Morimori</b>, no Omicho (abre às 10h; o Tabelog cita espera de ~1h em feriado). Enquanto espera, passeiem pelo mercado."],
+   ["14h15","Almoço: sushi de esteira com peixe do mar do Japão. Peçam o prato de nodoguro, o peixe nobre da região."],
+   ["15h","Check-in e descanso."],
+   ["16h","Táxi até o <b>Kenrokuen</b> (~10 min). Um dos três jardins mais famosos do Japão, com o lanterna de pedra de duas pernas sobre o lago. Caminhos de cascalho: o carrinho passa, mas pesa."],
+   ["17h","Atravessem para o parque do Castelo de Kanazawa (gramado grande para o Noah correr) ou sigam direto."],
+   ["17h20","<b>Higashi Chaya</b> ao entardecer: casas de chá do período Edo com as luzes acendendo. Sorvete com folha de ouro."],
+   ["18h30","Jantar perto do hotel."]],
+  food:[{d:"bowl",n:"Morimori Zushi (Omicho)",jp:"もりもり寿し 近江町店",s:3.50,why:"Sushi de esteira escolhido para o Top 100 de sushi do Tabelog (2021). Marcado como bom para família e crianças.",price:"¥2.000–2.999 por pessoa",tags:["sem reserva: senha","dinheiro (confira)"],url:"https://tabelog.com/en/ishikawa/A1701/A170101/17000911/dtlrvwlst/"}],
+  maps:[["LINNAS Kanazawa","LINNAS Kanazawa 近江町市場"],["Morimori Zushi Omicho","もりもり寿し 近江町店"],["Kenrokuen","兼六園"],["Parque do Castelo","金沢城公園"],["Higashi Chaya","ひがし茶屋街"]],
+  tr:[["MINN → estação de Kyoto (táxi)","MINN 烏丸五条 京都","京都駅",1500,"~5 min"],["Estação de Kanazawa → LINNAS (táxi)","金沢駅","LINNAS Kanazawa 近江町市場",1200,"~5–7 min"],["LINNAS ⇄ Kenrokuen / Higashi Chaya (táxi)","LINNAS Kanazawa 近江町市場","兼六園",3000,"2 a 3 corridas curtas"]],
+  cost:[["Almoço Morimori (estim.)",9000,"Pratos de ~¥200 a ~¥800: as crianças escolhem na esteira"],["Kenrokuen: 3 adultos × ¥320",960,"Crianças pequenas não pagam"],["Sorvete de ouro (1 para dividir)",1000,""],["Jantar (estim.)",6000,""]]},
+ {w:"sol",id:"B",name:"Omicho + Higashi Chaya",why:"Chegar, comer bem e descansar. À tarde, só a rua das casas de chá, que fica bonita ao entardecer. O Kenrokuen vai para a manhã do dia 14.",
+  tl:[["11h10","Thunderbird 17 + Tsurugi 18 até Kanazawa (13h01): soneca no trem.",1],["13h15","Malas no LINNAS e senha no Morimori."],["14h15","Almoço no Morimori."],["15h","Check-in e soneca longa.",1],["17h","Táxi até Higashi Chaya, ao entardecer."],["18h30","Jantar perto do hotel."]],
+  maps:[["Morimori Zushi Omicho","もりもり寿し 近江町店"],["Higashi Chaya","ひがし茶屋街"]],
+  tr:[["MINN → estação de Kyoto (táxi)","MINN 烏丸五条 京都","京都駅",1500,""],["Estação de Kanazawa → LINNAS (táxi)","金沢駅","LINNAS Kanazawa 近江町市場",1200,""],["LINNAS ⇄ Higashi Chaya (táxi)","LINNAS Kanazawa 近江町市場","ひがし茶屋街",2000,"~5 min por trecho"]],
+  cost:[["Almoço Morimori (estim.)",9000,""],["Sorvete de ouro",1000,""],["Jantar (estim.)",6000,""]]}
+ ],
+ extras:[["Pratos de nodoguro","のどぐろ 金沢","O peixe mais valorizado da região. No sushi de esteira, sai por uma fração do preço dos restaurantes."],["Lanterna Kotoji do Kenrokuen","兼六園 徽軫灯籠","A lanterna de pedra de duas pernas sobre o lago é o símbolo de Kanazawa. É a foto clássica."]]},
 dino:{buy:[["Museu dos Dinossauros (oficial)", "https://www.dinosaur.pref.fukui.jp/guide/ticket.html", "Só vende no site oficial, com horário marcado.",[["Oficial, por adulto",1000]]]],deal:["O Museu dos Dinossauros só vende ingresso com horário marcado no site oficial. Não está no Klook.", "Pré-escolares não pagam. Leve um documento da sua mãe: há desconto para maiores de 70."],items:[["fukui", "Museu dos Dinossauros de Fukui"], ["robos", "Dinossauros robôs da estação"]],extras:[["Dinossauros robôs da estação de Fukui", "福井駅 恐竜広場", "Na saída oeste da estação há dinossauros em tamanho real que se mexem e rugem. É grátis e o Noah vai querer voltar."], ["Estação Katsuyama", "勝山駅 福井", "Estação de madeira antiga, onde começa o ônibus para o museu."]],maps:[["Museu dos Dinossauros de Fukui","福井県立恐竜博物館"],["Estação Katsuyama","勝山駅 福井"]],city:"fukui",k:"恐竜博物館",r:"Museu dos Dinossauros de Fukui",theme:"O dia do Noah: um dos 3 maiores museus de dinossauros do mundo",
  tl:[["8h30","Shinkansen Kanazawa → Fukui (~20 min)."],["9h","Trem Echizen até Katsuyama (60 min) + ônibus (10 min)."],["10h30","Museu: 2–3h no acervo principal, com 44 esqueletos e um tiranossauro que se mexe."],["Soneca","Trem de volta.",1]],
  cost:[["Entrada: 3 adultos ¥1.000",3000,"Noah e Mia grátis (pré-escolares). Sua mãe (70+) pode ter desconto: leve documento"],["Trem Echizen + ônibus, ida e volta: 3 adultos",6720,"Crianças pequenas grátis no colo"]],
@@ -617,6 +692,41 @@ osaka:{buy:[["Kaiyukan (site oficial, eTicket)", "https://www.kaiyukan.com/", "P
   cost:[["Kaiyukan: 3 adultos + Noah (estim.)",10400,"Mia grátis"],["Almoço no Tempozan (estim.)",5000,""]]}
  ],
  extras:[["Roda-gigante de Tempozan","天保山大観覧車","Ao lado do aquário, com vista da baía. As gôndolas de piso transparente são opcionais: peça a normal com as crianças."],["Castelo de Osaka","大阪城公園","Se trocarem Dotonbori por algo mais calmo: parque enorme, bom para o Noah correr. A torre tem elevador."]]},
+kanazawa2:{items:[["castelokz2","Parque do Castelo de Kanazawa"],["oyama","Santuário Oyama (portão com vitrais)"],["nagamachi","Bairro samurai Nagamachi"],["kazuemachi","Kazuemachi e o rio Asano"],["museu21","Museu do Século 21 (área livre)"],["kinpaku","Oficina de folha de ouro"],["kzcurry","Curry de Kanazawa"]],
+ city:"kanazawa",k:"",r:"Kanazawa a fundo",theme:"Castelo, samurais, casas de chá à beira-rio e ouro: o dia para conhecer Kanazawa sem pressa",
+ seg:{A:"A · Cidade completa",B:"B · Sem pressa"},
+ note:"Troca: o Museu dos Dinossauros de Fukui saiu para vocês conhecerem melhor Kanazawa (ele ficou em “sem data”). O tempo ajuda: nublado de manhã, sol à tarde, chuva de 10–30%. Amanhã (14) é que chove forte. Atenção: hoje a parte paga do Museu do Século 21 está fechada (folga do feriado); a área livre e o gramado abrem normalmente.",
+ deal:["Quase tudo hoje é grátis: parque do castelo, santuário Oyama, ruas de Nagamachi, Kazuemachi e a área livre do Museu do Século 21.","A oficina de folha de ouro é a única despesa grande: confira preço e horário na loja (várias em Higashiyama). Lojas de ouro aceitam tax-free acima de ¥5.000 em lembranças.","Kanazawa é compacta: táxi curto para 5 pessoas custa quase o mesmo que ônibus para 3 adultos."],
+ opts:[
+ {w:"sol",id:"A",pick:1,name:"Castelo + Oyama + Nagamachi + Museu 21 + Kazuemachi",why:"Os quatro bairros históricos do centro, numa linha só, com a parte mais caminhada de manhã (mais fresca) e o rio ao entardecer. Se não foram ao Kenrokuen ontem, ele fica colado ao castelo: comecem por ele.",
+  tl:[["8h30","Táxi até o Parque do Castelo de Kanazawa (~5 min). Gramados enormes e muralhas de pedra: o Noah corre à vontade. Grátis."],
+   ["9h30","Saída pelo portão oeste até o <b>Santuário Oyama</b>: portão de três andares com vitrais coloridos, mistura de Japão e Europa."],
+   ["10h15","<b>Nagamachi</b>, o bairro samurai: ruelas com muros de barro amarelo e canais, planas e silenciosas, boas para o carrinho."],
+   ["12h","Almoço: curry de Kanazawa (escuro, com katsu e repolho), que as crianças costumam adorar."],
+   ["13h","Soneca no hotel.",1],
+   ["15h30","Área livre e gramado do <b>Museu do Século 21</b> (a parte paga está fechada hoje). Obras ao ar livre que as crianças podem tocar."],
+   ["17h","<b>Kazuemachi</b>, casas de chá à beira do rio Asano, com o pôr do sol às 17h21. Menos turística que Higashi Chaya, do outro lado da ponte."],
+   ["18h","Jantar perto do hotel. Mandem as malas por Ta-Q-Bin hoje para o Henn na (amanhã chove forte)."]],
+  maps:[["Parque do Castelo de Kanazawa","金沢城公園"],["Santuário Oyama","尾山神社"],["Nagamachi","長町武家屋敷跡"],["Museu do Século 21","金沢21世紀美術館"],["Kazuemachi","主計町茶屋街"]],
+  tr:[["LINNAS → castelo (táxi)","LINNAS Kanazawa 近江町市場","金沢城公園",1000,"~5 min"],["Castelo → Oyama → Nagamachi","金沢城公園","長町武家屋敷跡",0,"A pé, ~15 min no total"],["Nagamachi → hotel / Museu 21 / Kazuemachi (táxi)","長町武家屋敷跡","主計町茶屋街",3000,"3 corridas curtas"]],
+  cost:[["Castelo, Oyama, Nagamachi, Kazuemachi, Museu 21 (área livre)",0,"Tudo grátis"],["Almoço curry (estim.)",4000,"Peça um prato infantil ou divida"],["Jantar (estim.)",6000,""],["Ta-Q-Bin LINNAS → Henn na (estim.)",null,"Peça na recepção; o preço depende do tamanho das malas"]]},
+ {w:"sol",id:"B",name:"Mercado + Nagamachi + oficina de ouro",why:"Menos deslocamento: brunch no mercado da porta do hotel, um bairro histórico de manhã e uma atividade coberta e calma à tarde.",
+  tl:[["9h30","Brunch no Omicho: kaisendon ou petiscos nas bancas."],["10h45","Táxi até Nagamachi: passeio pelas ruelas e canais."],["12h30","Soneca no hotel.",1],["15h30","<b>Oficina de folha de ouro</b> em Higashiyama: cada um decora uma peça (hashi, caixinha) com ouro de Kanazawa. Uns 60 min, coberto."],["17h","Rio Asano e Kazuemachi ao entardecer, do outro lado da ponte."],["18h","Jantar."]],
+  maps:[["Mercado Omicho","近江町市場"],["Nagamachi","長町武家屋敷跡"],["Oficinas de folha de ouro","金箔貼り体験 ひがし茶屋街"],["Kazuemachi","主計町茶屋街"]],
+  tr:[["LINNAS ⇄ Nagamachi (táxi)","LINNAS Kanazawa 近江町市場","長町武家屋敷跡",2000,"~5 min por trecho"],["LINNAS ⇄ Higashiyama (táxi)","LINNAS Kanazawa 近江町市場","ひがし茶屋街",2000,"~5 min por trecho"]],
+  cost:[["Brunch no Omicho (estim.)",6000,""],["Oficina de folha de ouro (3 adultos)",null,"Confira preço e idade mínima na loja"],["Jantar (estim.)",6000,""]]},
+ {w:"chuva",id:"A",pick:1,name:"Mercado coberto + ouro + Museu 21 (área livre)",why:"Se a chuva da manhã (30%) vier: tudo coberto ou a poucos passos do táxi.",
+  tl:[["9h30","Omicho, que é coberto."],["11h","Oficina de folha de ouro em Higashiyama."],["12h30","Almoço e soneca.",1],["15h30","Área livre do Museu do Século 21 (corredores internos)."],["17h","Jantar."]],
+  maps:[["Mercado Omicho","近江町市場"],["Oficinas de folha de ouro","金箔貼り体験 ひがし茶屋街"],["Museu do Século 21","金沢21世紀美術館"]],
+  tr:[["Táxis curtos pela cidade","LINNAS Kanazawa 近江町市場","金沢21世紀美術館",4000,"4 corridas"]],
+  cost:[["Oficina de folha de ouro",null,"Confira na loja"],["Refeições (estim.)",12000,""]]},
+ {w:"chuva",id:"B",name:"Dia leve no hotel e no mercado",why:"Descanso antes da viagem para Tóquio: mercado coberto, soneca longa e jantar perto.",
+  tl:[["10h","Omicho."],["12h","Almoço no mercado."],["13h","Soneca longa.",1],["16h","Arrumar malas e Ta-Q-Bin."]],
+  maps:[["Mercado Omicho","近江町市場"]],
+  tr:[],
+  cost:[["Refeições (estim.)",10000,""]]}
+ ],
+ extras:[["Ponte Asanogawa ao entardecer","浅野川大橋","A ponte entre Kazuemachi e Higashi Chaya, com as casas de madeira refletidas no rio."],["Vitrais do Oyama","尾山神社 神門","O portão de 1875 tem vitrais que acendem à noite. Vale passar de novo depois do jantar."]]},
 descanso:{city:"tokyo",k:"休み",r:"Descanso",theme:"Dia livre"},
 kamakura:{buy:[["Tokyo Subway Ticket (Klook)", "https://www.klook.com/pt-BR/search/result/?query=tokyo%20subway%20ticket", "Passe de 24/48/72h para turistas, para o metrô de Tóquio. Compensa em dias de 4 ou mais trechos."]],deal:["Do hotel, o trem direto para Kamakura sai da estação Bakurocho, a 5 min a pé: sem baldeação e sem passe.", "O bondinho Enoden tem passe de 1 dia. Só compensa se for também a Enoshima."],tr:[["Hotel ⇄ Kamakura (direto)","変なホテル東京 浅草橋","鎌倉駅",6000,"Estação Bakurocho, a 5 min a pé do hotel: a linha Sobu-Yokosuka vai direto até Kamakura, ~1h, ~¥1.000 por adulto"]],items:[["buda", "Grande Buda de Kamakura"], ["enoden", "Bondinho Enoden"]],extras:[["Bondinho Enoden", "江ノ島電鉄", "Trem de bairro que passa entre as casas e à beira-mar. O passeio em si já é atração."], ["Komachi-dori", "小町通り", "Rua de petiscos que leva ao santuário Tsurugaoka Hachimangu."]],maps:[["Grande Buda de Kamakura","鎌倉大仏殿高徳院"]],city:"tokyo",k:"鎌倉",r:"Kamakura (no lugar de Nikko)",theme:"Grande Buda e praia, a 1h de Tóquio",
  note:"Substitui Nikko: são 2h por trecho e muitas escadas, o pior custo-benefício do roteiro com dois pequenos. Se mesmo assim quiser Nikko, é só trocar."},
@@ -676,12 +786,12 @@ haneda:{deal:["O trem direto da linha Toei Asakusa é a opção mais barata até
 const SCHEDULE = [
 ["2026-10-02","Sex","gotemba"],["2026-10-03","Sáb","safari"],["2026-10-04","Dom","lego"],["2026-10-05","Seg","atsuta"],
 ["2026-10-06","Ter","nagoyaextra"],["2026-10-07","Qua","kyotomove"],["2026-10-08","Qui","kiyomizu"],["2026-10-09","Sex","nara"],
-["2026-10-10","Sáb","aquario"],["2026-10-11","Dom","arashiyama"],["2026-10-12","Seg","kanazawa"],["2026-10-13","Ter","dino"],
+["2026-10-10","Sáb","aquario"],["2026-10-11","Dom","arashiyama"],["2026-10-12","Seg","kanazawa"],["2026-10-13","Ter","kanazawa2"],
 ["2026-10-14","Qua","tokyoback"],["2026-10-15","Qui","kamakura"],["2026-10-16","Sex","disney"],["2026-10-17","Sáb","kawagoe"],
 ["2026-10-18","Dom","kichijoji"],["2026-10-19","Seg","toyosu"],["2026-10-20","Ter","anpanman"],["2026-10-21","Qua","compras"],
 ["2026-10-22","Qui","oshiage"],["2026-10-23","Sex","haneda"]];
 // programações que ficaram sem data (podem voltar pelo seletor de qualquer dia)
-const BACKLOG0 = ["osaka","gyoen","descanso"];
+const BACKLOG0 = ["osaka","dino","gyoen","descanso"];
 const TODO = [
  ["trem12","Reservar Thunderbird + Shinkansen Kyoto → Kanazawa (feriado)","hoje"],
  ["dia05","Marcar no checklist o que fizeram em Nagoya no dia 05","hoje"],
@@ -710,13 +820,13 @@ const SAVE = [
  "<b>Daiso e 3COINS.</b> Brinquedos, lanches e itens de bebê esquecidos por ¥110–330."
 ];
 
-const LOG = {"2026-10-02":"Gotemba e jantar de aniversário","2026-10-03":"Fuji Safari e viagem para Nagoya","2026-10-04":"Legoland (antecipada do dia 05)","2026-10-06":"Nagoya o dia todo; Kyoto à noite","2026-10-07":"Mercado Nishiki e Gion","2026-10-08":"Kiyomizu-dera de manhã e as ruazinhas (Sannenzaka/Ninenzaka)","2026-10-09":"Nara","2026-10-10":"Só o Aquário de Kyoto (roteiro B); Osaka adiado"};
-const STATUS0 = {kaquario:"feito",ferro:"pulado",vapor:"pulado",todaiji:"feito",cervos:"feito",kiyomizu:"feito",sannenzaka:"feito",inari:"pulado",nishiki:"feito",gion:"feito",shinkKyoto:"feito",outlet:"feito",aniver:"feito",jungle:"feito",paraNagoya:"feito",lego:"feito"};
+const LOG = {"2026-10-02":"Gotemba e jantar de aniversário","2026-10-03":"Fuji Safari e viagem para Nagoya","2026-10-04":"Legoland (antecipada do dia 05)","2026-10-06":"Nagoya o dia todo; Kyoto à noite","2026-10-07":"Mercado Nishiki e Gion","2026-10-08":"Kiyomizu-dera de manhã e as ruazinhas (Sannenzaka/Ninenzaka)","2026-10-09":"Nara","2026-10-10":"Só o Aquário de Kyoto (roteiro B); Osaka adiado","2026-10-11":"Arashiyama: Monkey Park, Trem Sagano e queima de fogos à noite"};
+const STATUS0 = {macacos:"feito",sagano:"feito",fogos:"feito",kaquario:"feito",ferro:"pulado",vapor:"pulado",todaiji:"feito",cervos:"feito",kiyomizu:"feito",sannenzaka:"feito",inari:"pulado",nishiki:"feito",gion:"feito",shinkKyoto:"feito",outlet:"feito",aniver:"feito",jungle:"feito",paraNagoya:"feito",lego:"feito"};
 
-const WX = {"2026-10-23": {"i": "cloud", "t": "Nublado", "hi": 21, "lo": 16, "p": 30}, "2026-10-22": {"i": "rain", "t": "Chuva, depois nuvens", "hi": 21, "lo": 17, "p": 70}, "2026-10-09": {"i": "sun", "t": "Ensolarado", "hi": 29, "lo": 16, "p": 0}, "2026-10-10": {"i":"sun","t":"Ensolarado em Kyoto","hi":29,"lo":16,"p":10,"h":[[9,22,0],[12,26,0],[15,28,0],[18,23,0]],"uv":"Calor à tarde: aproveitem as áreas cobertas"}, "2026-10-11": {"i": "sun", "t": "Ensolarado", "hi": 28, "lo": 15, "p": 0, "h": [[6, 15, 10], [9, 21, 0], [12, 28, 0], [15, 28, 0]], "uv": "UV forte e manhã fresca (15°): casaco leve às 7h, camiseta ao meio-dia"}, "2026-10-12": {"i": "suncloud", "t": "Sol com nuvens (Kanazawa)", "hi": 24, "lo": 17, "p": 20}, "2026-10-13": {"i": "suncloud", "t": "Nublado, depois sol (Kanazawa)", "hi": 25, "lo": 15, "p": 30}, "2026-10-14": {"i": "rain", "t": "Chuva forte de manhã em Kanazawa; Tóquio com sol e nuvens", "hi": 21, "lo": 19, "p": 100, "uv": "Kanazawa: ~21 mm entre 6h e 12h. Tóquio: 28°, 40%"}, "2026-10-15": {"i": "suncloud", "t": "Nuvens com sol", "hi": 24, "lo": 18, "p": 30}, "2026-10-16": {"i": "cloud", "t": "Nublado", "hi": 25, "lo": 17, "p": 30}, "2026-10-17": {"i": "cloud", "t": "Nublado", "hi": 24, "lo": 17, "p": 40}, "2026-10-18": {"i": "cloud", "t": "Nublado", "hi": 25, "lo": 18, "p": 30}, "2026-10-19": {"i": "suncloud", "t": "Nublado com sol", "hi": 22, "lo": 19, "p": 40}, "2026-10-20": {"i": "rain", "t": "Nublado com chuva", "hi": 22, "lo": 18, "p": 80}, "2026-10-21": {"i": "rain", "t": "Nublado, chuva às vezes", "hi": 22, "lo": 18, "p": 70}};
+const WX = {"2026-10-23": {"i": "cloud", "t": "Nublado", "hi": 21, "lo": 16, "p": 30}, "2026-10-22": {"i": "rain", "t": "Chuva, depois nuvens", "hi": 21, "lo": 17, "p": 70}, "2026-10-09": {"i": "sun", "t": "Ensolarado", "hi": 29, "lo": 16, "p": 0}, "2026-10-10": {"i":"sun","t":"Ensolarado em Kyoto","hi":29,"lo":16,"p":10,"h":[[9,22,0],[12,26,0],[15,28,0],[18,23,0]],"uv":"Calor à tarde: aproveitem as áreas cobertas"}, "2026-10-11": {"i": "sun", "t": "Ensolarado", "hi": 28, "lo": 15, "p": 0, "h": [[6, 15, 10], [9, 21, 0], [12, 28, 0], [15, 28, 0]], "uv": "UV forte e manhã fresca (15°): casaco leve às 7h, camiseta ao meio-dia"}, "2026-10-12": {"i": "suncloud", "t": "Sol com nuvens (Kanazawa)", "hi": 24, "lo": 17, "p": 20}, "2026-10-13": {"i": "suncloud", "t": "Nublado de manhã, sol à tarde", "hi": 26, "lo": 16, "p": 30, "h": [[6, 16, 30], [9, 20, 20], [12, 25, 10], [15, 25, 10]], "uv": "Chuva só de 10% a 30%. Amanhã chove forte: mandem as malas hoje"}, "2026-10-14": {"i": "rain", "t": "Chuva forte de manhã em Kanazawa; Tóquio com sol e nuvens", "hi": 21, "lo": 19, "p": 100, "uv": "Kanazawa: ~21 mm entre 6h e 12h. Tóquio: 28°, 40%"}, "2026-10-15": {"i": "suncloud", "t": "Nuvens com sol", "hi": 24, "lo": 18, "p": 30}, "2026-10-16": {"i": "cloud", "t": "Nublado", "hi": 25, "lo": 17, "p": 30}, "2026-10-17": {"i": "cloud", "t": "Nublado", "hi": 24, "lo": 17, "p": 40}, "2026-10-18": {"i": "cloud", "t": "Nublado", "hi": 25, "lo": 18, "p": 30}, "2026-10-19": {"i": "suncloud", "t": "Nublado com sol", "hi": 22, "lo": 19, "p": 40}, "2026-10-20": {"i": "rain", "t": "Nublado com chuva", "hi": 22, "lo": 18, "p": 80}, "2026-10-21": {"i": "rain", "t": "Nublado, chuva às vezes", "hi": 22, "lo": 18, "p": 70}};
 const WX_SRC = "tenki.jp: Kyoto (09/out 22h), Kanazawa (11/out 6h), Tóquio/Taito (10/out 19h). Depois de 7 dias, confiança baixa (C/D).";
 
-const STEPS = {"aquario":[9000,5000],"osaka":[13000,7000],"oshiage":[8000,5000],"arashiyama":[9000,6000],"nara":[12000,7000],"aquario":[8000,5000],"gyoen":[6000,4000],"kanazawa":[9000,5000],"dino":[7000,5000],"tokyoback":[5000,3000],"toyosu":[8000,5000],"disney":[15000,10000],"kawagoe":[9000,6000],"descanso":[4000,2000],"kamakura":[11000,6000],"anpanman":[7000,5000],"kichijoji":[8000,5000],"compras":[9000,5000],"haneda":[4000,3000],"kiyomizu":[9000,5000],"kyotomove":[9000,6000]};
+const STEPS = {"kanazawa2":[11000,6000],"kanazawa":[9000,5000],"aquario":[9000,5000],"osaka":[13000,7000],"oshiage":[8000,5000],"arashiyama":[9000,6000],"nara":[12000,7000],"aquario":[8000,5000],"gyoen":[6000,4000],"kanazawa":[9000,5000],"dino":[7000,5000],"tokyoback":[5000,3000],"toyosu":[8000,5000],"disney":[15000,10000],"kawagoe":[9000,6000],"descanso":[4000,2000],"kamakura":[11000,6000],"anpanman":[7000,5000],"kichijoji":[8000,5000],"compras":[9000,5000],"haneda":[4000,3000],"kiyomizu":[9000,5000],"kyotomove":[9000,6000]};
 const ADDS = {
 "arashiyama":[["Jardim do Tenryu-ji","天龍寺","Jardim zen do século 14, Patrimônio Mundial, com saída direta para o bambuzal. Plano, dá para ir de carrinho.",null,"Confira a tarifa: crianças pequenas costumam não pagar"],["Monkey Park (se sobrar fôlego)","嵐山モンキーパークいわたやま","Depois do torokko, a 5 min da ponte: ~20 min de trilha até os macacos soltos.",2400,"Noah e Mia grátis (até 3 anos)"]],
 "nara":[["Fushimi Inari no caminho","伏見稲荷大社","Parada de 30 min na estação Inari, na mesma linha para Nara. Os portões vermelhos que ficaram para trás.",0,"Grátis"],["Kasuga Taisha","春日大社","Santuário com 3 mil lanternas de pedra e bronze, a 15 min a pé do Todai-ji, por um caminho plano no bosque.",null,"Área externa grátis"]],
@@ -729,10 +839,10 @@ const ADDS = {
 "compras":[["Tokyo Station Character Street","東京キャラクターストリート","Lojas de Pokémon, Tomica e Anpanman num corredor só.",0,"Entrada grátis"]]
 };
 const TRANS = [
- {tab:"kyoto",buy:[["Thunderbird + Shinkansen: descontos da JR West","https://jr-group.jp/thunderbird-ryokin/","A compra online (ticketless) sai ~¥7.030 por adulto, contra ~¥7.720 no balcão.",[["Online, por adulto",7030],["Balcão, por adulto",7720]]]],title:"Kyoto → Kanazawa",date:"12/out",from:"MINN Karasuma Gojo (Kyoto Station North)",fromq:"MINN 烏丸五条 京都",to:"LINNAS Kanazawa (dentro do mercado Omicho)",toq:"LINNAS Kanazawa 近江町市場",dur:"~2h–2h30 porta a porta",
-  steps:[["MINN Karasuma Gojo → estação de Kyoto","Táxi de ~5 min ou 1 estação de metrô (Gojo → Kyoto). As malas grandes vão por Ta-Q-Bin na véspera."],["Thunderbird: Kyoto → Tsuruga","~53 min. Todos os assentos são reservados."],["Baldeação em Tsuruga","Chegada no térreo, catracas no 2º andar e Shinkansen no 3º. Tem 1 elevador: com o carrinho, reserve trens com 15 min ou mais de intervalo."],["Hokuriku Shinkansen: Tsuruga → Kanazawa","~45–60 min."],["Estação de Kanazawa → LINNAS","Táxi, ~5–7 min (ou ~15 min a pé). O hotel fica no próprio mercado Omicho."]],
-  cost:[["Thunderbird + Shinkansen: 3 adultos × ¥7.720 (reservado)",23160,"Noah e Mia grátis no colo"],["Táxis nas duas pontas (estim.)",3000,""]],
-  tips:["Dia 12 é feriado (Dia do Esporte): reserve os assentos hoje.","Peça a última fileira do vagão: o espaço atrás do banco cabe o carrinho dobrado.","Compre ekiben (marmita de trem) na estação de Kyoto: almoço resolvido a bordo.","Para economizar: a “Hokuriku-Kansai Ticketless” do site da JR West sai a ¥7.030 por adulto, contra ¥7.720 no balcão."]},
+ {tab:"kyoto",buy:[["Reserva feita: Thunderbird 17 + Tsurugi 18","https://jr-group.jp/thunderbird-ryokin/","Comprado em 11/out. Bilhetes de 3 adultos; Noah e Mia no colo.",[["Total pago, 3 adultos",23760],["Por adulto (expresso ¥4.180 + tarifa ¥3.740)",7920]]]],title:"Kyoto → Kanazawa",date:"12/out",from:"MINN Karasuma Gojo (Kyoto Station North)",fromq:"MINN 烏丸五条 京都",to:"LINNAS Kanazawa (dentro do mercado Omicho)",toq:"LINNAS Kanazawa 近江町市場",dur:"Trem 11h10 → 13h01 · ~2h30 porta a porta",
+  steps:[["10h30 · MINN → estação de Kyoto","Táxi de ~5 min. Cheguem 20 min antes e confiram a plataforma no painel (サンダーバード 17号)."],["11h10 · Thunderbird 17 (Kyoto → Tsuruga)","Assento reservado: <b>vagão 2, lugares 15-D, 16-C e 16-D</b>. A Mia e o Noah vão no colo. Chegada em Tsuruga às 12h03."],["12h03 → 12h17 · Baldeação em Tsuruga (14 min)","Desçam e sigam as placas verdes de 新幹線 (Shinkansen): térreo → catraca de baldeação no 2º andar → plataforma no 3º. Usem o elevador com o carrinho e não parem no caminho: 14 min é suficiente, mas sem folga."],["12h17 · Tsurugi 18 (Tsuruga → Kanazawa)","<b>Assento NÃO reservado</b> (自由席). Na plataforma, procurem no chão a marcação 自由席 com o número dos vagões e entrem na fila. O trem sai de Tsuruga, então costuma ter lugar. Chegada às 13h01."],["13h01 · Estação de Kanazawa → LINNAS","Táxi de ~5–7 min na saída leste (兼六園口). Deixem as malas na recepção."]],
+  cost:[["Thunderbird + Shinkansen: 3 adultos (pago)",23760,"Noah e Mia grátis no colo"],["Táxis nas duas pontas (estim.)",3000,""]],
+  tips:["Bilhete único para os dois trens: passe-o nas catracas de Kyoto, de baldeação em Tsuruga e de saída em Kanazawa. Não jogue fora no meio do caminho.","A parte de tarifa básica do bilhete vale de 12 a 14/out, mas o trecho expresso vale só para os trens reservados.","Comprem ekiben (marmita de trem) na estação de Kyoto antes de embarcar: a viagem cai na hora do almoço."]},
  {tab:"kanazawa",title:"Kanazawa → Tóquio",date:"14/out",from:"LINNAS Kanazawa (Omicho)",fromq:"LINNAS Kanazawa 近江町市場",to:"Henn na Hotel Tokyo Asakusabashi",toq:"変なホテル東京 浅草橋",dur:"~3h–3h30 porta a porta",
   steps:[["Café da manhã no Omicho","O mercado está na porta do hotel: kaisendon às 9h30, antes das filas."],["LINNAS → estação de Kanazawa","Táxi, ~5–7 min."],["Hokuriku Shinkansen Kagayaki: Kanazawa → Ueno","~2h20. Desça em Ueno, não em Tóquio: fica mais perto do hotel."],["Ueno → Henn na Hotel Asakusabashi","Táxi, ~10–15 min. Check-in a partir das 15h."]],
   cost:[["Shinkansen: 3 adultos (~¥14.000 cada, da sua planilha)",42000,"Noah e Mia grátis no colo"],["Táxis nas duas pontas (estim.)",3500,"Um táxi grande para os 5"]],
@@ -745,11 +855,11 @@ const TRANS = [
 
 const HOTELS=[
  ["Kyoto","6–12/out","MINN Karasuma Gojo Kyoto Station North","MINN 烏丸五条 京都","Perto da estação Gojo (metrô Karasuma), a 1 estação de Kyoto",""],
- ["Kanazawa","12–14/out","LINNAS Kanazawa · Superior Quad","LINNAS Kanazawa 近江町市場","Dentro do mercado Omicho (尾張町1-2-8)","Pagamento depois, pelo Agoda (~¥54.600). Imposto municipal cobrado no check-in."],
- ["Tóquio","14–23/out","Henn na Hotel Tokyo Asakusabashi · Twin com cama extra","変なホテル東京 浅草橋","Check-in 15h · check-out 11h","¥303.480 (R$ 9.614) para 9 noites, dentro do teto de R$ 13 mil. Cancelamento grátis até 12/out 23h59. A recepção é feita por robôs: o Noah vai adorar."]
+ ["Kanazawa","12–14/out","LINNAS Kanazawa · Superior Quad","LINNAS Kanazawa 近江町市場","尾張町1-2-8, dentro do mercado Omicho · tel. +81 76-222-7333","Já pago pelo Agoda (cobrado em 9/out, equivalente a ¥51.987). No check-in: documento com foto do titular (Douglas) e o imposto municipal de hospedagem, cobrado à parte."],
+ ["Tóquio","14–23/out","Henn na Hotel Tokyo Asakusabashi · Twin com cama extra","変なホテル東京 浅草橋","台東区浅草橋1-10-5 · tel. +81 3-5687-0606 · check-in 15h–0h · check-out 11h","¥303.480 (~R$ 9.591), pago no hotel em ienes. Cancelamento sem custo só até 12/out 23h59; depois, sem reembolso. Imposto de hospedagem por pessoa e por noite cobrado à parte. Wi-Fi grátis. A recepção é feita por robôs."]
 ];
 
-const DESC={outlet:"Outlet a céu aberto com vista do Fuji",aniver:"Jantar especial do dia 2",jungle:"Ônibus-jaula com leões e ursos",paraNagoya:"Shinkansen de Mishima a Nagoya",lego:"Parque temático para 3–12 anos",
+const DESC={castelokz2:"Gramados e muralhas, grátis",oyama:"Portão de 1875 com vitrais",nagamachi:"Ruelas samurais com canais",kazuemachi:"Casas de chá à beira do rio, menos turísticas",kinpaku:"Decorar uma peça com ouro de Kanazawa",sagano:"Trem panorâmico pelo cânion do rio Hozu",fogos:"Queima de fogos no fim do dia",thunderbird:"Thunderbird + Shinkansen via Tsuruga",castelokz:"Gramado enorme ao lado do Kenrokuen",outlet:"Outlet a céu aberto com vista do Fuji",aniver:"Jantar especial do dia 2",jungle:"Ônibus-jaula com leões e ursos",paraNagoya:"Shinkansen de Mishima a Nagoya",lego:"Parque temático para 3–12 anos",
 jingu:"Santuário da espada sagrada, com galinhas soltas",castelo:"Palácio Hommaru com pinturas douradas",osu:"Arcada coberta com 1.200 lojas",scmaglev:"Trens reais e o maglev recordista",oasis:"Teto de vidro com água, grátis ao entardecer",shinkKyoto:"Viagem Nagoya → Kyoto",
 nishiki:"Mercado estreito de comida de Kyoto",teramachi:"Arcada coberta ao lado do Nishiki",gion:"Bairro das gueixas e casas de chá",yasaka:"Santuário de Gion, aberto o tempo todo",kiyomizu:"Templo com palco de madeira sobre a encosta",otowa:"Três fios de água, cada um traz uma sorte",sannenzaka:"Ladeiras de Kyoto antiga, com lojas de madeira",koshindo:"Templo com bolinhas de pano coloridas",inari:"Túneis de milhares de portões vermelhos",hashi:"Oficina para fazer o próprio hashi",
 todaiji:"Buda de bronze de 15 m",cervos:"Cervos soltos que fazem reverência",naramachi:"Bairro de casas de mercadores",kasuga:"Santuário com 3 mil lanternas",
@@ -764,8 +874,8 @@ skytree:"Torre de 634 m com mirante",sumidaaq:"Aquário de pinguins e águas-viv
 planets:"Arte imersiva, descalços na água",manyo:"Onsen com vista da baía",disney:"Parque Disney; até 3 anos não paga",buda:"Grande Buda ao ar livre",enoden:"Bondinho de bairro à beira-mar",
 anpan:"Museu do Anpanman, para os pequenos",cupnoodle:"Monte o próprio copo de miojo",minatomirai:"Orla de Yokohama com roda-gigante",
 inokashira:"Parque com lago e pedalinho de cisne",charstreet:"Lojas de personagens na estação de Tóquio",ameyoko:"Mercado de rua barato em Ueno",daiso:"Lembranças de ¥110 a ¥330",yodobashi:"Andar inteiro de brinquedos",deck:"Aviões decolando de perto, grátis"};
-const FOODKEYS=new Set(["aniver","horaiken","yabaton","tebasaki","katsukura","mochi","kasagiya","okonomiyaki","yoshimura","futaba","ouro","omicho","satou","senkyaku"]);
-const FOODDESC={aniver:"Jantar especial do aniversário",horaiken:"Hitsumabushi: enguia em 4 rodadas, a refeição de Nagoya",yabaton:"Misokatsu: porco empanado com missô escuro",tebasaki:"Asinha de frango apimentada de Nagoya",katsukura:"Tonkatsu de Kyoto com repolho à vontade",mochi:"Mochi batido em velocidade no Nakatanidou",kasagiya:"Zenzai numa casa de chá centenária",okonomiyaki:"A panqueca salgada de Osaka",yoshimura:"Soba artesanal com vista do rio",futaba:"Mame-daifuku, o mochi mais famoso de Kyoto",ouro:"Sorvete com folha de ouro",omicho:"Kaisendon: tigela de peixe cru do mercado",satou:"Croquete de carne famoso de Kichijoji",senkyaku:"Comida de mercado estilo Edo"};
+const FOODKEYS=new Set(["kzcurry","morimori","aniver","horaiken","yabaton","tebasaki","katsukura","mochi","kasagiya","okonomiyaki","yoshimura","futaba","ouro","omicho","satou","senkyaku"]);
+const FOODDESC={kzcurry:"Curry escuro com katsu e repolho",morimori:"Sushi de esteira do mercado Omicho, Top 100 do Tabelog",aniver:"Jantar especial do aniversário",horaiken:"Hitsumabushi: enguia em 4 rodadas, a refeição de Nagoya",yabaton:"Misokatsu: porco empanado com missô escuro",tebasaki:"Asinha de frango apimentada de Nagoya",katsukura:"Tonkatsu de Kyoto com repolho à vontade",mochi:"Mochi batido em velocidade no Nakatanidou",kasagiya:"Zenzai numa casa de chá centenária",okonomiyaki:"A panqueca salgada de Osaka",yoshimura:"Soba artesanal com vista do rio",futaba:"Mame-daifuku, o mochi mais famoso de Kyoto",ouro:"Sorvete com folha de ouro",omicho:"Kaisendon: tigela de peixe cru do mercado",satou:"Croquete de carne famoso de Kichijoji",senkyaku:"Comida de mercado estilo Edo"};
 const FOOD_EXTRA={
 fuji:[["f_sawayaka","Hambúrguer Sawayaka","Hambúrguer de carvão, só existe em Shizuoka"]],
 nagoya:[["f_kishimen","Kishimen","Macarrão largo e chato de Nagoya"],["f_morning","Morning service","Café com torrada e ovo de graça até ~11h"]],
@@ -774,9 +884,48 @@ kanazawa:[["f_nodoguro","Nodoguro","Peixe gorduroso nobre do mar do Japão"],["f
 tokyo:[["f_monja","Monjayaki","Prima pastosa do okonomiyaki, típica de Tóquio"],["f_edomae","Sushi edomae","O estilo de sushi nascido em Tóquio"],["f_ningyo","Ningyo-yaki","Bolinho recheado de feijão, de Asakusa"],["f_ramen","Ramen de Tóquio","Caldo de shoyu, o clássico da cidade"]]};
 const CITY_TAB={"Kyoto":"kyoto","Kanazawa":"kanazawa","Tóquio":"tokyo"};
 const CITY_WX=[
- ["Kyoto",[["Dom 11","sun",28,15,0],["Seg 12","sun",29,15,10],["Ter 13","suncloud",28,16,30]]],
- ["Kanazawa",[["Seg 12","suncloud",24,17,20],["Ter 13","suncloud",25,15,30],["Qua 14","rain",21,19,100]]],
+ ["Kanazawa",[["Seg 12","suncloud",25,17,30],["Ter 13","suncloud",26,16,30],["Qua 14","rain",22,19,100]]],
  ["Tóquio",[["Qua 14","suncloud",28,20,40],["Qui 15","suncloud",24,18,30],["Sex 16","cloud",25,17,30]]]];
+const PEOPLE=["Família","Douglas","Camila","Aurora","Noah","Mia"];
+// jp = preço de prateleira com imposto (¥); br = varejo no Brasil (R$) ou null; v = preço confirmado
+const SHOP=[
+ {id:"biore",cat:"Cuidados",n:"Protetor solar Bioré UV Aqua Rich Watery Essence (70 g)",d:"O protetor japonês mais vendido; leve e sem cheiro.",where:"Drogarias (Matsumoto Kiyoshi, Sundrug) e Don Quijote",jp:1100,br:87.99,brl:"https://www.extrafarma.com.br/protetor-solar-facial-biore-aqua-rich-watery-essence-fps50-70g/p",brs:"Extrafarma",v:"br",who:"Família",tip:"Líquido: vai na mala despachada. Junte com outros itens da mesma loja para passar de ¥5.000 e pedir tax-free."},
+ {id:"onitsuka",cat:"Moda",n:"Tênis Onitsuka Tiger Mexico 66",d:"Marca japonesa; no Brasil só por revendedores.",where:"Lojas Onitsuka Tiger (Ginza, Shinjuku, Kyoto)",jp:16500,br:2499.99,brl:"https://lksneakers.com.br/collections/onitsuka-tiger-mexico-66",brs:"LK Sneakers",v:"br",who:"Douglas",tip:"Preço no Japão estimado: confira na etiqueta. Peça tax-free com o passaporte."},
+ {id:"switch2",cat:"Eletrônicos",n:"Nintendo Switch 2 (versão multilíngue)",d:"Não compre a versão “日本語・国内専用”: só funciona em japonês e com conta do Japão.",where:"Só na My Nintendo Store Japão (entrega em endereço no Japão)",jp:69980,br:4599.90,brl:"https://www.gamevicio.com/noticias/2026/08/nintendo-switch-2-sofre-aumento-de-preco-no-brasil/",brs:"Preço sugerido no Brasil",v:"both",who:"Douglas",tip:"A versão japonesa de ¥59.980 é só em japonês. A multilíngue é vendida online e precisa de entrega no hotel antes do dia 23."},
+ {id:"tomica",cat:"Crianças",n:"Carrinhos Tomica (unidade)",d:"Miniaturas japonesas; no Brasil custam mais de 6× o preço.",where:"Tokyo Character Street, Yodobashi Akiba, Don Quijote",jp:660,br:119.99,brl:"https://lista.mercadolivre.com.br/tomica",brs:"Mercado Livre (média dos anúncios)",v:"br",who:"Noah",tip:"Compre vários na mesma loja para passar de ¥5.000 e ter tax-free."},
+ {id:"tojiro",cat:"Cozinha",n:"Faca Tojiro DP Gyuto 21 cm (F-808)",d:"Faca de chef japonesa em aço VG10.",where:"Kappabashi (Tóquio), lojas de cutelaria em Kyoto",jp:12000,br:769,brl:"https://www.facasdojapao.com.br/facas/faca-do-chefe/faca-do-chefe-tojiro-dp-vg-10-21cm-f-808-fabricado-no-japao",brs:"Facas do Japão",v:"br",who:"Douglas",tip:"Faca vai obrigatoriamente na mala despachada. Preço no Japão estimado: confira."},
+ {id:"hadalabo",cat:"Cuidados",n:"Hada Labo Gokujyun (loção hidratante)",d:"Hidratante de ácido hialurônico, clássico japonês.",where:"Drogarias e Don Quijote",jp:900,br:null,brl:"https://lista.mercadolivre.com.br/hada-labo-gokujyun",brs:"Mercado Livre",v:"",who:"Família",tip:"Mala despachada."},
+ {id:"anessa",cat:"Cuidados",n:"Protetor Anessa Perfect UV Milk",d:"Protetor resistente à água, bom para praia.",where:"Drogarias e lojas de departamento",jp:3000,br:null,brl:"https://lista.mercadolivre.com.br/anessa-perfect-uv",brs:"Mercado Livre",v:"",who:"Família",tip:"Mala despachada."},
+ {id:"uniqlo",cat:"Moda",n:"Uniqlo: Ultra Light Down e Heattech (crianças e adultos)",d:"A Uniqlo não tem lojas no Brasil.",where:"Uniqlo (qualquer cidade)",jp:3990,br:null,brl:"https://lista.mercadolivre.com.br/uniqlo-ultra-light-down",brs:"Mercado Livre (importados)",v:"",who:"Família",tip:"Tax-free acima de ¥5.000 na mesma loja."},
+ {id:"plarail",cat:"Crianças",n:"Plarail (trenzinho de trilhos, kit inicial)",d:"O brinquedo de trem clássico do Japão, com Shinkansens.",where:"Yodobashi Akiba, Tokyo Character Street",jp:5000,br:null,brl:"https://lista.mercadolivre.com.br/plarail",brs:"Mercado Livre",v:"",who:"Noah",tip:"Precisa de pilha AA, que você compra no Brasil."},
+ {id:"anpanman",cat:"Crianças",n:"Brinquedos do Anpanman",d:"Personagem favorito dos bebês japoneses; quase não existe no Brasil.",where:"Loja do Anpanman Museum (Yokohama)",jp:2000,br:null,brl:"https://lista.mercadolivre.com.br/anpanman",brs:"Mercado Livre",v:"",who:"Mia",tip:"Compre no dia 20, no museu."},
+ {id:"matcha",cat:"Comida",n:"Matcha de Uji (lata de 30–40 g)",d:"Chá verde de Kyoto em pó, qualidade cerimonial.",where:"Casas de chá em Kyoto e lojas de departamento",jp:2000,br:null,brl:"https://lista.mercadolivre.com.br/matcha-uji",brs:"Mercado Livre",v:"",who:"Família",tip:"Pode trazer: é produto vegetal industrializado e lacrado."},
+ {id:"kitkat",cat:"Comida",n:"KitKat de sabores japoneses",d:"Matcha, saquê, morango; ótimo para presentear.",where:"Don Quijote, supermercados, aeroporto",jp:600,br:null,brl:"https://lista.mercadolivre.com.br/kitkat-japones",brs:"Mercado Livre",v:"",who:"Família",tip:"Mais barato no Don Quijote do que no aeroporto."},
+ {id:"zojirushi",cat:"Cozinha",n:"Garrafa térmica Zojirushi ou Thermos",d:"Garrafas de aço muito leves, mantêm temperatura por horas.",where:"Yodobashi, Bic Camera, lojas de departamento",jp:3500,br:null,brl:"https://lista.mercadolivre.com.br/garrafa-zojirushi",brs:"Mercado Livre",v:"",who:"Família",tip:"Tax-free em lojas de eletrônicos acima de ¥5.000."},
+ {id:"kai",cat:"Cuidados",n:"Cortador de unha Kai (Seki)",d:"Cutelaria de Seki; dura décadas.",where:"Loft, Tokyu Hands, drogarias",jp:1500,br:null,brl:"https://lista.mercadolivre.com.br/cortador-de-unha-kai",brs:"Mercado Livre",v:"",who:"Família",tip:"Mala despachada."},
+ {id:"pokemon",cat:"Crianças",n:"Cartas e itens do Pokémon Center",d:"Itens exclusivos do Japão.",where:"Pokémon Center Mega Tokyo (Ikebukuro) ou Tokyo DX (Nihonbashi)",jp:3000,br:null,brl:"https://lista.mercadolivre.com.br/pokemon-center-japao",brs:"Mercado Livre",v:"",who:"Família",tip:"Cartas em japonês são outra coleção: confirme se é isso que querem."}
+];
+// ---- onde comprar ----
+const STORES=[
+ {id:"yodobashi",city:"Tóquio",n:"Yodobashi Akiba",q:"ヨドバシAkiba",near:"Akihabara · 1 estação do hotel",what:"Eletrônicos, brinquedos (Tomica, Plarail), garrafas Zojirushi",items:["tomica","plarail","zojirushi"],tip:"Balcão de tax-free no térreo. Andar inteiro de brinquedos. Liga direto à estação.",when:"21/out (dia de compras) ou qualquer fim de tarde"},
+ {id:"donki",city:"Tóquio",n:"Don Quijote Akihabara",q:"ドン・キホーテ 秋葉原店",near:"Akihabara · 1 estação",what:"Cosméticos, KitKat, doces, lembranças baratas",items:["biore","hadalabo","anessa","kitkat"],tip:"Aberto até tarde. Junte tudo numa compra só para passar de ¥5.000 e pedir tax-free no caixa.",when:"À noite, depois do jantar"},
+ {id:"matsukiyo",city:"Tóquio",n:"Matsumoto Kiyoshi (drogaria)",q:"マツモトキヨシ 秋葉原",near:"Akihabara e Ueno",what:"Protetores solares e cuidados com a pele",items:["biore","hadalabo","anessa","kai"],tip:"Compare com o Don Quijote: costumam ter promoções diferentes.",when:"Junto com Akihabara"},
+ {id:"kappabashi",city:"Tóquio",n:"Kappabashi (rua dos utensílios)",q:"かっぱ橋道具街",near:"Perto de Asakusa · ~10 min de táxi",what:"Facas japonesas, panelas, louça",items:["tojiro"],tip:"Várias lojas de faca gravam o nome na lâmina na hora. Muitas fecham cedo (~17h) e algumas não abrem domingo.",when:"Uma manhã em dia útil"},
+ {id:"ginza",city:"Tóquio",n:"Ginza: Uniqlo, Onitsuka Tiger e Muji",q:"ユニクロ 銀座店",near:"~15 min de metrô",what:"Roupas Uniqlo (loja de 12 andares), tênis Onitsuka Tiger",items:["uniqlo","onitsuka"],tip:"Onitsuka Tiger e Uniqlo fazem tax-free com passaporte.",when:"Combina com um dia leve ou de chuva (lojas cobertas)"},
+ {id:"charstreet",city:"Tóquio",n:"Tokyo Character Street",q:"東京キャラクターストリート",near:"Estação de Tóquio · ~10 min de JR",what:"Lojas de personagens: Tomica, Pokémon, Ghibli e outros",items:["tomica","plarail","pokemon"],tip:"Tudo no subsolo da estação: bom para dia de chuva.",when:"21/out"},
+ {id:"pokedx",city:"Tóquio",n:"Pokémon Center Tokyo DX (Nihonbashi)",q:"ポケモンセンタートウキョーDX",near:"Nihonbashi · mais perto do hotel que Ikebukuro",what:"Itens e cartas exclusivos do Japão",items:["pokemon"],tip:"Em dias cheios há fila para entrar: vá cedo.",when:"Qualquer manhã"},
+ {id:"anpanshop",city:"Tóquio",n:"Loja do Anpanman Museum (Yokohama)",q:"横浜アンパンマンこどもミュージアム",near:"No dia do museu",what:"Brinquedos e roupas do Anpanman",items:["anpanman"],tip:"A área de lojas é grátis, mesmo sem ingresso do museu.",when:"20/out"},
+ {id:"ameyoko",city:"Tóquio",n:"Ameyoko (Ueno)",q:"アメ横",near:"Ueno · ~10 min de JR",what:"Doces, chás, cosméticos com desconto",items:["kitkat","matcha"],tip:"Pechincha é aceita em algumas bancas. Mais barato que nos bairros turísticos.",when:"21/out"},
+ {id:"kzgold",city:"Kanazawa",n:"Lojas de folha de ouro em Higashiyama",q:"金箔 ひがし茶屋街",near:"Higashi Chaya",what:"Cosméticos e lembranças com ouro de Kanazawa",items:[],tip:"Lembrança única de Kanazawa. Tax-free acima de ¥5.000.",when:"12–13/out"},
+ {id:"haneda",city:"Aeroporto",n:"Haneda, Terminal 3 (antes do embarque)",q:"羽田空港第3ターミナル",near:"No dia do voo",what:"Últimos doces e KitKats",items:["kitkat"],tip:"Mais caro que o Don Quijote: use só para o que faltar.",when:"23/out"}
+];
+const ONLINE=[
+ ["My Nintendo Store Japão","https://store.nintendo.co.jp/","Única loja oficial do Switch 2 multilíngue. Exige endereço no Japão: use o hotel e peça com dias de antecedência."],
+ ["Pokémon Center Online","https://www.pokemoncenter-online.com/","Para ver o que existe antes de ir à loja."],
+ ["Uniqlo Japão","https://www.uniqlo.com/jp/ja/","Consulte preços e estoque por loja antes de ir a Ginza."],
+ ["Don Quijote","https://www.donki.com/","Lojas, horários e cupons para turistas."],
+ ["Lojas tax-free (JNTO)","https://tax-freeshop.jnto.go.jp/","Busca oficial de lojas com isenção de imposto."]
+];
 const brl = y => "R$ " + Math.round(y*R).toLocaleString("pt-BR");
 const yen = y => "¥" + y.toLocaleString("pt-BR");
 const both = y => y===null ? "Confirmar no site" : y===0 ? "Grátis" : `${yen(y)} <span style="font-weight:500">(${brl(y)} família)</span>`;
@@ -876,7 +1025,7 @@ function cardHTML(i){
  return h+`</div></div></section>`;
 }
 
-const TABS=[["check","✅","Checklist"],["fuji","🗻","Fuji"],["nagoya","🏯","Nagoya"],["kyoto","⛩️","Kyoto"],["kanazawa","🦕","Kanazawa"],["tokyo","🗼","Tóquio"],["dicas","💡","Dicas"]];
+const TABS=[["check","✅","Checklist"],["fuji","🗻","Fuji"],["nagoya","🏯","Nagoya"],["kyoto","⛩️","Kyoto"],["kanazawa","🦕","Kanazawa"],["tokyo","🗼","Tóquio"],["shop","🛍️","Compras"],["dicas","💡","Dicas"]];
 const tabOf=c=>c==="fukui"?"kanazawa":c;
 let status={}; try{status=JSON.parse(localStorage.getItem("jp-status")||"{}");}catch(e){}
 const st=k=>status[k]||STATUS0[k]||"";
@@ -898,7 +1047,7 @@ let syncState={ok:false,at:null,err:false,loading:true};
 let who=""; try{who=localStorage.getItem("jp-who")||"";}catch(e){}
 let done={}; try{done=JSON.parse(localStorage.getItem("jp-todo2")||"{}");}catch(e){}
 let remoteRef=null, fbSetDoc=null, fbServerTimestamp=null, applyingRemote=false;
-function rerenderShared(y=window.scrollY){render(); if(typeof coverWX==="function") coverWX(); renderTodoChecklist(); window.scrollTo(0,y);}
+function rerenderShared(y=window.scrollY){render(); if(typeof coverWX==="function") coverWX(); if(typeof countdown==="function") countdown(); renderTodoChecklist(); window.scrollTo(0,y);}
 function persistSharedLocal(){
  try{localStorage.setItem("jp-status",JSON.stringify(status));}catch(e){}
  try{localStorage.setItem("jp-choice",JSON.stringify(choice));}catch(e){}
@@ -986,13 +1135,76 @@ function checklistHTML(){
  return h+buyAllHTML()+hotelsHTML()+`</section>`;
 }
 
+// ---- lista de compras ----
+let shopSt={}; try{shopSt=JSON.parse(localStorage.getItem("jp-shop")||"{}");}catch(e){}
+let shopCustom=[]; try{shopCustom=JSON.parse(localStorage.getItem("jp-shop-custom")||"[]");}catch(e){}
+let shopWho="Todos";
+const shopSave=()=>{try{localStorage.setItem("jp-shop",JSON.stringify(shopSt));localStorage.setItem("jp-shop-custom",JSON.stringify(shopCustom));}catch(e){}};
+const shopAll=()=>SHOP.concat(shopCustom);
+const RENAME={Fucasse:"Douglas",Esposa:"Camila","Mãe":"Aurora"};
+const sget=it=>{const s=Object.assign({who:it.who,qty:1,done:false},shopSt[it.id]||{});if(RENAME[s.who])s.who=RENAME[s.who];return s;};
+function shopHTML(){
+ const items=shopAll(), sel=items.filter(it=>shopWho==="Todos"||sget(it).who===shopWho);
+ let jpT=0,brT=0,brCmp=0,n=0;
+ sel.forEach(it=>{const s=sget(it);if(!s.qty)return;const tf=Math.round(it.jp/1.1)*s.qty;jpT+=tf;n+=s.qty;if(it.br){brT+=it.br*s.qty;brCmp+=tf;}});
+ const save=brT-brCmp*R;
+ let h=`<section class="block"><h2 class="disp">Lista de compras</h2>
+ <p style="color:var(--muted);font-size:.9rem;margin-top:0">Preço no Japão sem o imposto de 10% (tax-free) contra o varejo no Brasil. Escolha para quem é cada item; fica salvo neste aparelho.</p>
+ <div class="chips">${["Todos"].concat(PEOPLE).map(p=>`<button type="button" class="chip ${p===shopWho?"on":""}" data-who="${p}">${p}</button>`).join("")}</div>
+ <div class="shopsum"><div><small>Itens</small><b>${n}</b></div><div><small>Japão, sem imposto</small><b>${yen(jpT)}</b><small>${brl(jpT)}</small></div><div><small>Economia vs Brasil*</small><b class="ok">${save>0?"R$ "+Math.round(save).toLocaleString("pt-BR"):"—"}</b><small>só itens com preço BR</small></div></div>
+ <div class="callout save"><b>Regras que fazem diferença</b><ul style="margin:6px 0;padding-left:18px">
+ <li><b>Tax-free:</b> compras a partir de ¥5.000 (sem imposto) na mesma loja, no mesmo dia, com passaporte físico. Cosméticos e comida vêm lacrados e não podem ser abertos no Japão.</li>
+ <li><b>Cota na volta ao Brasil:</b> US$ 1.000 por viajante em voo, para itens de uso não pessoal. Confirme na Receita Federal se as crianças contam com cota própria antes de planejar contando com elas.</li>
+ <li><b>Mala despachada:</b> facas, líquidos acima de 100 ml e protetores vão na mala grande.</li>
+ <li><b>Comida:</b> doces e chás lacrados podem vir; carnes e laticínios, não.</li></ul></div>`;
+ const cats=[...new Set(sel.map(i=>i.cat))];
+ cats.forEach(c=>{h+=`<h3 class="cityh">${c}</h3>`;
+  sel.filter(i=>i.cat===c).forEach(it=>{const s=sget(it),tf=Math.round(it.jp/1.1);
+   const pct=it.br?Math.round((1-(tf*R)/it.br)*100):null;
+   h+=`<div class="shop ${s.done?"done":""}"><div class="sh1"><label class="shk"><input type="checkbox" data-sid="${it.id}" data-f="done" ${s.done?"checked":""}> <b>${it.n}</b></label>${pct!==null?`<span class="pct">−${pct}%</span>`:""}</div>
+   <p class="shd">${it.d||""}</p>
+   <div class="shp"><div><small>Japão (sem imposto)</small><b>${yen(tf)}</b><span>${brl(tf)}</span><small>${it.v==="both"||it.v==="jp"?"preço oficial":"estimado, confira na loja"}</small></div>
+   <div><small>Brasil</small>${it.br?`<b>R$ ${it.br.toLocaleString("pt-BR",{minimumFractionDigits:2})}</b>`:`<b>—</b>`}<a href="${it.brl}" target="_blank" rel="noopener">${it.brs||"referência"} →</a></div></div>
+   ${it.where?`<p class="shw">🏬 ${it.where}</p>`:""}${it.tip?`<p class="shw">💡 ${it.tip}</p>`:""}
+   <div class="shc"><label>Para <select data-sid="${it.id}" data-f="who">${PEOPLE.map(p=>`<option ${p===s.who?"selected":""}>${p}</option>`).join("")}</select></label>
+   <label>Qtd <input type="number" min="0" max="20" value="${s.qty}" data-sid="${it.id}" data-f="qty"></label>${it.custom?`<button type="button" class="btn" data-del="${it.id}">Remover</button>`:""}</div></div>`;});});
+ let vis={}; try{vis=JSON.parse(localStorage.getItem("jp-stores")||"{}");}catch(e){}
+ h+=`<h2 class="disp" style="margin-top:28px">Onde comprar</h2><p style="color:var(--muted);font-size:.9rem;margin-top:0">Lojas perto do hotel em Tóquio e nos outros pontos do roteiro. Marque ✔︎ quando visitar.</p>`;
+ [...new Set(STORES.map(s=>s.city))].forEach(c=>{h+=`<h3 class="cityh">${c}</h3>`;
+  STORES.filter(s=>s.city===c).forEach(s=>{const its=s.items.map(id=>shopAll().find(i=>i.id===id)).filter(Boolean);
+   h+=`<div class="shop store ${vis[s.id]?"done":""}"><div class="sh1"><label class="shk"><input type="checkbox" data-store="${s.id}" ${vis[s.id]?"checked":""}> <b>${s.n}</b></label></div>
+   <p class="shd">📍 ${s.near} · ${s.what}</p>${its.length?`<p class="shw">🛒 ${its.map(i=>i.n.split(" (")[0]).join(" · ")}</p>`:""}
+   <p class="shw">💡 ${s.tip}</p><p class="shw">📅 ${s.when}</p>
+   <div class="maps"><a href="${gm(s.q)}" target="_blank" rel="noopener">📍 Abrir no mapa</a><a href="${dir("変なホテル東京 浅草橋",s.q)}" target="_blank" rel="noopener">🧭 Rota do hotel</a></div></div>`;});});
+ h+=`<h3 class="cityh">Sites úteis</h3><div class="buy">${ONLINE.map(o=>`<a href="${o[1]}" target="_blank" rel="noopener"><span>${o[0]} →</span><small>${o[2]}</small></a>`).join("")}</div>`;
+ h+=`<h3 class="cityh">Adicionar item</h3><div class="shop addf"><input id="naName" placeholder="Nome do item"><input id="naJp" type="number" placeholder="Preço no Japão (¥, com imposto)"><input id="naBr" type="number" placeholder="Preço no Brasil (R$, opcional)"><select id="naWho">${PEOPLE.map(p=>`<option>${p}</option>`).join("")}</select><button type="button" class="btn" id="naAdd">Adicionar</button></div>
+ <p style="color:var(--muted);font-size:.8rem">*Economia calculada só nos itens com preço de referência no Brasil. Preços no Japão marcados como estimados variam por loja.</p></section>`;
+ return h;}
+function bindShop(){const main=document.getElementById("days");
+ main.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{shopWho=b.dataset.who;render();});
+ main.querySelectorAll("[data-sid]").forEach(el=>el.onchange=()=>{const id=el.dataset.sid,f=el.dataset.f,it=shopAll().find(i=>i.id===id);const s=sget(it);
+  s[f]=f==="done"?el.checked:(f==="qty"?Math.max(0,+el.value||0):el.value);shopSt[id]=s;shopSave();const y=window.scrollY;render();window.scrollTo(0,y);});
+ main.querySelectorAll("[data-store]").forEach(el=>el.onchange=()=>{let v={};try{v=JSON.parse(localStorage.getItem("jp-stores")||"{}");}catch(e){}v[el.dataset.store]=el.checked;try{localStorage.setItem("jp-stores",JSON.stringify(v));}catch(e){}const y=window.scrollY;render();window.scrollTo(0,y);});
+ main.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{shopCustom=shopCustom.filter(i=>i.id!==b.dataset.del);shopSave();render();});
+ const add=document.getElementById("naAdd"); if(add) add.onclick=()=>{const n=document.getElementById("naName").value.trim(),jp=+document.getElementById("naJp").value,br=+document.getElementById("naBr").value;
+  if(!n||!jp) return; shopCustom.push({id:"c"+Date.now(),cat:"Itens adicionados",n,jp,br:br||null,brl:"https://lista.mercadolivre.com.br/"+encodeURIComponent(n.replace(/\s+/g,"-")),brs:"buscar no Mercado Livre",v:"",who:document.getElementById("naWho").value,custom:1});shopSave();render();};}
+
+function timelineHTML(){const past=sched.filter(s=>s[0]<todayStr); if(!past.length) return "";
+ const chips=past.map(([d,dow,pid])=>{const p=PLANS[pid],[,m,dd]=d.split("-"),its=p.items||[],ok=its.filter(([k])=>st(k)==="feito").length;
+  return `<button type="button" class="tlc" data-d="${d}" style="--c:${C[p.city]}"><small>${dd}/${m}</small><b>${(LOG[d]||p.r).split(/[;:(]/)[0]}</b>${its.length?`<i>${ok}/${its.length}</i>`:""}</button>`;}).join("");
+ return `<details class="tlbox"><summary><span>📜 Dias já vividos (${past.length})</span><span class="tldots">${past.map(([,,pid])=>`<i style="background:${C[PLANS[pid].city]}"></i>`).join("")}</span></summary><div class="tlrow">${chips}</div><div id="tldet" class="tldet"></div></details>`;}
+function tlDetail(d){const s=sched.find(x=>x[0]===d); if(!s) return ""; const p=PLANS[s[2]],[,m,dd]=d.split("-"),its=p.items||[];
+ return `<b>${s[1]}, ${dd}/${m} · ${p.r}</b><p>${LOG[d]||""}</p>${its.length?`<ul>${its.map(([k,l])=>`<li>${st(k)==="feito"?"✅":st(k)==="pulado"?"⏭️":"◻️"} ${l}</li>`).join("")}</ul>`:""}`;}
 function render(){
  const main=document.getElementById("days");
+ const tlEl=document.getElementById("timeline"); if(tlEl){const open=tlEl.querySelector("details")?.open; tlEl.innerHTML=timelineHTML(); if(open) tlEl.querySelector("details").open=true;
+  tlEl.querySelectorAll(".tlc").forEach(b=>b.onclick=()=>{tlEl.querySelectorAll(".tlc").forEach(x=>x.classList.toggle("on",x===b));tlEl.querySelector("#tldet").innerHTML=tlDetail(b.dataset.d);});}
  document.getElementById("tabs").innerHTML=TABS.map(([t,ic,n])=>`<button type="button" role="tab" aria-selected="${t===tab}" class="tab ${t===tab?"on":""}" data-tab="${t}"><span>${ic}</span>${n}</button>`).join("");
  document.querySelectorAll("[data-static]").forEach(s=>s.hidden=!(tab==="dicas"));
  document.getElementById("compras").hidden=tab!=="check";
  if(tab==="check") main.innerHTML=checklistHTML();
  else if(tab==="dicas") main.innerHTML="";
+ else if(tab==="shop") main.innerHTML=shopHTML();
  else{
   let h="",pastH="";
   sched.forEach((s,i)=>{const [d,,pid]=s,p=PLANS[pid];if(tabOf(p.city)!==tab)return;const [,m,dd]=d.split("-");
@@ -1001,9 +1213,9 @@ function render(){
    else h+=cardHTML(i);});
   TRANS.filter(t=>t.tab===tab).forEach(t=>{h+=transHTML(t);});
   if(tab==="kyoto"&&backlog.length) h+=`<div class="callout warn"><b>Sem data no momento:</b> ${backlog.map(b=>PLANS[b].r).join(", ")}. Para encaixar, use o seletor “Programação deste dia” em qualquer dia.</div>`;
-  main.innerHTML=(pastH?`<details class="past" open><summary>Dias já vividos aqui</summary>${pastH}</details>`:"")+(h||`<p style="margin-top:24px;color:var(--muted)">Todos os dias desta cidade já passaram. Veja o checklist.</p>`);
+  main.innerHTML=(h||`<p style="margin-top:24px;color:var(--muted)">Todos os dias desta cidade já passaram. Veja o checklist.</p>`);
  }
- bind();
+ bind(); if(tab==="shop") bindShop();
 }
 function bind(){
  const main=document.getElementById("days");
@@ -1031,6 +1243,13 @@ function coverWX(){const el=document.getElementById("coverwx");if(!el)return;
  dots.forEach(b=>b.onclick=()=>{tr.scrollTo({left:+b.dataset.k*tr.clientWidth,behavior:"smooth"});});
  tr.addEventListener("scroll",()=>{const k=Math.round(tr.scrollLeft/Math.max(1,tr.clientWidth));dots.forEach((b,j)=>b.classList.toggle("on",j===k));},{passive:true});}
 coverWX();
+function countdown(){const el=document.getElementById("countdown");if(!el)return;
+ const end=Date.parse("2026-10-23T17:45:00+09:00"), start=Date.parse("2026-09-27T00:00:00-03:00"), now=Date.now();
+ const ms=end-now; if(ms<=0){el.innerHTML=`<b>✈️ Boa viagem de volta!</b>`;return;}
+ const dd=Math.floor(ms/864e5), hh=Math.floor(ms%864e5/36e5), mm=Math.floor(ms%36e5/6e4);
+ const pct=Math.min(100,Math.max(0,Math.round((now-start)/(end-start)*100)));
+ el.innerHTML=`<div class="cdt">Até o voo de volta · Haneda, 23/out 17h45</div><div class="cdn"><span><b>${dd}</b><small>dias</small></span><span><b>${hh}</b><small>horas</small></span><span><b>${mm}</b><small>min</small></span></div><div class="cdbar"><i style="width:${pct}%"></i></div><small class="cdp">${pct}% da viagem vivida</small>`;}
+countdown(); setInterval(countdown,30000);
 initSync();
 document.getElementById("todayBtn").addEventListener("click",()=>{const i=todayIdx();tab=i>=0?tabOf(PLANS[sched[i][2]].city):"check";render();const el=document.querySelector(".badge.today");if(el)el.scrollIntoView();});
 document.getElementById("resetBtn").addEventListener("click",()=>{sched=SCHEDULE.map(s=>s.slice());backlog=BACKLOG0.slice();try{localStorage.removeItem("jp-sched4");}catch(e){}sharedSave({sched,backlog});render();});
