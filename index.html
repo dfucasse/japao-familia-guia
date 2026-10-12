@@ -1061,9 +1061,12 @@ function persistSharedLocal(){
  try{localStorage.setItem("jp-choice",JSON.stringify(choice));}catch(e){}
  try{localStorage.setItem("jp-sched4",JSON.stringify({s:sched,b:backlog}));}catch(e){}
  try{localStorage.setItem("jp-todo2",JSON.stringify(done));}catch(e){}
+ try{localStorage.setItem("jp-shop",JSON.stringify(shopSt));}catch(e){}
+ try{localStorage.setItem("jp-shop-custom",JSON.stringify(shopCustom));}catch(e){}
+ try{localStorage.setItem("jp-stores",JSON.stringify(shopStores));}catch(e){}
 }
 function sharedSnapshot(extra={}){
- const base={status,choice,schedJson:JSON.stringify(sched),backlog,todo:done,updatedBy:who||"anônimo"};
+ const base={status,choice,schedJson:JSON.stringify(sched),backlog,todo:done,shopSt,shopCustom,shopStores,updatedBy:who||"anônimo"};
  const out=Object.assign(base, extra);
  if(out.sched){out.schedJson=JSON.stringify(out.sched); delete out.sched;}
  return out;
@@ -1074,6 +1077,9 @@ function applyRemote(data){
  if(data.status && typeof data.status==="object") status=data.status;
  if(data.choice && typeof data.choice==="object") choice=data.choice;
  if(data.todo && typeof data.todo==="object") done=data.todo;
+ if(data.shopSt && typeof data.shopSt==="object") shopSt=data.shopSt;
+ if(Array.isArray(data.shopCustom)) shopCustom=data.shopCustom;
+ if(data.shopStores && typeof data.shopStores==="object") shopStores=data.shopStores;
  if(typeof data.schedJson==="string"){try{const rs=JSON.parse(data.schedJson); if(Array.isArray(rs) && rs.length===sched.length) sched=rs;}catch(e){}}
  if(Array.isArray(data.sched) && data.sched.length===sched.length) sched=data.sched;
  if(Array.isArray(data.backlog)) backlog=data.backlog;
@@ -1146,8 +1152,9 @@ function checklistHTML(){
 // ---- lista de compras ----
 let shopSt={}; try{shopSt=JSON.parse(localStorage.getItem("jp-shop")||"{}");}catch(e){}
 let shopCustom=[]; try{shopCustom=JSON.parse(localStorage.getItem("jp-shop-custom")||"[]");}catch(e){}
+let shopStores={}; try{shopStores=JSON.parse(localStorage.getItem("jp-stores")||"{}");}catch(e){}
 let shopWho="Todos";
-const shopSave=()=>{try{localStorage.setItem("jp-shop",JSON.stringify(shopSt));localStorage.setItem("jp-shop-custom",JSON.stringify(shopCustom));}catch(e){}};
+const shopSave=()=>{try{localStorage.setItem("jp-shop",JSON.stringify(shopSt));localStorage.setItem("jp-shop-custom",JSON.stringify(shopCustom));localStorage.setItem("jp-stores",JSON.stringify(shopStores));}catch(e){} sharedSave({shopSt,shopCustom,shopStores});};
 const shopAll=()=>SHOP.concat(shopCustom);
 const RENAME={Fucasse:"Douglas",Esposa:"Camila","Mãe":"Aurora"};
 const sget=it=>{const s=Object.assign({who:it.who,qty:1,done:false},shopSt[it.id]||{});if(RENAME[s.who])s.who=RENAME[s.who];return s;};
@@ -1177,7 +1184,7 @@ function shopHTML(){
    ${it.where?`<p class="shw">🏬 ${it.where}</p>`:""}${it.tip?`<p class="shw">💡 ${it.tip}</p>`:""}
    <div class="shc"><label>Para <select data-sid="${it.id}" data-f="who">${PEOPLE.map(p=>`<option ${p===s.who?"selected":""}>${p}</option>`).join("")}</select></label>
    <label>Qtd <input type="number" min="0" max="20" value="${s.qty}" data-sid="${it.id}" data-f="qty"></label>${it.custom?`<button type="button" class="btn" data-del="${it.id}">Remover</button>`:""}</div></div>`;});});
- let vis={}; try{vis=JSON.parse(localStorage.getItem("jp-stores")||"{}");}catch(e){}
+ let vis=shopStores;
  h+=`<h2 class="disp" style="margin-top:28px">Onde comprar</h2><p style="color:var(--muted);font-size:.9rem;margin-top:0">Lojas perto do hotel em Tóquio e nos outros pontos do roteiro. Marque ✔︎ quando visitar.</p>`;
  [...new Set(STORES.map(s=>s.city))].forEach(c=>{h+=`<h3 class="cityh">${c}</h3>`;
   STORES.filter(s=>s.city===c).forEach(s=>{const its=s.items.map(id=>shopAll().find(i=>i.id===id)).filter(Boolean);
@@ -1193,7 +1200,7 @@ function bindShop(){const main=document.getElementById("days");
  main.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{shopWho=b.dataset.who;render();});
  main.querySelectorAll("[data-sid]").forEach(el=>el.onchange=()=>{const id=el.dataset.sid,f=el.dataset.f,it=shopAll().find(i=>i.id===id);const s=sget(it);
   s[f]=f==="done"?el.checked:(f==="qty"?Math.max(0,+el.value||0):el.value);shopSt[id]=s;shopSave();const y=window.scrollY;render();window.scrollTo(0,y);});
- main.querySelectorAll("[data-store]").forEach(el=>el.onchange=()=>{let v={};try{v=JSON.parse(localStorage.getItem("jp-stores")||"{}");}catch(e){}v[el.dataset.store]=el.checked;try{localStorage.setItem("jp-stores",JSON.stringify(v));}catch(e){}const y=window.scrollY;render();window.scrollTo(0,y);});
+ main.querySelectorAll("[data-store]").forEach(el=>el.onchange=()=>{shopStores[el.dataset.store]=el.checked;shopSave();const y=window.scrollY;render();window.scrollTo(0,y);});
  main.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{shopCustom=shopCustom.filter(i=>i.id!==b.dataset.del);shopSave();render();});
  const add=document.getElementById("naAdd"); if(add) add.onclick=()=>{const n=document.getElementById("naName").value.trim(),jp=+document.getElementById("naJp").value,br=+document.getElementById("naBr").value;
   if(!n||!jp) return; shopCustom.push({id:"c"+Date.now(),cat:"Itens adicionados",n,jp,br:br||null,brl:"https://lista.mercadolivre.com.br/"+encodeURIComponent(n.replace(/\s+/g,"-")),brs:"buscar no Mercado Livre",v:"",who:document.getElementById("naWho").value,custom:1});shopSave();render();};}
