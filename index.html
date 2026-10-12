@@ -129,7 +129,7 @@ details.opt summary::-webkit-details-marker{display:none}
 .ex{display:block;text-decoration:none;border-radius:12px;padding:10px 12px;background:color-mix(in srgb,var(--c) 10%,var(--card));border:1px solid var(--rule)}
 .ex span{display:block;font-size:.9rem;margin-top:2px}
 .ex em{display:block;font-style:normal;font-size:.8rem;color:var(--muted);margin-top:4px}
-nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:6;background:var(--bg);margin:0 -16px;padding:8px 12px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--rule)}
+nav.tabs{position:sticky;top:0;z-index:6;background:var(--bg);margin:0 -16px;padding:calc(env(safe-area-inset-top,0px) + 8px) 12px 8px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--rule)}
 nav.tabs::-webkit-scrollbar{display:none}
 .tab{flex:none;display:flex;flex-direction:column;align-items:center;gap:0;min-width:64px;border:0;border-radius:12px;padding:6px 8px;background:var(--chip);color:var(--ink);font:inherit;font-size:.75rem;font-weight:700;cursor:pointer}
 .tab span{font-size:1.2rem;line-height:1.2}
@@ -274,6 +274,21 @@ nav.tabs::-webkit-scrollbar{display:none}
 .tldet{font-size:.88rem}
 .tldet ul{margin:6px 0;padding-left:16px;list-style:none}
 .tldet p{margin:4px 0;color:var(--muted)}
+.cityh{position:sticky;top:var(--tabsH,70px);z-index:4;background:var(--bg);margin:0 -16px;padding:10px 16px 8px}
+.ckday .ckd{position:sticky;top:calc(var(--tabsH,70px) + 42px);z-index:3;background:var(--card);padding:4px 0}
+details.ckday>summary.ckd{position:static;cursor:pointer}
+.ckday.prio{border-left:4px solid #D7372A}
+.hi{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;background:#D7372A;color:#fff;font-weight:900;font-size:.75rem}
+.dnav{position:sticky;top:var(--tabsH,70px);z-index:5;background:var(--bg);margin:0 -16px;padding:8px 16px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--rule)}
+.dnav::-webkit-scrollbar{display:none}
+.dchip{flex:none;border:1px solid var(--rule);background:var(--card);color:var(--ink);border-radius:999px;padding:5px 12px;font:inherit;font-size:.8rem;font-weight:700;cursor:pointer}
+.dchip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.dchip.today:not(.on){border-color:#D7372A;color:#D7372A}
+.dcar{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin:0 -16px;-webkit-overflow-scrolling:touch;align-items:flex-start}
+.dcar::-webkit-scrollbar{display:none}
+.dslide{flex:0 0 100%;scroll-snap-align:start;scroll-snap-stop:always;padding:0 16px;box-sizing:border-box;min-width:0}
+.dslide section.day{margin-top:14px}
+.optbar{position:static}
 footer{margin-top:40px;color:var(--muted);font-size:.82rem}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 </style>
@@ -287,7 +302,7 @@ footer{margin-top:40px;color:var(--muted);font-size:.82rem}
   <div id="countdown" class="cdx"></div>
   <div id="coverwx" class="cwx"></div>
   <div class="meta">
-    <span class="pill">v25 · 13/out/2026</span>
+    <span class="pill">v26 · 13/out/2026</span>
     <span class="pill">¥1.000 = R$ 34</span>
     <span class="pill">Douglas, Camila, Aurora, Noah e Mia</span>
     <button class="btn" id="todayBtn" type="button">Ir para hoje</button>
@@ -795,16 +810,18 @@ const SCHEDULE = [
 // programações que ficaram sem data (podem voltar pelo seletor de qualquer dia)
 const BACKLOG0 = ["osaka","dino","gyoen","descanso"];
 const TODO = [
- ["trem12","Reservar Thunderbird + Shinkansen Kyoto → Kanazawa (feriado)","hoje"],
- ["dia05","Marcar no checklist o que fizeram em Nagoya no dia 05","hoje"],
- 
- 
- 
- ["dino","Museu de Fukui: ingresso com horário (13/out)","esta semana"],
- ["anpan","Anpanman Yokohama: reservar manhã (20/out)","esta semana"],
- ["teamlab","teamLab Planets (15/out)","até 10/out"],
- ["disney","Disney: só 3 adultos (16/out)","até 10/out"],
- ["hotelTokyo","Hotel Tóquio: confirmar que fica (cancelamento grátis até 12/out 23h59)","até 12/out"],["takkyubin13","Ta-Q-Bin LINNAS Kanazawa → Henn na Asakusabashi","13/out"]];
+ ["takkyubin13","Mandar as malas por Ta-Q-Bin: LINNAS → Henn na Asakusabashi","2026-10-13","alta","Amanhã chove forte e o Shinkansen é sem reserva: viajem leves"],
+ ["looppass","Passe de 1 dia do Loop Bus (site Norimasshi Kanazawa ou recepção)","2026-10-13","alta","Não é vendido dentro do ônibus"],
+ ["hakutaka","Amanhã: embarcar num Hakutaka, não no Kagayaki","2026-10-14","alta","O bilhete é sem reserva e o Kagayaki é todo reservado"],
+ ["disney","Disney: comprar só os 3 adultos (16/out)","2026-10-14","alta","As datas esgotam; Noah e Mia não pagam"],
+ ["anpan","Anpanman Yokohama: reservar horário da manhã (20/out)","2026-10-15","alta","Os horários da manhã esgotam"],
+ ["kawagoe","Confirmar datas e horários do Kawagoe Matsuri 2026 (17/out)","2026-10-15","média",""],
+ ["switch2","Switch 2 multilíngue: pedir na My Nintendo Store com entrega no hotel","2026-10-16","média","Precisa chegar antes do dia 23"],
+ ["teamlab","teamLab Planets: comprar o horário (19/out)","2026-10-16","média","O preço muda conforme a data"],
+ ["skytree","Skytree + Sumida Aquarium: comprar online (22/out)","2026-10-20","média",""],
+ ["cota","Dividir as compras grandes entre os adultos (cota de US$ 1.000 cada)","2026-10-21","média","Mac, Garmin e Seiko passam da cota de uma pessoa só"],
+ ["checkout","Check-out até 11h e saída para Haneda até 13h45","2026-10-23","alta","Voo às 17h45"]
+];
 const CITY_TIPS = {
 nagoya:["<b>Morning service.</b> Em cafés de Nagoya, quem pede um café até ~11h ganha torrada e ovo de graça. É o café da manhã local e o mais barato da viagem.","<b>Comida de Nagoya (nagoya-meshi).</b> As quatro para provar: hitsumabushi (enguia), misokatsu (porco com missô), tebasaki (asinha apimentada) e kishimen (macarrão chato)."],
 kyoto:["<b>Kyoto acorda cedo.</b> Os templos famosos estão vazios das 7h às 8h30. Depois das 10h viram fila.","<b>Suba de táxi, desça a pé.</b> Kyoto é cheia de ladeiras. Com 5 pessoas, um táxi grande até o topo custa pouco mais que três passagens de ônibus e poupa a energia de todos.","<b>Ônibus lotado.</b> Os ônibus de Kyoto vivem cheios e o carrinho precisa ser dobrado. Prefira metrô e trem."],
@@ -1122,6 +1139,20 @@ function itemRow(k,label,extra){const s=st(k);
  <button type="button" class="ib ${s==="pulado"?"on":""}" data-k="${k}" data-s="pulado" aria-label="Pulei">⏭️</button></div></div>`;}
 
 function hotelsHTML(){return `<h3 class="cityh">🏨 Hotéis</h3>${HOTELS.map(h=>`<div class="ckday"><div class="ckd">${h[0]} · ${h[1]}</div><b>${h[2]}</b>${h[4]?`<small style="display:block;color:var(--muted)">${h[4]}</small>`:""}${h[5]?`<p style="margin:4px 0;font-size:.88rem">${h[5]}</p>`:""}<div class="maps" style="margin-top:6px"><a href="${gm(h[3])}" target="_blank" rel="noopener">📍 Mapa</a></div></div>`).join("")}`;}
+function prioHTML(){
+ const addDays=(ds,n)=>{const t=new Date(ds+"T00:00:00Z");t.setUTCDate(t.getUTCDate()+n);return t.toISOString().slice(0,10);};
+ const lim=addDays(todayStr,3);
+ const rows=TODO.map(([k,txt,due,pr,why])=>({k:"t"+k,txt,due,pr,why,s:st("t"+k)}));
+ const open=rows.filter(r=>r.s!=="feito"&&r.s!=="pulado").sort((a,b)=>a.due.localeCompare(b.due)||(a.pr==="alta"?-1:1));
+ const closed=rows.filter(r=>r.s==="feito"||r.s==="pulado");
+ const grp=[["🔴 Fazer hoje",open.filter(r=>r.due<=todayStr)],["🟠 Próximos 3 dias",open.filter(r=>r.due>todayStr&&r.due<=lim)],["🟢 Mais adiante",open.filter(r=>r.due>lim)]];
+ const fmt=ds=>{const [,m,dd]=ds.split("-");return `${dd}/${m}`;};
+ const row=r=>`<div class="it ${r.s}"><div class="itl">${r.pr==="alta"?'<span class="hi">!</span> ':""}${r.txt}<span class="when ${r.due<=todayStr?"tw":""}">${r.due<todayStr?"atrasado":r.due===todayStr?"hoje":"até "+fmt(r.due)}</span>${r.why?`<span class="dsc">${r.why}</span>`:""}</div><div class="its"><button type="button" class="ib ${r.s==="feito"?"on":""}" data-k="${r.k}" data-s="feito" aria-label="Feito">✅</button><button type="button" class="ib ${r.s==="pulado"?"on":""}" data-k="${r.k}" data-s="pulado" aria-label="Desisti">⏭️</button></div></div>`;
+ let h=`<h3 class="cityh">⚡ Prioridades</h3>`;
+ grp.forEach(([t,rs])=>{if(rs.length) h+=`<div class="ckday prio"><div class="ckd">${t}</div>${rs.map(row).join("")}</div>`;});
+ if(!open.length) h+=`<p class="dsc">Nada pendente. 🎉</p>`;
+ if(closed.length) h+=`<details class="ckday"><summary class="ckd">Concluídas ou desistidas (${closed.length})</summary>${closed.map(row).join("")}</details>`;
+ return h;}
 function checklistHTML(){
  let all=[],done=0,skip=0,late=[];
  sched.forEach(([d,,pid])=>{(PLANS[pid].items||[]).forEach(([k,l])=>{all.push(k);const s=st(k);if(s==="feito")done++;else if(s==="pulado")skip++;else if(d<todayStr)late.push([k,l,d]);});});
@@ -1130,7 +1161,9 @@ function checklistHTML(){
  const pct=Math.round(done/all.length*100);
  let h=`<section class="block"><h2 class="disp">O que já fizemos</h2>${syncBadge()}
  <div class="prog"><div class="bar"><span style="width:${pct}%"></span></div><p><b>${done}</b> feitos · <b>${skip}</b> pulados · <b>${all.length-done-skip}</b> pela frente</p></div>
- <p style="color:var(--muted);font-size:.9rem">Toque ✅ para feito e ⏭️ para pulado. Tocar de novo desmarca. Me conte no fim do dia e eu deixo marcado para todos que abrirem o guia.</p>`;
+ <p style="color:var(--muted);font-size:.9rem">Toque ✅ quando fizer e ⏭️ se desistir. Tocar de novo desmarca. Prioridades primeiro, depois o roteiro por cidade. Me conte no fim do dia e eu deixo marcado para todos que abrirem o guia.</p>`;
+ h+=prioHTML();
+ h+=`<h3 class="cityh">🗺️ Roteiro por cidade</h3>`;
  if(late.length) h+=`<div class="callout warn"><b>⏳ Ficou para trás (a confirmar):</b> ${late.length} itens de dias que já passaram. Marque o que fizeram ou deixe como pulado.</div>`;
  const byCity={};
  sched.forEach(([d,dow,pid])=>{const p=PLANS[pid];if(!p.items)return;const t=tabOf(p.city);(byCity[t]=byCity[t]||[]).push({d,dow,p});});
@@ -1211,27 +1244,37 @@ function timelineHTML(){const past=sched.filter(s=>s[0]<todayStr); if(!past.leng
  return `<details class="tlbox"><summary><span>📜 Dias já vividos (${past.length})</span><span class="tldots">${past.map(([,,pid])=>`<i style="background:${C[PLANS[pid].city]}"></i>`).join("")}</span></summary><div class="tlrow">${chips}</div><div id="tldet" class="tldet"></div></details>`;}
 function tlDetail(d){const s=sched.find(x=>x[0]===d); if(!s) return ""; const p=PLANS[s[2]],[,m,dd]=d.split("-"),its=p.items||[];
  return `<b>${s[1]}, ${dd}/${m} · ${p.r}</b><p>${LOG[d]||""}</p>${its.length?`<ul>${its.map(([k,l])=>`<li>${st(k)==="feito"?"✅":st(k)==="pulado"?"⏭️":"◻️"} ${l}</li>`).join("")}</ul>`:""}`;}
+let curSlide={};
+function bindCarousel(){const car=document.getElementById("dcar");if(!car)return;const chips=[...document.querySelectorAll(".dchip")];
+ const go=(k,smooth)=>{car.scrollTo({left:k*car.clientWidth,behavior:smooth?"smooth":"auto"});};
+ requestAnimationFrame(()=>go(curSlide[tab]||0,false));
+ chips.forEach(c=>c.onclick=()=>{curSlide[tab]=+c.dataset.k;chips.forEach(x=>x.classList.toggle("on",x===c));go(+c.dataset.k,true);});
+ let t=null;car.addEventListener("scroll",()=>{clearTimeout(t);t=setTimeout(()=>{const k=Math.round(car.scrollLeft/Math.max(1,car.clientWidth));curSlide[tab]=k;chips.forEach((c,j)=>c.classList.toggle("on",j===k));const on=chips[k];if(on)on.scrollIntoView({inline:"center",block:"nearest",behavior:"smooth"});},80);},{passive:true});}
+function setTabsH(){const tb=document.getElementById("tabs");if(tb)document.documentElement.style.setProperty("--tabsH",tb.offsetHeight+"px");}
 function render(){
  const main=document.getElementById("days");
  const tlEl=document.getElementById("timeline"); if(tlEl){const open=tlEl.querySelector("details")?.open; tlEl.innerHTML=timelineHTML(); if(open) tlEl.querySelector("details").open=true;
   tlEl.querySelectorAll(".tlc").forEach(b=>b.onclick=()=>{tlEl.querySelectorAll(".tlc").forEach(x=>x.classList.toggle("on",x===b));tlEl.querySelector("#tldet").innerHTML=tlDetail(b.dataset.d);});}
  document.getElementById("tabs").innerHTML=TABS.map(([t,ic,n])=>`<button type="button" role="tab" aria-selected="${t===tab}" class="tab ${t===tab?"on":""}" data-tab="${t}"><span>${ic}</span>${n}</button>`).join("");
  document.querySelectorAll("[data-static]").forEach(s=>s.hidden=!(tab==="dicas"));
- document.getElementById("compras").hidden=tab!=="check";
+ document.getElementById("compras").hidden=true;
  if(tab==="check") main.innerHTML=checklistHTML();
  else if(tab==="dicas") main.innerHTML="";
  else if(tab==="shop") main.innerHTML=shopHTML();
  else{
-  let h="",pastH="";
-  sched.forEach((s,i)=>{const [d,,pid]=s,p=PLANS[pid];if(tabOf(p.city)!==tab)return;const [,m,dd]=d.split("-");
-   if(d<todayStr){const its=(p.items||[]);const ok=its.filter(([k])=>st(k)==="feito").length;
-    pastH+=`<p class="pastline">✔︎ ${dd}/${m} · ${LOG[d]||p.r}${its.length?` <span class="pastb">${ok}/${its.length} feitos</span>`:""}</p>`;}
-   else h+=cardHTML(i);});
-  TRANS.filter(t=>t.tab===tab).forEach(t=>{h+=transHTML(t);});
-  if(tab==="kyoto"&&backlog.length) h+=`<div class="callout warn"><b>Sem data no momento:</b> ${backlog.map(b=>PLANS[b].r).join(", ")}. Para encaixar, use o seletor “Programação deste dia” em qualquer dia.</div>`;
-  main.innerHTML=(h||`<p style="margin-top:24px;color:var(--muted)">Todos os dias desta cidade já passaram. Veja o checklist.</p>`);
+  const slides=[],labels=[];
+  sched.forEach((s,i)=>{const [d,dow,pid]=s,p=PLANS[pid];if(tabOf(p.city)!==tab||d<todayStr)return;const [,m,dd]=d.split("-");
+   slides.push(cardHTML(i));labels.push([`${dow} ${dd}/${m}`,d===todayStr]);});
+  TRANS.filter(t=>t.tab===tab).forEach(t=>{slides.push(transHTML(t));labels.push([`🚄 ${t.date}`,false]);});
+  if(!slides.length){main.innerHTML=`<p style="margin-top:24px;color:var(--muted)">Todos os dias desta cidade já passaram. Veja a linha do tempo no topo.</p>`;}
+  else{
+   if(curSlide[tab]===undefined||curSlide[tab]>=slides.length){const ti=labels.findIndex(l=>l[1]);curSlide[tab]=ti>=0?ti:0;}
+   main.innerHTML=`<div class="dnav" id="dnav">${labels.map((l,k)=>`<button type="button" class="dchip ${k===curSlide[tab]?"on":""} ${l[1]?"today":""}" data-k="${k}">${l[1]?"Hoje":l[0]}</button>`).join("")}</div>
+   <div class="dcar" id="dcar">${slides.map(s=>`<div class="dslide">${s}</div>`).join("")}</div>`+
+   (tab==="kyoto"&&backlog.length?`<div class="callout warn"><b>Sem data no momento:</b> ${backlog.map(b=>PLANS[b].r).join(", ")}. Para encaixar, use o seletor “Programação deste dia” em qualquer dia.</div>`:"");
+  }
  }
- bind(); if(tab==="shop") bindShop();
+ bind(); if(tab==="shop") bindShop(); bindCarousel(); setTabsH();
 }
 function bind(){
  const main=document.getElementById("days");
@@ -1267,7 +1310,7 @@ function countdown(){const el=document.getElementById("countdown");if(!el)return
  el.innerHTML=`<div class="cdt">Até o voo de volta · Haneda, 23/out 17h45</div><div class="cdn"><span><b>${dd}</b><small>dias</small></span><span><b>${hh}</b><small>horas</small></span><span><b>${mm}</b><small>min</small></span></div><div class="cdbar"><i style="width:${pct}%"></i></div><small class="cdp">${pct}% da viagem vivida</small>`;}
 countdown(); setInterval(countdown,30000);
 initSync();
-document.getElementById("todayBtn").addEventListener("click",()=>{const i=todayIdx();tab=i>=0?tabOf(PLANS[sched[i][2]].city):"check";render();const el=document.querySelector(".badge.today");if(el)el.scrollIntoView();});
+document.getElementById("todayBtn").addEventListener("click",()=>{const i=todayIdx();tab=i>=0?tabOf(PLANS[sched[i][2]].city):"check";curSlide[tab]=undefined;render();const el=document.getElementById("tabs");if(el)el.scrollIntoView();});
 document.getElementById("resetBtn").addEventListener("click",()=>{sched=SCHEDULE.map(s=>s.slice());backlog=BACKLOG0.slice();try{localStorage.removeItem("jp-sched4");}catch(e){}sharedSave({sched,backlog});render();});
 document.getElementById("save").innerHTML=SAVE.map(s=>`<p>${s}</p>`).join("");
 const names={nagoya:"Nagoya",kyoto:"Kyoto",kanazawa:"Kanazawa",tokyo:"Tóquio"};
@@ -1284,6 +1327,8 @@ const tb=document.getElementById("themebtn");
 try{const th=localStorage.getItem("jp-theme");if(th)document.documentElement.dataset.theme=th;}catch(e){}
 tb.addEventListener("click",()=>{const cur=document.documentElement.dataset.theme||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");const nx=cur==="dark"?"light":"dark";document.documentElement.dataset.theme=nx;try{localStorage.setItem("jp-theme",nx);}catch(e){}});
 
+
+window.addEventListener("resize",()=>{setTabsH();const car=document.getElementById("dcar");if(car)car.scrollLeft=(curSlide[tab]||0)*car.clientWidth;});
 
 </script>
 </body>
