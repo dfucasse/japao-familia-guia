@@ -289,6 +289,29 @@ details.ckday>summary.ckd{position:static;cursor:pointer}
 .dslide{flex:0 0 100%;scroll-snap-align:start;scroll-snap-stop:always;padding:0 16px;box-sizing:border-box;min-width:0}
 .dslide section.day{margin-top:14px}
 .optbar{position:static}
+.ckwrap .cityh{top:calc(var(--tabsH,70px) + 46px)}
+.ckwrap .ckday .ckd{top:calc(var(--tabsH,70px) + 88px)}
+.ckday.today{border-left:4px solid #D7372A}
+.ckday.past{opacity:.75}
+.ckday.past summary{cursor:pointer;list-style:none}
+.ckday.past summary::-webkit-details-marker{display:none}
+.ckday.past summary .ckd{position:static}
+.cnt{float:right;font-size:.75rem;color:var(--ok);font-weight:900}
+.ckvp{overflow:clip;position:relative;transition:height .25s ease}
+.cktrack{display:flex;align-items:flex-start;will-change:transform}
+.ckslide{flex:0 0 100%;min-width:0}
+
+.hotel{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:10px 12px;margin:12px 0}
+.hotel.now{border-left:4px solid #D7372A}
+.hotel.done{opacity:.6}
+.hh{display:flex;justify-content:space-between;gap:8px;font-size:.9rem}
+.hh span{color:var(--muted);font-weight:700}
+.hn{margin:4px 0;font-weight:900}
+.hio{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
+.hio>div{background:var(--bg);border-radius:10px;padding:8px 10px}
+.hio small{display:block;color:var(--muted);font-size:.75rem}
+.hio b{display:block;font-size:.88rem}
+.hio ul{margin:6px 0 0;padding-left:16px;font-size:.8rem}
 footer{margin-top:40px;color:var(--muted);font-size:.82rem}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 </style>
@@ -302,7 +325,7 @@ footer{margin-top:40px;color:var(--muted);font-size:.82rem}
   <div id="countdown" class="cdx"></div>
   <div id="coverwx" class="cwx"></div>
   <div class="meta">
-    <span class="pill">v26 · 13/out/2026</span>
+    <span class="pill">v28 · 13/out/2026</span>
     <span class="pill">¥1.000 = R$ 34</span>
     <span class="pill">Douglas, Camila, Aurora, Noah e Mia</span>
     <button class="btn" id="todayBtn" type="button">Ir para hoje</button>
@@ -873,9 +896,14 @@ const TRANS = [
 ];
 
 const HOTELS=[
- ["Kyoto","6–12/out","MINN Karasuma Gojo Kyoto Station North","MINN 烏丸五条 京都","Perto da estação Gojo (metrô Karasuma), a 1 estação de Kyoto",""],
- ["Kanazawa","12–14/out","LINNAS Kanazawa · Superior Quad","LINNAS Kanazawa 近江町市場","尾張町1-2-8, dentro do mercado Omicho · tel. +81 76-222-7333","Já pago pelo Agoda (cobrado em 9/out, equivalente a ¥51.987). No check-in: documento com foto do titular (Douglas) e o imposto municipal de hospedagem, cobrado à parte."],
- ["Tóquio","14–23/out","Henn na Hotel Tokyo Asakusabashi · Twin com cama extra","変なホテル東京 浅草橋","台東区浅草橋1-10-5 · tel. +81 3-5687-0606 · check-in 15h–0h · check-out 11h","¥303.480 (~R$ 9.591), pago no hotel em ienes. Cancelamento sem custo só até 12/out 23h59; depois, sem reembolso. Imposto de hospedagem por pessoa e por noite cobrado à parte. Wi-Fi grátis. A recepção é feita por robôs."]
+ {city:"Kyoto",tab:"kyoto",n:"MINN Karasuma Gojo Kyoto Station North",q:"MINN 烏丸五条 京都",addr:"Perto da estação Gojo (metrô Karasuma), a 1 estação de Kyoto",
+  cin:{d:"2026-10-06",t:"chegada à noite (06/out)",notes:["Horário na sua reserva"]},cout:{d:"2026-10-12",t:"12/out, antes do trem das 11h10",notes:[]},pay:"",past:1},
+ {city:"Kanazawa",tab:"kanazawa",n:"LINNAS Kanazawa · Superior Quad",q:"LINNAS Kanazawa 近江町市場",addr:"尾張町1-2-8, dentro do mercado Omicho · tel. +81 76-222-7333",
+  cin:{d:"2026-10-12",t:"12/out",notes:["Documento com foto do titular (Douglas)","Imposto municipal de hospedagem cobrado na hora"]},
+  cout:{d:"2026-10-14",t:"14/out · horário na reserva",notes:["Malas grandes por Ta-Q-Bin no dia 13","Táxi até a estação: chuva forte prevista"]},pay:"Já pago pelo Agoda (cobrado em 9/out, equivalente a ¥51.987)."},
+ {city:"Tóquio",tab:"tokyo",n:"Henn na Hotel Tokyo Asakusabashi · Twin com cama extra",q:"変なホテル東京 浅草橋",addr:"台東区浅草橋1-10-5 · tel. +81 3-5687-0606 · ~5 min a pé da estação Asakusabashi",
+  cin:{d:"2026-10-14",t:"14/out · das 15h à meia-noite",notes:["Recepção feita por robôs","Pagamento de ¥303.480 (~R$ 9.591) no hotel, em ienes","Imposto de hospedagem por pessoa e por noite, à parte","Menores só fazem check-in com pai, mãe ou responsável"]},
+  cout:{d:"2026-10-23",t:"23/out · até 11h",notes:["Deixem as malas na recepção","Saída para Haneda até 13h45 (voo às 17h45)"]},pay:"Cancelamento sem custo encerrado em 12/out. Wi-Fi grátis."}
 ];
 
 const DESC={loopbus:"Ônibus que circula pelos pontos turísticos",nomura:"Casa samurai com jardim interno",yasue:"Museu da folha de ouro de Kanazawa",castelokz2:"Gramados e muralhas, grátis",oyama:"Portão de 1875 com vitrais",nagamachi:"Ruelas samurais com canais",kazuemachi:"Casas de chá à beira do rio, menos turísticas",kinpaku:"Decorar uma peça com ouro de Kanazawa",sagano:"Trem panorâmico pelo cânion do rio Hozu",fogos:"Queima de fogos no fim do dia",thunderbird:"Thunderbird + Shinkansen via Tsuruga",castelokz:"Gramado enorme ao lado do Kenrokuen",outlet:"Outlet a céu aberto com vista do Fuji",aniver:"Jantar especial do dia 2",jungle:"Ônibus-jaula com leões e ursos",paraNagoya:"Shinkansen de Mishima a Nagoya",lego:"Parque temático para 3–12 anos",
@@ -1138,7 +1166,13 @@ function itemRow(k,label,extra){const s=st(k);
  <button type="button" class="ib ${s==="feito"?"on":""}" data-k="${k}" data-s="feito" aria-label="Feito">✅</button>
  <button type="button" class="ib ${s==="pulado"?"on":""}" data-k="${k}" data-s="pulado" aria-label="Pulei">⏭️</button></div></div>`;}
 
-function hotelsHTML(){return `<h3 class="cityh">🏨 Hotéis</h3>${HOTELS.map(h=>`<div class="ckday"><div class="ckd">${h[0]} · ${h[1]}</div><b>${h[2]}</b>${h[4]?`<small style="display:block;color:var(--muted)">${h[4]}</small>`:""}${h[5]?`<p style="margin:4px 0;font-size:.88rem">${h[5]}</p>`:""}<div class="maps" style="margin-top:6px"><a href="${gm(h[3])}" target="_blank" rel="noopener">📍 Mapa</a></div></div>`).join("")}`;}
+function hotelsHTML(){const fmt=ds=>{const [,m,dd]=ds.split("-");return `${dd}/${m}`;};
+ return HOTELS.map(h=>{const now=todayStr>=h.cin.d&&todayStr<h.cout.d,done=todayStr>=h.cout.d;
+  return `<div class="hotel ${done?"done":""} ${now?"now":""}"><div class="hh"><b>${h.city}${now?' · <span class="when tw">vocês estão aqui</span>':done?' · <span class="when">concluído</span>':""}</b><span>${fmt(h.cin.d)} → ${fmt(h.cout.d)}</span></div>
+  <p class="hn">${h.n}</p><p class="dsc">${h.addr}</p>
+  <div class="hio"><div><small>🛎️ Check-in</small><b>${h.cin.t}</b>${h.cin.notes.length?`<ul>${h.cin.notes.map(n=>`<li>${n}</li>`).join("")}</ul>`:""}</div>
+  <div><small>🧳 Check-out</small><b>${h.cout.t}</b>${h.cout.notes.length?`<ul>${h.cout.notes.map(n=>`<li>${n}</li>`).join("")}</ul>`:""}</div></div>
+  ${h.pay?`<p class="dsc">💳 ${h.pay}</p>`:""}<div class="maps"><a href="${gm(h.q)}" target="_blank" rel="noopener">📍 Mapa</a></div></div>`;}).join("");}
 function prioHTML(){
  const addDays=(ds,n)=>{const t=new Date(ds+"T00:00:00Z");t.setUTCDate(t.getUTCDate()+n);return t.toISOString().slice(0,10);};
  const lim=addDays(todayStr,3);
@@ -1153,34 +1187,59 @@ function prioHTML(){
  if(!open.length) h+=`<p class="dsc">Nada pendente. 🎉</p>`;
  if(closed.length) h+=`<details class="ckday"><summary class="ckd">Concluídas ou desistidas (${closed.length})</summary>${closed.map(row).join("")}</details>`;
  return h;}
+function routeHTML(){
+ const row=r=>`<div class="it ${st(r.k)}"><div class="itl">${r.food?"🍜 ":""}${r.l}${r.desc?`<span class="dsc">${r.desc}</span>`:""}${r.late?`<small>a confirmar</small>`:""}</div><div class="its"><button type="button" class="ib ${st(r.k)==="feito"?"on":""}" data-k="${r.k}" data-s="feito" aria-label="Feito">✅</button><button type="button" class="ib ${st(r.k)==="pulado"?"on":""}" data-k="${r.k}" data-s="pulado" aria-label="Desisti">⏭️</button></div></div>`;
+ const mk=(k,l)=>({k,l,food:FOODKEYS.has(k),desc:FOODKEYS.has(k)?(FOODDESC[k]||""):(DESC[k]||"")});
+ let h="";
+ TABS.filter(([t])=>!["check","shop","dicas"].includes(t)).forEach(([t,ic,name])=>{
+  const days=sched.filter(([,,pid])=>tabOf(PLANS[pid].city)===t&&PLANS[pid].items);
+  const bl=t==="kyoto"?backlog.filter(pid=>PLANS[pid].items):[];
+  if(!days.length&&!bl.length&&!FOOD_EXTRA[t]) return;
+  const allPast=days.length&&days.every(([d])=>d<todayStr);
+  h+=`<h3 class="cityh">${ic} ${name}${allPast?' <span class="when">concluída</span>':""}</h3>`;
+  days.forEach(([d,dow,pid])=>{const p=PLANS[pid],[,m,dd]=d.split("-"),its=p.items.map(([k,l])=>Object.assign(mk(k,l),{late:d<todayStr&&!st(k)}));
+   const ok=its.filter(r=>st(r.k)==="feito").length;
+   const body=`<div class="ckd">${dow} ${dd}/${m} · ${p.r}${d===todayStr?' <span class="when tw">hoje</span>':""} <span class="cnt">${ok}/${its.length}</span></div>${its.filter(r=>!r.food).map(row).join("")}${its.filter(r=>r.food).map(row).join("")}`;
+   h+= d<todayStr ? `<details class="ckday past"><summary>${body.split("</div>")[0]}</div></summary>${body.slice(body.indexOf("</div>")+6)}</details>` : `<div class="ckday ${d===todayStr?"today":""}">${body}</div>`;});
+  bl.forEach(pid=>{const p=PLANS[pid];h+=`<div class="ckday"><div class="ckd">Sem data · ${p.r}</div>${p.items.map(([k,l])=>row(mk(k,l))).join("")}</div>`;});
+  if(FOOD_EXTRA[t]) h+=`<div class="ckday food"><div class="ckd">🍜 Típicos da região</div>${FOOD_EXTRA[t].map(([k,l,ds])=>row({k,l,food:false,desc:ds})).join("")}</div>`;
+ });
+ return h;}
+const CK_SLIDES=[["prio","⚡ Prioridades"],["route","🗺️ Roteiro por cidade"],["tix","🎟️ Ingressos"],["hotels","🏨 Hotéis"]];
 function checklistHTML(){
- let all=[],done=0,skip=0,late=[];
- sched.forEach(([d,,pid])=>{(PLANS[pid].items||[]).forEach(([k,l])=>{all.push(k);const s=st(k);if(s==="feito")done++;else if(s==="pulado")skip++;else if(d<todayStr)late.push([k,l,d]);});});
- backlog.forEach(pid=>(PLANS[pid].items||[]).forEach(([k,l])=>{all.push(k);const s=st(k);if(s==="feito")done++;else if(s==="pulado")skip++;}));
+ let all=[],done=0,skip=0,late=0;
+ sched.forEach(([d,,pid])=>{(PLANS[pid].items||[]).forEach(([k])=>{all.push(k);const s=st(k);if(s==="feito")done++;else if(s==="pulado")skip++;else if(d<todayStr)late++;});});
  Object.values(FOOD_EXTRA).flat().forEach(([k])=>{all.push(k);const s=st(k);if(s==="feito")done++;else if(s==="pulado")skip++;});
  const pct=Math.round(done/all.length*100);
- let h=`<section class="block"><h2 class="disp">O que já fizemos</h2>${syncBadge()}
- <div class="prog"><div class="bar"><span style="width:${pct}%"></span></div><p><b>${done}</b> feitos · <b>${skip}</b> pulados · <b>${all.length-done-skip}</b> pela frente</p></div>
- <p style="color:var(--muted);font-size:.9rem">Toque ✅ quando fizer e ⏭️ se desistir. Tocar de novo desmarca. Prioridades primeiro, depois o roteiro por cidade. Me conte no fim do dia e eu deixo marcado para todos que abrirem o guia.</p>`;
- h+=prioHTML();
- h+=`<h3 class="cityh">🗺️ Roteiro por cidade</h3>`;
- if(late.length) h+=`<div class="callout warn"><b>⏳ Ficou para trás (a confirmar):</b> ${late.length} itens de dias que já passaram. Marque o que fizeram ou deixe como pulado.</div>`;
- const byCity={};
- sched.forEach(([d,dow,pid])=>{const p=PLANS[pid];if(!p.items)return;const t=tabOf(p.city);(byCity[t]=byCity[t]||[]).push({d,dow,p});});
- if(backlog.length) byCity.kyoto_bl=backlog.filter(pid=>PLANS[pid].items).map(pid=>({d:null,p:PLANS[pid]}));
- TABS.filter(t=>byCity[t[0]]||FOOD_EXTRA[t[0]]).forEach(([t,ic,name])=>{
-  const visit=[],food=[];
-  (byCity[t]||[]).forEach(({d,dow,p})=>{const [,m,dd]=d.split("-");const when=`${dd}/${m}`;
-   p.items.forEach(([k,l])=>{const late=d<todayStr&&!st(k);const row={k,l,when,late,desc:FOODKEYS.has(k)?(FOODDESC[k]||""):(DESC[k]||""),today:d===todayStr};(FOODKEYS.has(k)?food:visit).push(row);});});
-  if(t==="kyoto"&&byCity.kyoto_bl) byCity.kyoto_bl.forEach(({p})=>p.items.forEach(([k,l])=>{const row={k,l,when:"sem data",desc:FOODKEYS.has(k)?(FOODDESC[k]||""):(DESC[k]||"")};(FOODKEYS.has(k)?food:visit).push(row);}));
-  (FOOD_EXTRA[t]||[]).forEach(([k,l,ds])=>food.push({k,l,when:"típico",desc:ds}));
-  const row=r=>`<div class="it ${st(r.k)}"><div class="itl">${r.l}<span class="when ${r.today?"tw":""}">${r.today?"hoje":r.when}</span>${r.desc?`<span class="dsc">${r.desc}</span>`:""}${r.late?`<small>a confirmar</small>`:""}</div><div class="its"><button type="button" class="ib ${st(r.k)==="feito"?"on":""}" data-k="${r.k}" data-s="feito" aria-label="Feito">✅</button><button type="button" class="ib ${st(r.k)==="pulado"?"on":""}" data-k="${r.k}" data-s="pulado" aria-label="Pulei">⏭️</button></div></div>`;
-  h+=`<h3 class="cityh">${ic} ${name}</h3>`;
-  if(visit.length) h+=`<div class="ckday"><div class="ckd">📍 Visitar</div>${visit.map(row).join("")}</div>`;
-  if(food.length) h+=`<div class="ckday food"><div class="ckd">🍜 Comer</div>${food.map(row).join("")}</div>`;
- });
- return h+buyAllHTML()+hotelsHTML()+`</section>`;
-}
+ const k=curSlide.check||0;
+ const bodies=CK_SLIDES.map(([key])=>{let b= key==="prio"?prioHTML(): key==="route"?(late?`<div class="callout warn"><b>⏳ ${late} itens de dias passados a confirmar.</b> Abra os dias recolhidos e marque ✅ ou ⏭️.</div>`:"")+routeHTML(): key==="tix"?(buyAllHTML()||`<p class="dsc">Nada para comprar antes nos próximos dias.</p>`): hotelsHTML();
+  return b.replace('<h3 class="cityh">⚡ Prioridades</h3>','').replace('<h3 class="cityh">🎟️ Ingressos para comprar antes</h3>','');});
+ return `<section class="block ckwrap"><div class="prog"><div class="bar"><span style="width:${pct}%"></span></div><p><b>${done}</b> feitos · <b>${skip}</b> desistidos · <b>${all.length-done-skip}</b> pela frente</p></div>${syncBadge()}
+ <div class="dnav" id="cknav">${CK_SLIDES.map(([,l],i)=>`<button type="button" class="dchip ${i===k?"on":""}" data-ck="${i}">${l}</button>`).join("")}</div>
+ <div class="ckvp" id="ckvp"><div class="cktrack" id="cktrack" style="transform:translate3d(${-k*100}%,0,0)">${bodies.map((b,i)=>`<div class="ckslide" data-i="${i}" ${i===k?"":"aria-hidden=\"true\""}>${b}</div>`).join("")}</div></div>
+ <p class="dsc" style="text-align:center;margin-top:16px">Deslize para o lado para trocar de seção · ✅ feito · ⏭️ desisti</p></section>`;}
+function bindChecklist(){const vp=document.getElementById("ckvp"),tr=document.getElementById("cktrack");if(!vp||!tr)return;
+ const slides=[...tr.children],chips=[...document.querySelectorAll("[data-ck]")],N=slides.length;
+ const fit=()=>{const s=slides[curSlide.check||0];if(s)vp.style.height=s.offsetHeight+"px";};
+ const go=(i,anim)=>{i=Math.max(0,Math.min(N-1,i));const changed=i!==(curSlide.check||0);curSlide.check=i;
+  tr.style.transition=anim?"transform .35s cubic-bezier(.22,.61,.36,1)":"none";tr.style.transform=`translate3d(${-i*100}%,0,0)`;
+  chips.forEach((c,j)=>c.classList.toggle("on",j===i));slides.forEach((s,j)=>s.toggleAttribute("aria-hidden",j!==i));
+  const on=chips[i];if(on)on.scrollIntoView({inline:"center",block:"nearest",behavior:"smooth"});
+  fit(); if(changed){const nav=document.getElementById("cknav"),tb=document.getElementById("tabs");const top=nav.getBoundingClientRect().top+window.scrollY-(tb?tb.offsetHeight:0);if(window.scrollY>top)window.scrollTo({top,behavior:"smooth"});}};
+ fit(); setTimeout(fit,50);
+ chips.forEach(b=>b.onclick=()=>go(+b.dataset.ck,true));
+ let x0=0,y0=0,dx=0,mode=null;
+ vp.addEventListener("touchstart",e=>{x0=e.touches[0].clientX;y0=e.touches[0].clientY;dx=0;mode=null;
+  slides.forEach(s=>s.removeAttribute("aria-hidden"));vp.style.height=Math.max(...slides.map(s=>s.offsetHeight))+"px";},{passive:true});
+ vp.addEventListener("touchmove",e=>{const x=e.touches[0].clientX,y=e.touches[0].clientY;
+  if(!mode){if(Math.abs(x-x0)>8||Math.abs(y-y0)>8)mode=Math.abs(x-x0)>Math.abs(y-y0)?"h":"v";else return;}
+  if(mode!=="h")return; e.preventDefault(); dx=x-x0; const i=curSlide.check||0;
+  const edge=(i===0&&dx>0)||(i===N-1&&dx<0)?0.35:1;
+  tr.style.transition="none";tr.style.transform=`translate3d(calc(${-i*100}% + ${dx*edge}px),0,0)`;},{passive:false});
+ vp.addEventListener("touchend",()=>{const i=curSlide.check||0;
+  if(mode==="h"){const w=vp.clientWidth;go(Math.abs(dx)>w*0.2?i+(dx<0?1:-1):i,true);} else fit(); mode=null;},{passive:true});
+ tr.addEventListener("transitionend",fit);
+ window.addEventListener("resize",fit);}
 
 // ---- lista de compras ----
 let shopSt={}; try{shopSt=JSON.parse(localStorage.getItem("jp-shop")||"{}");}catch(e){}
@@ -1274,7 +1333,7 @@ function render(){
    (tab==="kyoto"&&backlog.length?`<div class="callout warn"><b>Sem data no momento:</b> ${backlog.map(b=>PLANS[b].r).join(", ")}. Para encaixar, use o seletor “Programação deste dia” em qualquer dia.</div>`:"");
   }
  }
- bind(); if(tab==="shop") bindShop(); bindCarousel(); setTabsH();
+ bind(); if(tab==="shop") bindShop(); if(tab==="check") bindChecklist(); bindCarousel(); setTabsH();
 }
 function bind(){
  const main=document.getElementById("days");
