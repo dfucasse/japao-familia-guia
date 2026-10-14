@@ -1,7 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-guide-version="v33" data-guide-updated="2026-10-14T22:00:00+09:00">
 <head>
 <meta charset="utf-8">
+<meta name="guide-version" content="v33">
+<meta name="guide-updated" content="2026-10-14T22:00:00+09:00">
+<meta name="guide-sha256" content="96ae2cbeb9ec86579730f54d9aa828cf4d17b9ffd2d1278c9bd57d79ec8080d0">
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Japão em família · guia diário</title>
@@ -321,6 +324,21 @@ details.ckday>summary.ckd{position:static;cursor:pointer}
 .ml{display:grid;grid-template-columns:52px 1fr;gap:8px;font-size:.88rem}
 .ml b{color:#D7372A}
 .ml i{font-style:normal;font-weight:700;margin-right:6px}
+.tab small.tdate,.cityh small.tdate{display:block;font-size:.62rem;font-weight:500;opacity:.7;line-height:1.1}
+.cityh small.tdate{display:inline;font-size:.72rem}
+details.cityd>summary{list-style:none;cursor:pointer}
+details.cityd>summary::-webkit-details-marker{display:none}
+details.cityd>summary .cityh::after{content:" ▾";font-size:.8rem;color:var(--muted)}
+details.cityd:not([open])>summary .cityh::after{content:" ▸"}
+.ckday.bought{opacity:.7}
+.okb{background:var(--ok)!important;color:#fff!important}
+.tkbtn{margin-top:6px}
+.tkbtn .ib{width:auto;padding:0 12px;filter:none;opacity:1;font-size:.85rem}
+.diary{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:10px 12px;margin:10px 0}
+.dh{display:flex;justify-content:space-between;gap:8px;font-size:.88rem}
+.dh span{color:var(--muted)}
+.diary p{margin:6px 0}
+.diary textarea{width:100%;min-height:56px;font:inherit;font-size:.9rem;border:1px solid var(--rule);border-radius:8px;padding:6px 8px;background:var(--bg);color:var(--ink)}
 footer{margin-top:40px;color:var(--muted);font-size:.82rem}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 </style>
@@ -334,7 +352,7 @@ footer{margin-top:40px;color:var(--muted);font-size:.82rem}
   <div id="countdown" class="cdx"></div>
   <div id="coverwx" class="cwx"></div>
   <div class="meta">
-    <span class="pill">v31 · 14/out/2026</span>
+    <span class="pill">v33 · 14/out/2026</span>
     <span class="pill">¥1.000 = R$ 34</span>
     <span class="pill">Douglas, Camila, Aurora, Noah e Mia</span>
     <button class="btn" id="todayBtn" type="button">Ir para hoje</button>
@@ -360,7 +378,16 @@ footer{margin-top:40px;color:var(--muted);font-size:.82rem}
 <footer><p>Previsões: tenki.jp. Notas: Tabelog. Preços: sites oficiais e Tabelog, consultados entre 02 e 07/out. Valores com “~” são estimativas: confirme antes de pagar.</p>
 <p>Ilustrações feitas para este guia. Páginas publicadas não carregam fotos de outros sites. Se você me mandar fotos da viagem, eu incluo.</p></footer>
 </div>
+<script type="application/json" id="guide-manifest">{"name": "japao-familia-guia", "version": "v33", "updatedAt": "2026-10-14T22:00:00+09:00", "contentSha256": "96ae2cbeb9ec86579730f54d9aa828cf4d17b9ffd2d1278c9bd57d79ec8080d0", "changes": ["Lista de compras ampliada com o guia do ChatGPT: homelab, farmácia, MUJI/3COINS/DAISO, papelaria, presentes", "Lojas novas: Matsumoto Kiyoshi Asakusabashi, Alpen TOKYO, Yonex Showroom, Arcakit Kinshicho, Seisuke Knife, Suzukien, Bic Camera AKIBA", "Cupons Alpen, UNIQLO e MUJI", "Correção: Apple não necessariamente faz tax-free"], "localStorageKeys": ["jp-status", "jp-sched4", "jp-choice", "jp-shop", "jp-stores", "jp-diary", "jp-lastchange"], "api": "window.GUIDE.getState() devolve o estado local; o evento 'guide:changed' dispara a cada alteração"}</script>
 <script>
+
+// ---- Integração (Hermes / Firebase): manifesto + estado local + eventos ----
+window.GUIDE={
+ manifest:(()=>{try{return JSON.parse(document.getElementById("guide-manifest").textContent);}catch(e){return {};}})(),
+ getState(){const g=k=>{try{return JSON.parse(localStorage.getItem(k)||"null");}catch(e){return null;}};
+  return {version:this.manifest.version,status:g("jp-status"),schedule:g("jp-sched4"),choices:g("jp-choice"),shop:g("jp-shop"),stores:g("jp-stores"),diary:g("jp-diary"),exportedAt:new Date().toISOString()};},
+ notify(kind){const ev=new CustomEvent("guide:changed",{detail:{kind,version:this.manifest.version,at:new Date().toISOString()}});window.dispatchEvent(ev);try{localStorage.setItem("jp-lastchange",JSON.stringify(ev.detail));}catch(e){}}
+};
 // Ilustrações SVG inline (sem imagens externas)
 const ILL = {
 nagoya:`<svg viewBox="0 0 320 140" aria-hidden="true"><rect width="320" height="140" fill="#F7B267"/><circle cx="260" cy="38" r="20" fill="#FFE8A3"/><rect y="112" width="320" height="28" fill="#5C4A3A"/><path d="M90 112 L110 80 H210 L230 112Z" fill="#8C7B6B"/><rect x="118" y="62" width="84" height="20" fill="#FFF8EE"/><path d="M106 66 L160 44 L214 66Z" fill="#2E7D6B"/><rect x="132" y="34" width="56" height="14" fill="#FFF8EE"/><path d="M122 38 L160 20 L198 38Z" fill="#2E7D6B"/><path d="M128 22 q-6 -8 2 -12 q2 6 -2 12Z M192 22 q6 -8 -2 -12 q-2 6 2 12Z" fill="#E8B923"/><rect x="152" y="68" width="16" height="14" fill="#5C4A3A"/></svg>`,
@@ -804,10 +831,10 @@ ginza:{items:[["hakuhinkan","Hakuhinkan Toy Park"],["uniqloginza","Uniqlo Ginza"
  city:"tokyo",k:"",r:"Ginza",theme:"Compras em Ginza com uma loja de brinquedos de 4 andares para as crianças",
  seg:{A:"A · Ginza completo",B:"B · Manhã em Ginza"},
  note:"Ameyoko e Ueno já foram feitos (Dia do Cidadão, 1º/out), então hoje é <b>Ginza</b>. Nublado, 23°, 0 mm. Do hotel: linha Toei Asakusa direto até Higashi-Ginza (~10 min).",
- deal:["Tax-free acima de ¥5.000 por loja e por dia: Uniqlo, Onitsuka Tiger, Apple e lojas de departamento fazem na hora com passaporte.","Depachika do Mitsukoshi: depois das 19h, bentôs e doces com desconto."],
+ deal:["Tax-free acima de ¥5.000 por loja e por dia: Uniqlo, Onitsuka Tiger e lojas de departamento fazem na hora com passaporte. Na Apple, confirme antes: não presuma que faz tax-free.","Até 31/out o tax-free é na hora, no caixa; a mudança para reembolso posterior está prevista para 1º/nov. Levem o passaporte original.","Depachika do Mitsukoshi: depois das 19h, bentôs e doces com desconto."],
  opts:[
  {w:"sol",id:"A",pick:1,name:"Brinquedos → Uniqlo e Onitsuka → terraço → depachika",why:"Começa pelas crianças (Hakuhinkan) e deixa as compras dos adultos para depois da soneca.",
-  tl:[["9h45","Toei Asakusa até Higashi-Ginza (~10 min)."],["10h","<b>Hakuhinkan Toy Park</b>: andares de brinquedos japoneses e área de corrida de carrinhos."],["11h15","Almoço."],["12h15","Soneca no carrinho pelo calçadão de Chuo-dori.",1],["13h30","<b>Uniqlo Ginza</b> (12 andares), <b>Onitsuka Tiger</b>, Apple Ginza."],["15h","Lanche no terraço-jardim do <b>Ginza Six</b>."],["16h","<b>Itoya</b>: papelaria de 12 andares."],["17h","Jantar: depachika do Mitsukoshi ou restaurante."]],
+  tl:[["9h45","Toei Asakusa até Higashi-Ginza (~10 min)."],["10h","<b>Hakuhinkan Toy Park</b>: andares de brinquedos japoneses e área de corrida de carrinhos."],["11h15","Almoço."],["12h15","Soneca no carrinho pelo calçadão de Chuo-dori.",1],["13h30","<b>Uniqlo Ginza</b> (12 andares), <b>MUJI Ginza</b>, <b>Onitsuka Tiger</b> e Apple Ginza (cotar o Mac mini). Se der, Yonex Tokyo Showroom."],["15h","Lanche no terraço-jardim do <b>Ginza Six</b>."],["16h","<b>Itoya</b>: papelaria de 12 andares."],["17h","Jantar: depachika do Mitsukoshi ou restaurante."]],
   meals:[["7h30","Café da manhã","Hotel"],["11h15","Almoço","Andares de restaurantes das lojas de departamento de Ginza"],["15h","Lanche","Terraço do Ginza Six"],["17h","Jantar","Depachika do Mitsukoshi Ginza"]],
   maps:[["Hakuhinkan Toy Park","博品館 銀座"],["Uniqlo Ginza","ユニクロ 銀座店"],["Onitsuka Tiger Ginza","オニツカタイガー 銀座"],["Apple Ginza","Apple 銀座"],["Ginza Six","GINZA SIX"],["Itoya","銀座 伊東屋"],["Mitsukoshi Ginza","銀座三越"]],
   tr:[["Hotel ⇄ Higashi-Ginza (Toei Asakusa)","変なホテル東京 浅草橋","東銀座駅",1320,"~10 min, ~¥220 por adulto por trecho"]],
@@ -826,7 +853,7 @@ shinjuku:{items:[["kiddyland","KiddyLand (Harajuku)"],["takeshita","Rua Takeshit
  deal:["Tax-free acima de ¥5.000 por loja e por dia: concentrem as compras de cada pessoa numa loja grande (Isetan, Bic Camera).","Muitas lojas de departamento têm balcão de tax-free centralizado: juntem os recibos de vários andares."],
  opts:[
  {w:"sol",id:"A",pick:1,name:"KiddyLand e Takeshita de manhã, Shinjuku à tarde",why:"Harajuku cedo, antes das multidões, e Shinjuku depois da soneca.",
-  tl:[["9h30","JR Sobu até Shinjuku e Yamanote até Harajuku (~35 min)."],["10h","<b>KiddyLand</b> (abre por volta das 10h; confira): andares de Anpanman, Pokémon, Snoopy, Tomica."],["11h","Rua Takeshita (cedo, antes de lotar) e Omotesando."],["11h45","Almoço em Harajuku."],["12h45","Yamanote até Shinjuku: soneca no carrinho.",1],["14h","<b>Isetan</b> (moda e depachika) e <b>Bicqlo</b> (Bic Camera + Uniqlo)."],["15h30","Lanche."],["16h15","Cabeça do Godzilla em Kabukicho (foto rápida)."],["17h30","Jantar em Shinjuku e volta."]],
+  tl:[["9h30","JR Sobu até Shinjuku e Yamanote até Harajuku (~35 min)."],["10h","<b>KiddyLand</b> (abre por volta das 10h; confira): andares de Anpanman, Pokémon, Snoopy, Tomica."],["11h","Rua Takeshita (cedo, antes de lotar) e Omotesando."],["11h45","Almoço em Harajuku."],["12h45","Yamanote até Shinjuku: soneca no carrinho.",1],["14h","<b>Alpen TOKYO</b>: testar raquetes Yonex e ver Garmin (cupom de 5% para conferir). Depois <b>Isetan</b> e <b>3COINS+plus</b> no Seibu Shinjuku PePe."],["15h30","Lanche."],["16h15","Cabeça do Godzilla em Kabukicho (foto rápida)."],["17h30","Jantar em Shinjuku e volta."]],
   meals:[["7h30","Café da manhã","Hotel"],["11h45","Almoço","Harajuku/Omotesando"],["15h30","Lanche","Depachika da Isetan"],["17h30","Jantar","Restaurantes da estação de Shinjuku"]],
   maps:[["KiddyLand Harajuku","キデイランド 原宿店"],["Rua Takeshita","竹下通り"],["Isetan Shinjuku","伊勢丹新宿店"],["Bicqlo Shinjuku","ビックロ 新宿"],["Godzilla Kabukicho","ゴジラヘッド 新宿"]],
   tr:[["Hotel → Harajuku → Shinjuku → hotel (JR)","変なホテル東京 浅草橋","原宿駅",2700,"~¥450 por adulto por trecho"]],
@@ -991,6 +1018,10 @@ const SCHEDULE = [
 // programações que ficaram sem data (podem voltar pelo seletor de qualquer dia)
 const BACKLOG0 = ["osaka","dino","gyoen","descanso","oshiage","compras"];
 const TODO = [
+ ["matsukiyo","Farmácia Matsumoto Kiyoshi Asakusabashi (protetores, Melano CC, vaselina)","2026-10-14","média","Perto do hotel, junto com a JINS"],
+ ["macconfig","Definir a configuração mínima do Mac mini para o homelab","2026-10-17","média","Antes de cotar na Yodobashi, Bic e Apple"],
+ ["cupons","Conferir cupons: Alpen 5%, app UNIQLO, app MUJI","2026-10-18","média","Ver regras e se acumulam com tax-free"],
+ ["jins","Óculos de grau na JINS (Yodobashi Akiba ou Asakusa ROX)","2026-10-14","alta","Levar óculos atuais ou receita"],
  ["dapp","Disney: instalar o app oficial e entrar na conta antes de 16/out","2026-10-15","alta","Pedido de comida, DPA e filas são pelo app"],
  ["taxi23","Reservar táxi de tarifa fixa para Haneda (23/out, ~13h15)","2026-10-21","alta","Precisa de reserva com 1h+ de antecedência; peçam carro grande"],
  ["daikoku","Daikoku PA (dom 18): decidir entre tour ou táxi ida e volta","2026-10-16","média","Sem transporte público; táxi só combinado ida e volta"],
@@ -1023,7 +1054,8 @@ const SAVE = [
  "<b>Daiso e 3COINS.</b> Brinquedos, lanches e itens de bebê esquecidos por ¥110–330."
 ];
 
-const LOG = {"2026-09-27":"Saída de São Paulo (GRU 22h30)","2026-09-28":"Conexão em Nova York e voo para Tóquio","2026-09-29":"Planejado (a confirmar): chegada, check-in em Ueno e parque","2026-09-30":"Planejado (a confirmar): museu dos dinossauros e Asakusa","2026-10-01":"Dia do Cidadão: parque de Ueno, zoológico e Ameyoko","2026-10-02":"Gotemba e jantar de aniversário","2026-10-03":"Fuji Safari e viagem para Nagoya","2026-10-04":"Legoland (antecipada do dia 05)","2026-10-06":"Nagoya o dia todo; Kyoto à noite","2026-10-07":"Mercado Nishiki e Gion","2026-10-08":"Kiyomizu-dera de manhã e as ruazinhas (Sannenzaka/Ninenzaka)","2026-10-09":"Nara","2026-10-10":"Só o Aquário de Kyoto (roteiro B); Osaka adiado","2026-10-11":"Arashiyama: Monkey Park, Trem Sagano e queima de fogos à noite","2026-10-12":"Viagem para Kanazawa; chegada tarde por um imprevisto, sem passeios"};
+const DIARY = {"2026-09-27": "Saída de Guarulhos às 22h30, rumo a Nova York. Começo de 27 dias de viagem em família.", "2026-09-28": "Conexão em Nova York (JFK) e o voo longo até Tóquio.", "2026-09-29": "Chegada a Haneda às 13h55. Primeira noite em Ueno, no Landabout Tokyo.", "2026-09-30": "(A confirmar) O plano era Asakusa e o museu dos dinossauros.", "2026-10-01": "Dia do Cidadão de Tóquio: parque de Ueno, zoológico e Ameyoko.", "2026-10-02": "Aniversário do Douglas. Ônibus até Gotemba, outlet com vista do Fuji e jantar de comemoração.", "2026-10-03": "Fuji Safari: Jungle Bus com leões e ursos de perto. À tarde, viagem para Nagoya.", "2026-10-04": "Legoland Japan, antecipada em um dia.", "2026-10-05": "Nagoya. (Conte como foi este dia.)", "2026-10-06": "Mais um dia em Nagoya e Shinkansen para Kyoto à noite.", "2026-10-07": "Primeiro dia em Kyoto: mercado Nishiki e Gion.", "2026-10-08": "Kiyomizu-dera de manhã e as ladeiras de Sannenzaka e Ninenzaka.", "2026-10-09": "Nara: o grande Buda do Todai-ji e os cervos.", "2026-10-10": "Família cansada: Osaka ficou para depois e o dia foi no Aquário de Kyoto, sem pressa.", "2026-10-11": "Arashiyama: macacos soltos no alto do morro, trem Sagano pelo cânion e queima de fogos à noite.", "2026-10-12": "Thunderbird e Shinkansen até Kanazawa. Um imprevisto fez a chegada ser tarde.", "2026-10-13": "Kanazawa. (Conte como foi o circuito de ônibus.)", "2026-10-14": "Chuva forte em Kanazawa, Hakutaka até Ueno e check-in no hotel dos robôs em Asakusabashi."};
+const LOG = {"2026-09-27":"Saída de São Paulo (GRU 22h30)","2026-09-28":"Conexão em Nova York e voo para Tóquio","2026-09-29":"Planejado (a confirmar): chegada, check-in em Ueno e parque","2026-09-30":"Planejado (a confirmar): museu dos dinossauros e Asakusa","2026-10-01":"Dia do Cidadão: parque de Ueno, zoológico e Ameyoko","2026-10-02":"Gotemba e jantar de aniversário","2026-10-03":"Fuji Safari e viagem para Nagoya","2026-10-04":"Legoland (antecipada do dia 05)","2026-10-06":"Nagoya o dia todo; Kyoto à noite","2026-10-07":"Mercado Nishiki e Gion","2026-10-08":"Kiyomizu-dera de manhã e as ruazinhas (Sannenzaka/Ninenzaka)","2026-10-09":"Nara","2026-10-10":"Só o Aquário de Kyoto (roteiro B); Osaka adiado","2026-10-11":"Arashiyama: Monkey Park, Trem Sagano e queima de fogos à noite","2026-10-12":"Viagem para Kanazawa; chegada tarde por um imprevisto, sem passeios","2026-10-14":"Hakutaka até Ueno e check-in no Henn na"};
 const STATUS0 = {uenopark1:"feito",uenozoo:"feito",ameyoko1:"feito",vooida:"feito",chegadahnd:"feito",thunderbird:"feito",castelokz:"pulado",macacos:"feito",sagano:"feito",fogos:"feito",kaquario:"feito",ferro:"pulado",vapor:"pulado",todaiji:"feito",cervos:"feito",kiyomizu:"feito",sannenzaka:"feito",inari:"pulado",nishiki:"feito",gion:"feito",shinkKyoto:"feito",outlet:"feito",aniver:"feito",jungle:"feito",paraNagoya:"feito",lego:"feito"};
 
 const WX = {"2026-10-23": {"i": "rain", "t": "Chuva com nuvens (dia do voo)", "hi": 19, "lo": 16, "p": 70, "mm": 11}, "2026-10-22": {"i": "cloud", "t": "Nublado", "hi": 24, "lo": 17, "p": 40, "mm": 0}, "2026-10-09": {"i": "sun", "t": "Ensolarado", "hi": 29, "lo": 16, "p": 0}, "2026-10-10": {"i":"sun","t":"Ensolarado em Kyoto","hi":29,"lo":16,"p":10,"h":[[9,22,0],[12,26,0],[15,28,0],[18,23,0]],"uv":"Calor à tarde: aproveitem as áreas cobertas"}, "2026-10-11": {"i": "sun", "t": "Ensolarado", "hi": 28, "lo": 15, "p": 0, "h": [[6, 15, 10], [9, 21, 0], [12, 28, 0], [15, 28, 0]], "uv": "UV forte e manhã fresca (15°): casaco leve às 7h, camiseta ao meio-dia"}, "2026-10-12": {"i": "suncloud", "t": "Sol com nuvens (Kanazawa)", "hi": 24, "lo": 17, "p": 20}, "2026-10-13": {"i": "suncloud", "t": "Nublado de manhã, sol à tarde", "hi": 26, "lo": 16, "p": 30, "h": [[6, 16, 20], [9, 20, 20], [12, 25, 10], [18, 20, 20]], "uv": "Chuva só de 10% a 20% durante o dia. Amanhã: 100%, ~22 mm (mais forte das 6h às 12h)"}, "2026-10-14": {"i": "rain", "t": "Chuva em Kanazawa até ~14h; Tóquio nublado com chuva fraca à noite", "hi": 22, "lo": 19, "p": 100, "mm": 29, "h": [[9, 20, 80], [10, 21, 90], [12, 20, 50], [15, 19, 40]], "uv": "Kanazawa ~29 mm (o pior até o meio-dia). Tóquio: 26°/19°, 70%, ~1 mm, alerta de trovoadas"}, "2026-10-15": {"i": "suncloud", "t": "Nuvens com sol", "hi": 23, "lo": 18, "p": 30, "mm": 0}, "2026-10-16": {"i": "suncloud", "t": "Sol, depois nuvens", "hi": 26, "lo": 17, "p": 30, "mm": 0}, "2026-10-17": {"i": "suncloud", "t": "Sol com nuvens", "hi": 25, "lo": 18, "p": 20, "mm": 0}, "2026-10-18": {"i": "suncloud", "t": "Sol com nuvens", "hi": 24, "lo": 16, "p": 20, "mm": 0}, "2026-10-19": {"i": "suncloud", "t": "Sol, depois nuvens", "hi": 27, "lo": 19, "p": 30, "mm": 0}, "2026-10-20": {"i": "rain", "t": "Nublado, chuva à tarde e à noite", "hi": 26, "lo": 20, "p": 80, "mm": 10}, "2026-10-21": {"i": "cloud", "t": "Nublado", "hi": 23, "lo": 19, "p": 30, "mm": 0}};
@@ -1098,21 +1130,34 @@ const CITY_WX=[
 const PEOPLE=["Família","Douglas","Camila","Aurora","Noah","Mia"];
 // jp = preço de prateleira com imposto (¥); br = varejo no Brasil (R$) ou null; v = preço confirmado
 const SHOP=[
- {id:"macmini",cat:"Eletrônicos",n:"Mac mini M6 (16 GB / 256 GB)",d:"Lançado em 22/set/2026. A alternativa é o M4, que custa ¥134.800 no Japão desde o reajuste de junho.",where:"Apple Ginza ou Shibuya, Yodobashi Akiba, Bic Camera",jp:149800,br:10799,brl:"https://macmagazine.com.br/post/2026/08/25/preco-do-novo-mac-mini-sobe-ate-136-no-brasil-novo-mac-studio-pode-chegar-a-r2236-mil/",brs:"Preço Apple Brasil (MacMagazine)",v:"both",who:"Douglas",tip:"Fonte bivolt (100–240 V); a tomada japonesa (2 pinos chatos) precisa de adaptador no Brasil. Não vem com teclado nem mouse. Garantia Apple de 1 ano vale no mundo todo. Leve na bagagem de mão."},
+ {id:"ssd",cat:"Eletrônicos (homelab)",n:"SSD externo para o homelab (1 TB ou 2 TB)",d:"Para o Mac mini do homelab (Hermes, agentes, backup).",where:"Yodobashi Akiba, Bic Camera AKIBA, Radio Kaikan",jp:25000,br:null,brl:"https://lista.mercadolivre.com.br/ssd-externo-2tb",brs:"Mercado Livre",v:"",who:"Douglas",tip:"Meta, não cotação: 1 TB ~¥15–25 mil; 2 TB ~¥25–40 mil. Não comprem DAS ou discos sem definir capacidade, redundância e backup externo."},
+ {id:"gan",cat:"Eletrônicos (homelab)",n:"Carregador USB-C GaN + cabos",d:"Carregadores compactos de alta potência e cabos USB-C/Ethernet.",where:"Yodobashi Akiba, Bic Camera AKIBA",jp:5000,br:null,brl:"https://lista.mercadolivre.com.br/carregador-gan-usb-c",brs:"Mercado Livre",v:"",who:"Douglas",tip:"Meta: carregador ~¥3–7 mil; cabo ~¥1–3 mil."},
+ {id:"melano",cat:"Cuidados",n:"Rohto Melano CC Essence",d:"Sérum de vitamina C japonês. Confirme a versão exata na embalagem.",where:"Matsumoto Kiyoshi Asakusabashi (perto do hotel), drogarias",jp:1500,br:null,brl:"https://lista.mercadolivre.com.br/melano-cc",brs:"Mercado Livre",v:"",who:"Família",tip:"Meta: ~¥1–2 mil."},
+ {id:"vaseline",cat:"Cuidados",n:"Vaseline Original Pure Skin Jelly",d:"Vaselina pura para proteger calcanhares ressecados e rachados.",where:"Matsumoto Kiyoshi Asakusabashi",jp:800,br:null,brl:"https://lista.mercadolivre.com.br/vaseline-original-pure-skin-jelly",brs:"Mercado Livre",v:"",who:"Família",tip:"Preço estimado."},
+ {id:"ureia",cat:"Cuidados",n:"Creme com ureia 20% (Mentholatum Soft Skin Cream U ou Dr. Scholl)",d:"Para calcanhares grossos, depois que as fissuras estiverem fechadas.",where:"Matsumoto Kiyoshi Asakusabashi",jp:1200,br:null,brl:"https://lista.mercadolivre.com.br/creme-ureia-20",brs:"Mercado Livre",v:"",who:"Família",tip:"Não aplicar ureia em fissuras abertas ou sangrando. Preço estimado."},
+ {id:"muji",cat:"Casa e roupas",n:"MUJI (roupas, casa, papelaria)",d:"Design simples e itens de organização.",where:"MUJI Ginza ou MUJI Kinshicho PARCO",jp:5000,br:null,brl:"https://lista.mercadolivre.com.br/muji",brs:"Mercado Livre",v:"",who:"Família",tip:"Confira no app MUJI a campanha de novos cadastros divulgada para 9–22/10 e se a conta estrangeira é aceita."},
+ {id:"threecoins",cat:"Casa e roupas",n:"3COINS+plus e DAISO (utilidades e organização)",d:"Acessórios, organização e pequenos presentes baratos.",where:"3COINS+plus Seibu Shinjuku PePe; DAISO Arcakit Kinshicho",jp:3000,br:null,brl:"https://lista.mercadolivre.com.br/3coins",brs:"Mercado Livre",v:"",who:"Família",tip:"Itens de ¥110 a ¥330: escolha com cuidado para não encher a mala."},
+ {id:"kidsbooks",cat:"Crianças",n:"Pelúcias, livros infantis japoneses e material de desenho",d:"Presentes compactos para o Noah e a Mia.",where:"KiddyLand Harajuku, Tokyo Character Street, Solamachi",jp:3000,br:null,brl:"https://lista.mercadolivre.com.br/pelucia-japonesa",brs:"Mercado Livre",v:"",who:"Noah",tip:"Meta: ~¥1–4 mil por item."},
+ {id:"jetstream",cat:"Papelaria",n:"Canetas Uni Jetstream e cadernos japoneses",d:"Caneta japonesa acessível e papelaria de design.",where:"Ginza Itoya, Loft, papelarias",jp:1000,br:null,brl:"https://lista.mercadolivre.com.br/uni-jetstream",brs:"Mercado Livre",v:"",who:"Família",tip:"Meta: ~¥150–1.000 por caneta."},
+ {id:"gshock2100",cat:"Relógios esportivos",n:"Casio G-Shock GA-2100 (“CasiOak”)",d:"Resistente a impacto, 200 m de água, leve. O G-Shock mais vendido.",where:"Yodobashi Akiba, Bic Camera, loja G-Shock",jp:17600,br:599,brl:"https://www.newlooktime.com.br/relogio/g-shock/ga-2100",brs:"New Look Time",v:"both",who:"Douglas",tip:"No Brasil ele já é barato: a economia é pequena. Vale pelas cores e edições só do Japão."},
+ {id:"gshockb2100",cat:"Relógios esportivos",n:"Casio G-Shock GA-B2100 (solar + Bluetooth)",d:"Mesmo visual do GA-2100, com carga solar e ajuste de hora pelo celular.",where:"Yodobashi Akiba, Bic Camera",jp:24750,br:null,brl:"https://lista.mercadolivre.com.br/g-shock-ga-b2100",brs:"Mercado Livre",v:"jp",who:"Douglas",tip:"Preço de tabela no Japão. Compare com o Mercado Livre."},
+ {id:"seiko5",cat:"Relógios esportivos",n:"Seiko 5 Sports SRPD55 (automático)",d:"O automático esportivo de entrada da Seiko, 100 m de água.",where:"Seção de relógios da Yodobashi e da Bic Camera",jp:35910,br:3149,brl:"https://www.relojoariaimpala.com.br/relogio-new-seiko-5-sports-automatico-srpd55",brs:"Relojoaria Impala",v:"both",who:"Douglas",tip:"No Japão os códigos do Seiko 5 podem ser outros (SBSA): peça o equivalente ao SRPD55."},
+ {id:"alpinist",cat:"Relógios esportivos",n:"Seiko Prospex Alpinist (automático)",d:"O clássico de montanha da Seiko, linha Prospex, fabricado no Japão.",where:"Lojas Seiko de Ginza, Yodobashi, Bic Camera",jp:120000,br:9859,brl:"https://www.relojoariajj.com.br/seiko",brs:"Relojoaria JJ (SPB505)",v:"",who:"Douglas",tip:"No Japão o código é SBDC (ex.: SBDC207/209): preço varia de ~¥115 mil a ~¥128 mil. Sozinho, já passa da cota de US$ 1.000."},
+ {id:"macmini",cat:"Eletrônicos",n:"Mac mini M6 (16 GB / 256 GB)",d:"Lançado em 22/set/2026. A alternativa é o M4, que custa ¥134.800 no Japão desde o reajuste de junho.",where:"Apple Ginza ou Shibuya, Yodobashi Akiba, Bic Camera",jp:149800,br:10799,brl:"https://macmagazine.com.br/post/2026/08/25/preco-do-novo-mac-mini-sobe-ate-136-no-brasil-novo-mac-studio-pode-chegar-a-r2236-mil/",brs:"Preço Apple Brasil (MacMagazine)",v:"both",who:"Douglas",tip:"Para o homelab: definam antes a configuração mínima (memória, armazenamento, portas). Confirmem preço final e tax-free: não presumam que a Apple Store faz tax-free; comparem com Yodobashi e Bic Camera. Fonte bivolt; tomada japonesa precisa de adaptador no Brasil. Leve na bagagem de mão."},
  {id:"garmin",cat:"Eletrônicos",n:"Garmin Forerunner 970",d:"Topo de linha de corrida. O Forerunner 265 custa ¥62.800 no Japão contra ~R$ 3.149 no Brasil.",where:"Yodobashi Akiba, Bic Camera, loja oficial Garmin",jp:121800,br:7249,brl:"https://www.garminbrasil.com.br/collections/forerunner",brs:"Garmin Brasil (oficial)",v:"both",who:"Douglas",tip:"Atenção: modelos “日本正規品” costumam vir com menos idiomas e garantia só no Japão. Confira na caixa se o relógio aceita português antes de pagar. No varejo brasileiro há o 970 por ~R$ 5.149."},
  {id:"seiko",cat:"Moda",n:"Relógio Seiko Presage Cocktail Time",d:"No Japão, o modelo tem outro código: SRPB41 vira SARY123.",where:"Seção de relógios da Yodobashi e da Bic Camera; lojas Seiko em Ginza",jp:55000,br:4499,brl:"https://www.relojoariasp.com.br/seiko-presage",brs:"Relojoaria São Paulo",v:"br",who:"Douglas",tip:"Preço no Japão estimado: confira na etiqueta. Peça tax-free e a garantia internacional."},
- {id:"yonex",cat:"Esporte",n:"Raquete Yonex (badminton Astrox/Nanoflare ou tênis EZONE/VCORE)",d:"Marca japonesa; vários modelos “Made in Japan” chegam antes e mais baratos aqui.",where:"Kanda Ogawamachi (rua das lojas de esporte), a poucas estações do hotel pela linha Sobu",jp:30000,br:null,brl:"https://lista.mercadolivre.com.br/raquete-yonex",brs:"Mercado Livre",v:"",who:"Douglas",tip:"Preço estimado (varia muito por modelo). Muitas lojas encordoam na hora. A raquete vai na mão ou despachada com capa."},
+ {id:"yonex",cat:"Esporte",n:"Raquete Yonex (badminton Astrox/Nanoflare ou tênis EZONE/VCORE)",d:"Marca japonesa; vários modelos “Made in Japan” chegam antes e mais baratos aqui.",where:"Alpen TOKYO (Shinjuku), Yonex Tokyo Showroom, Kanda Ogawamachi",jp:30000,br:null,brl:"https://lista.mercadolivre.com.br/raquete-yonex",brs:"Mercado Livre",v:"",who:"Douglas",tip:"Tentem testar antes: confirmem na loja modelo, peso, grip e se há demonstração (teste na loja não é teste em quadra). Preço estimado."},
  {id:"biore",cat:"Cuidados",n:"Protetor solar Bioré UV Aqua Rich Watery Essence (70 g)",d:"O protetor japonês mais vendido; leve e sem cheiro.",where:"Drogarias (Matsumoto Kiyoshi, Sundrug) e Don Quijote",jp:1100,br:87.99,brl:"https://www.extrafarma.com.br/protetor-solar-facial-biore-aqua-rich-watery-essence-fps50-70g/p",brs:"Extrafarma",v:"br",who:"Família",tip:"Líquido: vai na mala despachada. Junte com outros itens da mesma loja para passar de ¥5.000 e pedir tax-free."},
  {id:"onitsuka",cat:"Moda",n:"Tênis Onitsuka Tiger Mexico 66",d:"Marca japonesa; no Brasil só por revendedores.",where:"Lojas Onitsuka Tiger (Ginza, Shinjuku, Kyoto)",jp:16500,br:2499.99,brl:"https://lksneakers.com.br/collections/onitsuka-tiger-mexico-66",brs:"LK Sneakers",v:"br",who:"Douglas",tip:"Preço no Japão estimado: confira na etiqueta. Peça tax-free com o passaporte."},
  {id:"switch2",cat:"Eletrônicos",n:"Nintendo Switch 2 (versão multilíngue)",d:"Não compre a versão “日本語・国内専用”: só funciona em japonês e com conta do Japão.",where:"Só na My Nintendo Store Japão (entrega em endereço no Japão)",jp:69980,br:4599.90,brl:"https://www.gamevicio.com/noticias/2026/08/nintendo-switch-2-sofre-aumento-de-preco-no-brasil/",brs:"Preço sugerido no Brasil",v:"both",who:"Douglas",tip:"A versão japonesa de ¥59.980 é só em japonês. A multilíngue é vendida online e precisa de entrega no hotel antes do dia 23."},
  {id:"tomica",cat:"Crianças",n:"Carrinhos Tomica (unidade)",d:"Miniaturas japonesas; no Brasil custam mais de 6× o preço.",where:"Tokyo Character Street, Yodobashi Akiba, Don Quijote",jp:660,br:119.99,brl:"https://lista.mercadolivre.com.br/tomica",brs:"Mercado Livre (média dos anúncios)",v:"br",who:"Noah",tip:"Compre vários na mesma loja para passar de ¥5.000 e ter tax-free."},
- {id:"tojiro",cat:"Cozinha",n:"Faca Tojiro DP Gyuto 21 cm (F-808)",d:"Faca de chef japonesa em aço VG10.",where:"Kappabashi (Tóquio), lojas de cutelaria em Kyoto",jp:12000,br:769,brl:"https://www.facasdojapao.com.br/facas/faca-do-chefe/faca-do-chefe-tojiro-dp-vg-10-21cm-f-808-fabricado-no-japao",brs:"Facas do Japão",v:"br",who:"Douglas",tip:"Faca vai obrigatoriamente na mala despachada. Preço no Japão estimado: confira."},
+ {id:"tojiro",cat:"Cozinha",n:"Faca japonesa (gyuto ou santoku, aço inox) — ex.: Tojiro DP Gyuto 21 cm",d:"Faca de chef japonesa de manutenção simples. Santoku ou gyuto em aço inox.",where:"Kappabashi (Seisuke Knife e outras lojas)",jp:12000,br:769,brl:"https://www.facasdojapao.com.br/facas/faca-do-chefe/faca-do-chefe-tojiro-dp-vg-10-21cm-f-808-fabricado-no-japao",brs:"Facas do Japão",v:"br",who:"Douglas",tip:"Faca vai obrigatoriamente na mala despachada. Preço no Japão estimado: confira."},
  {id:"hadalabo",cat:"Cuidados",n:"Hada Labo Gokujyun (loção hidratante)",d:"Hidratante de ácido hialurônico, clássico japonês.",where:"Drogarias e Don Quijote",jp:900,br:null,brl:"https://lista.mercadolivre.com.br/hada-labo-gokujyun",brs:"Mercado Livre",v:"",who:"Família",tip:"Mala despachada."},
  {id:"anessa",cat:"Cuidados",n:"Protetor Anessa Perfect UV Milk",d:"Protetor resistente à água, bom para praia.",where:"Drogarias e lojas de departamento",jp:3000,br:null,brl:"https://lista.mercadolivre.com.br/anessa-perfect-uv",brs:"Mercado Livre",v:"",who:"Família",tip:"Mala despachada."},
  {id:"uniqlo",cat:"Moda",n:"Uniqlo: Ultra Light Down e Heattech (crianças e adultos)",d:"A Uniqlo não tem lojas no Brasil.",where:"Uniqlo (qualquer cidade)",jp:3990,br:null,brl:"https://lista.mercadolivre.com.br/uniqlo-ultra-light-down",brs:"Mercado Livre (importados)",v:"",who:"Família",tip:"Tax-free acima de ¥5.000 na mesma loja."},
  {id:"plarail",cat:"Crianças",n:"Plarail (trenzinho de trilhos, kit inicial)",d:"O brinquedo de trem clássico do Japão, com Shinkansens.",where:"Yodobashi Akiba, Tokyo Character Street",jp:5000,br:null,brl:"https://lista.mercadolivre.com.br/plarail",brs:"Mercado Livre",v:"",who:"Noah",tip:"Precisa de pilha AA, que você compra no Brasil."},
  {id:"anpanman",cat:"Crianças",n:"Brinquedos do Anpanman",d:"Personagem favorito dos bebês japoneses; quase não existe no Brasil.",where:"Loja do Anpanman Museum (Yokohama)",jp:2000,br:null,brl:"https://lista.mercadolivre.com.br/anpanman",brs:"Mercado Livre",v:"",who:"Mia",tip:"Compre no dia 20, no museu."},
- {id:"matcha",cat:"Comida",n:"Matcha de Uji (lata de 30–40 g)",d:"Chá verde de Kyoto em pó, qualidade cerimonial.",where:"Casas de chá em Kyoto e lojas de departamento",jp:2000,br:null,brl:"https://lista.mercadolivre.com.br/matcha-uji",brs:"Mercado Livre",v:"",who:"Família",tip:"Pode trazer: é produto vegetal industrializado e lacrado."},
+ {id:"matcha",cat:"Comida",n:"Matcha em pó (lata de 30–40 g)",d:"Chá verde em pó para presente. Para as crianças, o gelato de matcha do Suzukien tem níveis suaves (nº 1 a 3).",where:"Suzukien Asakusa, THE MATCHA TOKYO Omotesando, lojas de departamento",jp:2000,br:null,brl:"https://lista.mercadolivre.com.br/matcha-uji",brs:"Mercado Livre",v:"",who:"Família",tip:"Pode trazer: é produto vegetal industrializado e lacrado."},
  {id:"kitkat",cat:"Comida",n:"KitKat de sabores japoneses",d:"Matcha, saquê, morango; ótimo para presentear.",where:"Don Quijote, supermercados, aeroporto",jp:600,br:null,brl:"https://lista.mercadolivre.com.br/kitkat-japones",brs:"Mercado Livre",v:"",who:"Família",tip:"Mais barato no Don Quijote do que no aeroporto."},
  {id:"zojirushi",cat:"Cozinha",n:"Garrafa térmica Zojirushi ou Thermos",d:"Garrafas de aço muito leves, mantêm temperatura por horas.",where:"Yodobashi, Bic Camera, lojas de departamento",jp:3500,br:null,brl:"https://lista.mercadolivre.com.br/garrafa-zojirushi",brs:"Mercado Livre",v:"",who:"Família",tip:"Tax-free em lojas de eletrônicos acima de ¥5.000."},
  {id:"kai",cat:"Cuidados",n:"Cortador de unha Kai (Seki)",d:"Cutelaria de Seki; dura décadas.",where:"Loft, Tokyu Hands, drogarias",jp:1500,br:null,brl:"https://lista.mercadolivre.com.br/cortador-de-unha-kai",brs:"Mercado Livre",v:"",who:"Família",tip:"Mala despachada."},
@@ -1120,6 +1165,15 @@ const SHOP=[
 ];
 // ---- onde comprar ----
 const STORES=[
+ {id:"matsukiyoab",city:"Tóquio",n:"Matsumoto Kiyoshi Asakusabashi",q:"マツモトキヨシ 浅草橋",near:"Perto do hotel, a pé",what:"Farmácia: protetores, Melano CC, vaselina, creme de ureia",items:["biore","anessa","melano","vaseline","ureia","hadalabo"],tip:"A mais perto do hotel: boa para hoje à noite junto com a JINS.",when:"Hoje (14/out) ou qualquer noite"},
+ {id:"alpen",city:"Tóquio",n:"Alpen TOKYO (Shinjuku)",q:"Alpen TOKYO 新宿",near:"Shinjuku · JR Sobu direto",what:"Raquetes Yonex (testar antes), Garmin, artigos esportivos",items:["yonex","garmin"],tip:"Há um cupom de 5% adicional anunciado no diretório TaxFreeShops (validade publicada de 31/07/2026 a 30/06/2027): confira exclusões e se acumula com o tax-free.",when:"22/out (dia de Shinjuku)"},
+ {id:"yonexsr",city:"Tóquio",n:"Yonex Tokyo Showroom",q:"Yonex Tokyo Showroom",near:"Região de Ginza/Shimbashi",what:"Linha completa Yonex",items:["yonex"],tip:"Confirme horário e se há demonstração antes de ir.",when:"21/out (dia de Ginza)"},
+ {id:"kinshicho",city:"Tóquio",n:"Arcakit Kinshicho + Kinshicho PARCO",q:"アルカキット錦糸町",near:"Kinshicho · 2 estações de JR Sobu",what:"UNIQLO, DAISO e MUJI no mesmo lugar",items:["uniqlo","muji","threecoins"],tip:"Uma saída só para roupas, casa e utilidades, com alimentação e banheiros no complexo.",when:"Uma tarde livre ou noite"},
+ {id:"seisuke",city:"Tóquio",n:"Seisuke Knife (Kappabashi)",q:"Seisuke Knife Kappabashi",near:"Kappabashi · ~10 min de táxi",what:"Facas japonesas",items:["tojiro"],tip:"Peçam estojo ou embalagem rígida: a faca vai obrigatoriamente na mala despachada.",when:"19/out (roteiro B) ou uma manhã"},
+ {id:"suzukien",city:"Tóquio",n:"Suzukien Asakusa (matcha)",q:"Suzukien Asakusa",near:"Asakusa · 2 estações",what:"Gelato de matcha em 7 intensidades e matcha para presente",items:["matcha"],tip:"Para as crianças, níveis mais suaves (nº 1 a 3).",when:"Junto com Kappabashi"},
+ {id:"bicakiba",city:"Tóquio",n:"Bic Camera AKIBA + Radio Kaikan",q:"ビックカメラ AKIBA",near:"Akihabara · 1 estação",what:"Comparar preço do Mac mini, SSDs e cabos com a Yodobashi",items:["macmini","ssd","gan"],tip:"Comparem preço final, pontos e tax-free: as regras de pontos podem mudar em compras com isenção.",when:"Junto com a Yodobashi"},
+ {id:"pepe",city:"Tóquio",n:"3COINS+plus Seibu Shinjuku PePe",q:"3COINS+plus 西武新宿ペペ",near:"Shinjuku",what:"Acessórios, organização e casa",items:["threecoins"],tip:"",when:"22/out"},
+ {id:"jins",city:"Tóquio",n:"JINS (óculos de grau) — Yodobashi Akiba",q:"JINS ヨドバシAkiba店",near:"Akihabara · 1 estação do hotel",what:"Óculos de grau com medição gratuita na loja",items:[],tip:"Medição gratuita do grau na loja (não é exame médico: leve os óculos atuais ou a receita). Outras JINS perto: Atre Akihabara, Asakusa ROX e Atre Ueno.",when:"Hoje à noite (confira o horário da loja)"},
  {id:"ogawamachi",city:"Tóquio",n:"Kanda Ogawamachi (rua dos esportes)",q:"神田小川町 スポーツ用品店",near:"Linha Sobu (amarela), poucas estações do hotel",what:"Raquetes Yonex, tênis de corrida, roupas esportivas",items:["yonex"],tip:"Dezenas de lojas de esporte na mesma rua. Muitas fazem tax-free e encordoam raquetes na hora.",when:"Uma manhã ou fim de tarde em Tóquio"},
  {id:"applestore",city:"Tóquio",n:"Apple Ginza",q:"Apple 銀座",near:"Ginza, ~15 min de metrô",what:"Mac mini e acessórios",items:["macmini"],tip:"A Yodobashi Akiba, a 1 estação do hotel, também vende Mac com tax-free.",when:"Junto com a ida a Ginza"},
  {id:"yodobashi",city:"Tóquio",n:"Yodobashi Akiba",q:"ヨドバシAkiba",near:"Akihabara · 1 estação do hotel",what:"Eletrônicos (Mac, Garmin, relógios Seiko), brinquedos (Tomica, Plarail), garrafas Zojirushi",items:["macmini","garmin","seiko","tomica","plarail","zojirushi"],tip:"Balcão de tax-free no térreo. Andar inteiro de brinquedos. Liga direto à estação.",when:"21/out (dia de compras) ou qualquer fim de tarde"},
@@ -1135,6 +1189,9 @@ const STORES=[
  {id:"haneda",city:"Aeroporto",n:"Haneda, Terminal 3 (antes do embarque)",q:"羽田空港第3ターミナル",near:"No dia do voo",what:"Últimos doces e KitKats",items:["kitkat"],tip:"Mais caro que o Don Quijote: use só para o que faltar.",when:"23/out"}
 ];
 const ONLINE=[
+ ["Cupom Alpen TOKYO (TaxFreeShops)","https://www.taxfreeshops.jp/en/shop/900001262","Cupom de 5% adicional anunciado; confira exclusões e compatibilidade com tax-free."],
+ ["UNIQLO: cupom do app","https://faq.uniqlo.com/articles/FAQ/100005203/?l=ja","Verifique o cupom de primeira utilização do app japonês e se a conta estrangeira é aceita."],
+ ["MUJI: app e campanha","https://www.muji.com/jp/ja/service/app/","Campanha de novos cadastros divulgada para 9–22/10; confirme elegibilidade."],
  ["My Nintendo Store Japão","https://store.nintendo.co.jp/","Única loja oficial do Switch 2 multilíngue. Exige endereço no Japão: use o hotel e peça com dias de antecedência."],
  ["Pokémon Center Online","https://www.pokemoncenter-online.com/","Para ver o que existe antes de ir à loja."],
  ["Uniqlo Japão","https://www.uniqlo.com/jp/ja/","Consulte preços e estoque por loja antes de ir a Ginza."],
@@ -1170,7 +1227,7 @@ const todayStr = new Date(Date.now()+9*3600e3).toISOString().slice(0,10);
 
 let sched = SCHEDULE.map(s=>s.slice()), backlog = BACKLOG0.slice();
 try{const o=JSON.parse(localStorage.getItem("jp-sched4")||"null"); if(o && o.s && o.s.length===sched.length){sched=o.s;backlog=o.b||[];}}catch(e){}
-const save = ()=>{try{localStorage.setItem("jp-sched4",JSON.stringify({s:sched,b:backlog}));}catch(e){} sharedSave({sched,backlog});};
+const save = ()=>{try{localStorage.setItem("jp-sched4",JSON.stringify({s:sched,b:backlog}));}catch(e){} if(window.GUIDE)window.GUIDE.notify("schedule"); sharedSave({sched,backlog});};
 
 
 const WICON={
@@ -1202,7 +1259,8 @@ function transHTML(t){const tot=t.cost.reduce((s,c)=>s+c[1],0);
  ${buyHTML(t.buy)}<h3>Dicas da rota</h3>${t.tips.map(x=>`<div class="callout save">💡 ${x}</div>`).join("")}</div></div></section>`;}
 function buyHTML(b){if(!b||!b.length) return "";
  return `<div class="buy"><b>🎟️ Comprar antes</b>${b.map(x=>`<a href="${x[1]}" target="_blank" rel="noopener"><span>${x[0]} →</span><small>${x[2]}</small>${x[3]?`<span class="cmp">${x[3].map(p=>`<i>${p[0]}: <b>${yen(p[1])}</b> (${brl(p[1])})</i>`).join("")}</span>`:""}</a>`).join("")}</div>`;}
-function buyAllHTML(){let h="";sched.forEach(([d,dow,pid])=>{const p=PLANS[pid];if(d<todayStr||!p.buy)return;const [,m,dd]=d.split("-");h+=`<div class="ckday"><div class="ckd">${dow} ${dd}/${m} · ${p.r}</div>${buyHTML(p.buy)}</div>`;});
+const BUY_TODO={disney:"tdisney",anpanman:"tanpan",toyosu:"tteamlab",kichijoji:"tdaikoku"};
+function buyAllHTML(){let h="";sched.forEach(([d,dow,pid])=>{const p=PLANS[pid];if(d<todayStr||!p.buy)return;const [,m,dd]=d.split("-");const tk=BUY_TODO[pid], ok=tk&&st(tk)==="feito";h+=`<div class="ckday ${ok?"bought":""}"><div class="ckd">${dow} ${dd}/${m} · ${p.r}${ok?' <span class="when okb">✅ comprado</span>':""}</div>${ok?"":buyHTML(p.buy)}${tk?`<div class="its tkbtn"><button type="button" class="ib ${ok?"on":""}" data-k="${tk}" data-s="feito">✅ ${ok?"Comprado":"Marcar como comprado"}</button></div>`:""}</div>`;});
  TRANS.forEach(t=>{if(t.buy)h+=`<div class="ckday"><div class="ckd">Troca · ${t.date} · ${t.title}</div>${buyHTML(t.buy)}</div>`;});
  return h?`<h3 class="cityh">🎟️ Ingressos para comprar antes</h3>${h}`:"";}
 function ticketHTML(t){if(!t||!t.length) return "";
@@ -1244,7 +1302,8 @@ function cardHTML(i){
  return h+`</div></div></section>`;
 }
 
-const TABS=[["check","✅","Checklist"],["fuji","🗻","Fuji"],["nagoya","🏯","Nagoya"],["kyoto","⛩️","Kyoto"],["kanazawa","🦕","Kanazawa"],["tokyo","🗼","Tóquio"],["shop","🛍️","Compras"],["dicas","💡","Dicas"]];
+const TABS=[["check","✅","Checklist"],["fuji","🗻","Fuji"],["nagoya","🏯","Nagoya"],["kyoto","⛩️","Kyoto"],["kanazawa","🦕","Kanazawa"],["tokyo","🗼","Tóquio"],["diary","📔","Diário"],["shop","🛍️","Compras"],["dicas","💡","Dicas"]];
+const TAB_DATES={fuji:"02–03/10",nagoya:"03–06/10",kyoto:"06–12/10",kanazawa:"12–14/10",tokyo:"29/09–02/10 · 14–23/10"};
 const tabOf=c=>c==="fukui"?"kanazawa":c;
 let status={}; try{status=JSON.parse(localStorage.getItem("jp-status")||"{}");}catch(e){}
 const st=k=>status[k]||STATUS0[k]||"";
@@ -1275,9 +1334,10 @@ function persistSharedLocal(){
  try{localStorage.setItem("jp-shop",JSON.stringify(shopSt));}catch(e){}
  try{localStorage.setItem("jp-shop-custom",JSON.stringify(shopCustom));}catch(e){}
  try{localStorage.setItem("jp-stores",JSON.stringify(shopStores));}catch(e){}
+ try{if(typeof diaryNotes!=="undefined") localStorage.setItem("jp-diary",JSON.stringify(diaryNotes));}catch(e){}
 }
 function sharedSnapshot(extra={}){
- const base={status,choice,schedJson:JSON.stringify(sched),backlog,todo:done,shopSt,shopCustom,shopStores,updatedBy:who||"anônimo"};
+ const base={status,choice,schedJson:JSON.stringify(sched),backlog,todo:done,shopSt,shopCustom,shopStores,diary:(typeof diaryNotes!=="undefined"?diaryNotes:{}),updatedBy:who||"anônimo"};
  const out=Object.assign(base, extra);
  if(out.sched){out.schedJson=JSON.stringify(out.sched); delete out.sched;}
  return out;
@@ -1291,6 +1351,7 @@ function applyRemote(data){
  if(data.shopSt && typeof data.shopSt==="object") shopSt=data.shopSt;
  if(Array.isArray(data.shopCustom)) shopCustom=data.shopCustom;
  if(data.shopStores && typeof data.shopStores==="object") shopStores=data.shopStores;
+ if(data.diary && typeof data.diary==="object" && typeof diaryNotes!=="undefined") diaryNotes=data.diary;
  if(typeof data.schedJson==="string"){try{const rs=JSON.parse(data.schedJson); if(Array.isArray(rs) && rs.length===sched.length) sched=rs;}catch(e){}}
  if(Array.isArray(data.sched) && data.sched.length===sched.length) sched=data.sched;
  if(Array.isArray(data.backlog)) backlog=data.backlog;
@@ -1362,7 +1423,7 @@ function routeHTML(){
   const bl=t==="kyoto"?backlog.filter(pid=>PLANS[pid].items):[];
   if(!days.length&&!bl.length&&!FOOD_EXTRA[t]) return;
   const allPast=days.length&&days.every(([d])=>d<todayStr);
-  h+=`<h3 class="cityh">${ic} ${name}${allPast?' <span class="when">concluída</span>':""}</h3>`;
+  h+=`<details class="cityd" ${allPast?"":"open"}><summary><h3 class="cityh">${ic} ${name}${TAB_DATES[t]?` <small class="tdate">(${TAB_DATES[t]})</small>`:""}${allPast?' <span class="when">concluída</span>':""}</h3></summary>`;
   let passShown={};
   days.forEach(([d,dow,pid])=>{if(t==="tokyo"){const ps=d<"2026-10-02"?"1ª passagem · 27/09 a 01/10":"2ª passagem · 14 a 23/10";if(!passShown[ps]){passShown[ps]=1;h+=`<div class="pass">${ps}</div>`;}}
    const p=PLANS[pid],[,m,dd]=d.split("-"),its=p.items.map(([k,l])=>Object.assign(mk(k,l),{late:d<todayStr&&!st(k)}));
@@ -1371,6 +1432,7 @@ function routeHTML(){
    h+= d<todayStr ? `<details class="ckday past"><summary>${body.split("</div>")[0]}</div></summary>${body.slice(body.indexOf("</div>")+6)}</details>` : `<div class="ckday ${d===todayStr?"today":""}">${body}</div>`;});
   bl.forEach(pid=>{const p=PLANS[pid];h+=`<div class="ckday"><div class="ckd">Sem data · ${p.r}</div>${p.items.map(([k,l])=>row(mk(k,l))).join("")}</div>`;});
   if(FOOD_EXTRA[t]) h+=`<div class="ckday food"><div class="ckd">🍜 Típicos da região</div>${FOOD_EXTRA[t].map(([k,l,ds])=>row({k,l,food:false,desc:ds})).join("")}</div>`;
+  h+=`</details>`;
  });
  return h;}
 const CK_SLIDES=[["prio","⚡ Prioridades"],["route","🗺️ Roteiro por cidade"],["tix","🎟️ Ingressos"],["hotels","🏨 Hotéis"]];
@@ -1414,7 +1476,7 @@ let shopSt={}; try{shopSt=JSON.parse(localStorage.getItem("jp-shop")||"{}");}cat
 let shopCustom=[]; try{shopCustom=JSON.parse(localStorage.getItem("jp-shop-custom")||"[]");}catch(e){}
 let shopStores={}; try{shopStores=JSON.parse(localStorage.getItem("jp-stores")||"{}");}catch(e){}
 let shopWho="Todos";
-const shopSave=()=>{try{localStorage.setItem("jp-shop",JSON.stringify(shopSt));localStorage.setItem("jp-shop-custom",JSON.stringify(shopCustom));localStorage.setItem("jp-stores",JSON.stringify(shopStores));}catch(e){} sharedSave({shopSt,shopCustom,shopStores});};
+const shopSave=()=>{window.GUIDE&&window.GUIDE.notify("shop");try{localStorage.setItem("jp-shop",JSON.stringify(shopSt));localStorage.setItem("jp-shop-custom",JSON.stringify(shopCustom));localStorage.setItem("jp-stores",JSON.stringify(shopStores));}catch(e){} sharedSave({shopSt,shopCustom,shopStores});};
 const shopAll=()=>SHOP.concat(shopCustom);
 const RENAME={Fucasse:"Douglas",Esposa:"Camila","Mãe":"Aurora"};
 const sget=it=>{const s=Object.assign({who:it.who,qty:1,done:false},shopSt[it.id]||{});if(RENAME[s.who])s.who=RENAME[s.who];return s;};
@@ -1478,16 +1540,28 @@ function bindCarousel(){const car=document.getElementById("dcar");if(!car)return
  chips.forEach(c=>c.onclick=()=>{curSlide[tab]=+c.dataset.k;chips.forEach(x=>x.classList.toggle("on",x===c));go(+c.dataset.k,true);});
  let t=null;car.addEventListener("scroll",()=>{clearTimeout(t);t=setTimeout(()=>{const k=Math.round(car.scrollLeft/Math.max(1,car.clientWidth));curSlide[tab]=k;chips.forEach((c,j)=>c.classList.toggle("on",j===k));const on=chips[k];if(on)on.scrollIntoView({inline:"center",block:"nearest",behavior:"smooth"});},80);},{passive:true});}
 function setTabsH(){const tb=document.getElementById("tabs");if(tb)document.documentElement.style.setProperty("--tabsH",tb.offsetHeight+"px");}
+let diaryNotes={}; try{diaryNotes=JSON.parse(localStorage.getItem("jp-diary")||"{}");}catch(e){}
+function diaryHTML(){let h=`<section class="block"><h2 class="disp">Diário da viagem</h2><p class="dsc">Um registro de cada dia, para lembrar e para quem quiser repetir o roteiro. Escreva as lembranças da família em cada dia: fica salvo neste aparelho e me mande para eu incluir na versão publicada.</p>`;
+ TABS.filter(([t])=>!["check","shop","dicas","diary"].includes(t)).forEach(([t,ic,name])=>{
+  const days=sched.filter(([d,,pid])=>tabOf(PLANS[pid].city)===t&&d<=todayStr); if(!days.length) return;
+  h+=`<details class="cityd" open><summary><h3 class="cityh">${ic} ${name}${TAB_DATES[t]?` <small class="tdate">(${TAB_DATES[t]})</small>`:""}</h3></summary>`;
+  days.forEach(([d,dow,pid])=>{const [,m,dd]=d.split("-");const txt=DIARY[d]||LOG[d]||PLANS[pid].r;const its=(PLANS[pid].items||[]).filter(([k])=>st(k)==="feito").map(([,l])=>l);
+   h+=`<div class="diary"><div class="dh"><b>${dow}, ${dd}/${m}</b><span>${PLANS[pid].r}</span></div><p>${txt}</p>${its.length?`<p class="dsc">✅ ${its.join(" · ")}</p>`:""}<textarea data-diary="${d}" placeholder="Lembranças da família neste dia…">${(diaryNotes[d]||"").replace(/</g,"&lt;")}</textarea></div>`;});
+  h+=`</details>`;});
+ return h+`</section>`;}
+function bindDiary(){document.querySelectorAll("[data-diary]").forEach(t=>t.onchange=()=>{diaryNotes[t.dataset.diary]=t.value;try{localStorage.setItem("jp-diary",JSON.stringify(diaryNotes));}catch(e){}if(window.GUIDE)window.GUIDE.notify("diary");sharedSave({diary:diaryNotes});});}
+
 function render(){
  const main=document.getElementById("days");
  const tlEl=document.getElementById("timeline"); if(tlEl){const open=tlEl.querySelector("details")?.open; tlEl.innerHTML=timelineHTML(); if(open) tlEl.querySelector("details").open=true;
   tlEl.querySelectorAll(".tlc").forEach(b=>b.onclick=()=>{tlEl.querySelectorAll(".tlc").forEach(x=>x.classList.toggle("on",x===b));tlEl.querySelector("#tldet").innerHTML=tlDetail(b.dataset.d);});}
- document.getElementById("tabs").innerHTML=TABS.map(([t,ic,n])=>`<button type="button" role="tab" aria-selected="${t===tab}" class="tab ${t===tab?"on":""}" data-tab="${t}"><span>${ic}</span>${n}</button>`).join("");
+ document.getElementById("tabs").innerHTML=TABS.map(([t,ic,n])=>`<button type="button" role="tab" aria-selected="${t===tab}" class="tab ${t===tab?"on":""}" data-tab="${t}"><span>${ic}</span>${n}${TAB_DATES[t]?`<small class="tdate">(${TAB_DATES[t]})</small>`:""}</button>`).join("");
  document.querySelectorAll("[data-static]").forEach(s=>s.hidden=!(tab==="dicas"));
  document.getElementById("compras").hidden=true;
  if(tab==="check") main.innerHTML=checklistHTML();
  else if(tab==="dicas") main.innerHTML="";
  else if(tab==="shop") main.innerHTML=shopHTML();
+ else if(tab==="diary") main.innerHTML=diaryHTML();
  else{
   const slides=[],labels=[];
   sched.forEach((s,i)=>{const [d,dow,pid]=s,p=PLANS[pid];if(tabOf(p.city)!==tab||d<todayStr)return;const [,m,dd]=d.split("-");
@@ -1501,18 +1575,18 @@ function render(){
    (tab==="kyoto"&&backlog.length?`<div class="callout warn"><b>Sem data no momento:</b> ${backlog.map(b=>PLANS[b].r).join(", ")}. Para encaixar, use o seletor “Programação deste dia” em qualquer dia.</div>`:"");
   }
  }
- bind(); if(tab==="shop") bindShop(); if(tab==="check") bindChecklist(); bindCarousel(); setTabsH();
+ bind(); if(tab==="shop") bindShop(); if(tab==="check") bindChecklist(); if(tab==="diary") bindDiary(); bindCarousel(); setTabsH();
 }
 function bind(){
  const main=document.getElementById("days");
  document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{tab=b.dataset.tab;try{localStorage.setItem("jp-tab",tab);}catch(e){}render();window.scrollTo(0,0);});
  main.querySelectorAll(".ib").forEach(b=>b.onclick=()=>{const k=b.dataset.k,s=b.dataset.s;status[k]=(st(k)===s)?"none":s;if(status[k]==="none"&&!STATUS0[k])delete status[k];
-  try{localStorage.setItem("jp-status",JSON.stringify(status));}catch(e){}const y=window.scrollY;render();window.scrollTo(0,y);push(k,status[k]||"none");});
+  try{localStorage.setItem("jp-status",JSON.stringify(status));}catch(e){}window.GUIDE.notify("status");const y=window.scrollY;render();window.scrollTo(0,y);push(k,status[k]||"none");});
  const wi=document.getElementById("whoInput"); if(wi) wi.onchange=e=>{who=e.target.value.trim();try{localStorage.setItem("jp-who",who);}catch(err){}};
  main.querySelectorAll(".sbtn").forEach(b=>b.onclick=()=>{const pid=b.dataset.pid,p=PLANS[pid];
   const di=sched.findIndex(s=>s[2]===pid), wd2=(di>=0&&WX[sched[di][0]]&&WX[sched[di][0]].p>=60&&p.opts.some(o=>o.w==="chuva"))?"chuva":"sol", sc=choice[pid]||{w:wd2,o:(p.opts.find(o=>o.w===wd2&&o.pick)||{id:"A"}).id};
   sc[b.dataset.k]=b.dataset.v; if(b.dataset.k==="w"){const pk=p.opts.find(o=>o.w===sc.w&&o.pick); if(pk) sc.o=pk.id;}
-  choice[pid]=sc; try{localStorage.setItem("jp-choice",JSON.stringify(choice));}catch(e){}sharedSave({choice});const y=window.scrollY;render();window.scrollTo(0,y);});
+  choice[pid]=sc; try{localStorage.setItem("jp-choice",JSON.stringify(choice));}catch(e){}if(window.GUIDE)window.GUIDE.notify("choice");sharedSave({choice});const y=window.scrollY;render();window.scrollTo(0,y);});
  main.querySelectorAll("select[data-i]").forEach(sel=>sel.onchange=e=>{
   const i=+e.target.dataset.i,nv=e.target.value,cur=sched[i][2],j=sched.findIndex(s=>s[2]===nv);
   if(j>=0){sched[j][2]=cur;} else {backlog=backlog.filter(b=>b!==nv);backlog.push(cur);}
@@ -1538,7 +1612,7 @@ function countdown(){const el=document.getElementById("countdown");if(!el)return
 countdown(); setInterval(countdown,30000);
 initSync();
 document.getElementById("todayBtn").addEventListener("click",()=>{const i=todayIdx();tab=i>=0?tabOf(PLANS[sched[i][2]].city):"check";curSlide[tab]=undefined;render();const el=document.getElementById("tabs");if(el)el.scrollIntoView();});
-document.getElementById("resetBtn").addEventListener("click",()=>{sched=SCHEDULE.map(s=>s.slice());backlog=BACKLOG0.slice();try{localStorage.removeItem("jp-sched4");}catch(e){}sharedSave({sched,backlog});render();});
+document.getElementById("resetBtn").addEventListener("click",()=>{sched=SCHEDULE.map(s=>s.slice());backlog=BACKLOG0.slice();try{localStorage.removeItem("jp-sched4");}catch(e){}if(window.GUIDE)window.GUIDE.notify("schedule");sharedSave({sched,backlog});render();});
 document.getElementById("save").innerHTML=SAVE.map(s=>`<p>${s}</p>`).join("");
 const names={nagoya:"Nagoya",kyoto:"Kyoto",kanazawa:"Kanazawa",tokyo:"Tóquio"};
 document.getElementById("ctips").innerHTML=Object.entries(CITY_TIPS).map(([c,arr])=>`<h3 style="color:${C[c]}">${names[c]}</h3>`+arr.map(s=>`<p>${s}</p>`).join("")).join("");
@@ -1547,7 +1621,7 @@ function renderTodoChecklist(){
  if(!box) return; box.innerHTML="";
  TODO.forEach(([k,txt,due])=>{const row=document.createElement("div");row.className="check"+(done[k]?" done":"");
   row.innerHTML=`<input type="checkbox" id="c-${k}" ${done[k]?"checked":""}><label for="c-${k}">${txt}<br><span class="due">${due}</span></label>`;
-  row.querySelector("input").addEventListener("change",e=>{done[k]=e.target.checked;row.classList.toggle("done",e.target.checked);try{localStorage.setItem("jp-todo2",JSON.stringify(done));}catch(err){}sharedSave({todo:done});});box.appendChild(row);});
+  row.querySelector("input").addEventListener("change",e=>{done[k]=e.target.checked;row.classList.toggle("done",e.target.checked);try{localStorage.setItem("jp-todo2",JSON.stringify(done));}catch(err){}if(window.GUIDE)window.GUIDE.notify("todo");sharedSave({todo:done});});box.appendChild(row);});
 }
 renderTodoChecklist();
 const tb=document.getElementById("themebtn");
