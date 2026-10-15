@@ -409,7 +409,7 @@ tonkatsu:`<svg viewBox="0 0 64 64" aria-hidden="true"><ellipse cx="32" cy="44" r
 yakiniku:`<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="36" r="24" fill="#3B3B3B"/>${[0,1,2,3,4].map(i=>`<path d="M${14+i*8} 20 v32" stroke="#777" stroke-width="2"/>`).join("")}<rect x="18" y="28" width="14" height="8" rx="2" fill="#C2413A"/><rect x="34" y="36" width="14" height="8" rx="2" fill="#C2413A"/></svg>`
 };
 // Cole aqui a URL do Apps Script (termina em /exec). Vazio = checklist só local.
-const SYNC_URL = "";
+const SYNC_URL = "firebase";
 const R = 0.034;
 // Plano de cada dia. id = bloco de programação, pode ser trocado de data
 const PLANS = {
@@ -1244,7 +1244,7 @@ const todayStr = new Date(Date.now()+9*3600e3).toISOString().slice(0,10);
 
 let sched = SCHEDULE.map(s=>s.slice()), backlog = BACKLOG0.slice();
 try{const o=JSON.parse(localStorage.getItem("jp-sched4")||"null"); if(o && o.s && o.s.length===sched.length){sched=o.s;backlog=o.b||[];}}catch(e){}
-const save = ()=>{try{localStorage.setItem("jp-sched4",JSON.stringify({s:sched,b:backlog}));}catch(e){}};
+const save = ()=>{try{localStorage.setItem("jp-sched4",JSON.stringify({s:sched,b:backlog}));}catch(e){} if(window.GUIDE)window.GUIDE.notify("schedule"); sharedSave({sched,backlog});};
 
 
 const WICON={
@@ -1499,7 +1499,7 @@ function diaryHTML(){let h=`<section class="block"><h2 class="disp">Diário da v
    h+=`<div class="diary"><div class="dh"><b>${dow}, ${dd}/${m}</b><span>${PLANS[pid].r}</span></div><p>${txt}</p>${its.length?`<p class="dsc">✅ ${its.join(" · ")}</p>`:""}<textarea data-diary="${d}" placeholder="Lembranças da família neste dia…">${(diaryNotes[d]||"").replace(/</g,"&lt;")}</textarea></div>`;});
   h+=`</details>`;});
  return h+`</section>`;}
-function bindDiary(){document.querySelectorAll("[data-diary]").forEach(t=>t.onchange=()=>{diaryNotes[t.dataset.diary]=t.value;try{localStorage.setItem("jp-diary",JSON.stringify(diaryNotes));}catch(e){}if(window.GUIDE)window.GUIDE.notify("diary");});}
+function bindDiary(){document.querySelectorAll("[data-diary]").forEach(t=>t.onchange=()=>{diaryNotes[t.dataset.diary]=t.value;try{localStorage.setItem("jp-diary",JSON.stringify(diaryNotes));}catch(e){}if(window.GUIDE)window.GUIDE.notify("diary");sharedSave({diary:diaryNotes});});}
 
 function render(){
  const main=document.getElementById("days");
@@ -1563,7 +1563,7 @@ countdown(); setInterval(countdown,30000);
 pull(); setInterval(()=>{if(document.visibilityState==="visible") pull();},60000);
 document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible") pull();});
 document.getElementById("todayBtn").addEventListener("click",()=>{const i=todayIdx();tab=i>=0?tabOf(PLANS[sched[i][2]].city):"check";curSlide[tab]=undefined;render();const el=document.getElementById("tabs");if(el)el.scrollIntoView();});
-document.getElementById("resetBtn").addEventListener("click",()=>{sched=SCHEDULE.map(s=>s.slice());backlog=BACKLOG0.slice();try{localStorage.removeItem("jp-sched4");}catch(e){}render();});
+document.getElementById("resetBtn").addEventListener("click",()=>{sched=SCHEDULE.map(s=>s.slice());backlog=BACKLOG0.slice();try{localStorage.removeItem("jp-sched4");}catch(e){}if(window.GUIDE)window.GUIDE.notify("schedule");sharedSave({sched,backlog});render();};
 document.getElementById("save").innerHTML=SAVE.map(s=>`<p>${s}</p>`).join("");
 const names={nagoya:"Nagoya",kyoto:"Kyoto",kanazawa:"Kanazawa",tokyo:"Tóquio"};
 document.getElementById("ctips").innerHTML=Object.entries(CITY_TIPS).map(([c,arr])=>`<h3 style="color:${C[c]}">${names[c]}</h3>`+arr.map(s=>`<p>${s}</p>`).join("")).join("");
