@@ -409,6 +409,16 @@ tonkatsu:`<svg viewBox="0 0 64 64" aria-hidden="true"><ellipse cx="32" cy="44" r
 yakiniku:`<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="36" r="24" fill="#3B3B3B"/>${[0,1,2,3,4].map(i=>`<path d="M${14+i*8} 20 v32" stroke="#777" stroke-width="2"/>`).join("")}<rect x="18" y="28" width="14" height="8" rx="2" fill="#C2413A"/><rect x="34" y="36" width="14" height="8" rx="2" fill="#C2413A"/></svg>`
 };
 // Cole aqui a URL do Apps Script (termina em /exec). Vazio = checklist só local.
+
+const FIREBASE_CONFIG = {
+  "apiKey": "AIzaSyBF332S3Hh-ARYt0y5BTW3P1oM67GDBaew",
+  "authDomain": "dfucasse-japao-guia-2026.firebaseapp.com",
+  "projectId": "dfucasse-japao-guia-2026",
+  "storageBucket": "dfucasse-japao-guia-2026.firebasestorage.app",
+  "messagingSenderId": "107800527625",
+  "appId": "1:107800527625:web:93c8a92462810c557b09d8"
+}
+const SHARED_DOC_PATH = "trips/japan2026";
 const SYNC_URL = "firebase";
 const R = 0.034;
 // Plano de cada dia. id = bloco de programação, pode ser trocado de data
@@ -1426,7 +1436,8 @@ function bindChecklist(){const vp=document.getElementById("ckvp"),tr=document.ge
 let shopSt={}; try{shopSt=JSON.parse(localStorage.getItem("jp-shop")||"{}");}catch(e){}
 let shopCustom=[]; try{shopCustom=JSON.parse(localStorage.getItem("jp-shop-custom")||"[]");}catch(e){}
 let shopWho="Todos";
-const shopSave=()=>{window.GUIDE&&window.GUIDE.notify("shop");try{localStorage.setItem("jp-shop",JSON.stringify(shopSt));localStorage.setItem("jp-shop-custom",JSON.stringify(shopCustom));}catch(e){}};
+
+let shopStores={}; try{shopStores=JSON.parse(localStorage.getItem("jp-stores")||"{}";const shopSave=()=>{window.GUIDE&&window.GUIDE.notify("shop");try{localStorage.setItem("jp-shop",JSON.stringify(shopSt));localStorage.setItem("jp-shop-custom",JSON.stringify(shopCustom));localStorage.setItem("jp-stores",JSON.stringify(shopStores));}catch(e){}};
 const shopAll=()=>SHOP.concat(shopCustom);
 const RENAME={Fucasse:"Douglas",Esposa:"Camila","Mãe":"Aurora"};
 const sget=it=>{const s=Object.assign({who:it.who,qty:1,done:false},shopSt[it.id]||{});if(RENAME[s.who])s.who=RENAME[s.who];return s;};
